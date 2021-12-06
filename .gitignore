@@ -132,7 +132,7 @@ wandb/
 *.lmdb/
 *.pkl
 
-checkpoint/
+checkpoint/*.pt
 pre_trained/
 lmdbset/
-sample/
+sample/*.png
