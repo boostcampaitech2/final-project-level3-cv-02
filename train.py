@@ -398,6 +398,9 @@ if __name__ == "__main__":
         "--wandb", action="store_true", help="use weights and biases logging"
     )
     parser.add_argument(
+        "--wandb_name", type=str, default="test", help="wandb logging name"
+    )
+    parser.add_argument(
         "--local_rank", type=int, default=0, help="local rank for distributed training"
     )
     parser.add_argument(
@@ -528,6 +531,6 @@ if __name__ == "__main__":
     )
 
     if get_rank() == 0 and wandb is not None and args.wandb:
-        wandb.init(project="stylegan 2")
+        wandb.init(name=args.wandb_name, project="final-project-generate-babyface-GAN", entity="boostcamp-2th-cv-02team")
 
     train(args, loader, generator, discriminator, g_optim, d_optim, g_ema, device)

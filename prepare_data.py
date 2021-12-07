@@ -65,7 +65,7 @@ def prepare(
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Preprocess images for model training")
-    parser.add_argument("--out", type=str, default="./temp_images", help="filename of the result lmdb dataset")
+    parser.add_argument("--out", type=str, default="./lmdbset/ffhq_baby/", help="filename of the result lmdb dataset")
     parser.add_argument(
         "--size",
         type=str,
@@ -84,7 +84,7 @@ if __name__ == "__main__":
         default="lanczos",
         help="resampling methods for resizing images",
     )
-    parser.add_argument("path", type=str, default="../tarball-lite/AFAD-Lite/18/111", help="path to the image dataset")
+    parser.add_argument("path", type=str, help="path to the image dataset")
 
     args = parser.parse_args()
 
