@@ -71,9 +71,10 @@ if __name__ == "__main__":
     g_ema = Generator(
         args.size, args.latent, args.n_mlp, channel_multiplier=args.channel_multiplier
     ).to(device)
-    checkpoint = torch.load(args.ckpt)
+    checkpoint = torch.load(args.ckpt, map_location=lambda storage, loc:storage)
 
-    g_ema.load_state_dict(checkpoint["g_ema"])
+    g_ema.load_state_dict(checkpoint["g_ema"], strict=False)
+    g_ema.eval()
 
     if args.truncation < 1:
         with torch.no_grad():
