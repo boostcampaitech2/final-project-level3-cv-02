@@ -133,6 +133,7 @@ wandb/
 *.pkl
 
 checkpoint/*.pt
-pre_trained/
+pre_trained/*.pt
+pre_trained/*.pkl
 lmdbset/
 sample/*.png
