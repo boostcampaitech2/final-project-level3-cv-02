@@ -6,7 +6,7 @@ import Button from "@mui/material/Button";
 import Fab from "@mui/material/Fab";
 import CheckIcon from "@mui/icons-material/Check";
 import SaveIcon from "@mui/icons-material/Save";
-
+import PsychologyIcon from "@mui/icons-material/Psychology";
 export default function CircularIntegration(props) {
   const buttonSx = {
     ...(props.success && {
@@ -21,7 +21,7 @@ export default function CircularIntegration(props) {
     <Box sx={{ display: "flex", alignItems: "center" }}>
       <Box sx={{ m: 1, position: "relative" }}>
         <Fab aria-label="save" color="primary" sx={buttonSx} onClick={props.onclick}>
-          {props.success ? <CheckIcon /> : <SaveIcon />}
+          {props.success ? <CheckIcon /> : <PsychologyIcon />}
         </Fab>
         {props.loading && (
           <CircularProgress
@@ -38,7 +38,7 @@ export default function CircularIntegration(props) {
       </Box>
       <Box sx={{ m: 1, position: "relative" }}>
         <Button variant="contained" sx={buttonSx} disabled={props.loading} onClick={props.onclick}>
-          Accept terms
+          아기 얼굴 생성하기
         </Button>
         {props.loading && (
           <CircularProgress
