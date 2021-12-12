@@ -8,7 +8,6 @@ from .s3 import *
 
 router = APIRouter()
 
-#s3 = s3_connection()
 load_dotenv(dotenv_path = ".env")
 
 access_key_id = os.getenv('access_key_ID')
@@ -22,8 +21,8 @@ def create_upload_files(
     ):
     father = s3_put_object(s3, "12war", father_image.filename, "man/test_image.jpg") 
     mother = s3_put_object(s3, "12war", mother_image.filename, "woman/test_image.jpg") 
-    print(father, mother)
-    return FileResponse("mlops.png")
+    tmp_url = s3_get_image_url(s3,'man/test_image')
+    return {"tmp_url":tmp_url}
 
 @router.get("/")
 def uploader():
