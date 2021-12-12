@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import {
   Box,
   Button,
@@ -8,18 +8,23 @@ import {
   InputAdornment,
   SvgIcon,
   Typography,
+  CircularProgress,
 } from "@mui/material";
 import { Search as SearchIcon } from "../../icons/search";
 import { Upload as UploadIcon } from "../../icons/upload";
 import { Download as DownloadIcon } from "../../icons/download";
 import FileInput from "./file_input";
+import CircularIntegration from "./progressbar";
 
 export const CustomerListToolbar = (props) => {
+  const timer = useRef();
   const [firstSelectedImage, setFirstSelectedImage] = useState(null);
   const [firstImageUrl, setFirstImageUrl] = useState(null);
   const [secondSelectedImage, setSecondSelectedImage] = useState(null);
   const [secondImageUrl, setSecondImageUrl] = useState(null);
   const [comment, setComment] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
   const handleChange = (event) => {
     setComment(event.target.value);
   };
@@ -35,6 +40,22 @@ export const CustomerListToolbar = (props) => {
       setSecondImageUrl(URL.createObjectURL(secondSelectedImage));
     }
   }, [secondSelectedImage]);
+
+  useEffect(() => {
+    return () => {
+      clearTimeout(timer.current);
+    };
+  }, []);
+  const inferenceButtonClick = () => {
+    if (!loading) {
+      setSuccess(false);
+      setLoading(true);
+      timer.current = window.setTimeout(() => {
+        setSuccess(true);
+        setLoading(false);
+      }, 2000);
+    }
+  };
 
   return (
     <Box {...props}>
@@ -64,8 +85,20 @@ export const CustomerListToolbar = (props) => {
             onChangeImage={setSecondSelectedImage}
           />
         </div>
-        <div style={{ margin: "100px 0px", width: "100%", textAlign: "center" }}>
-          <Button variant="contained">아기 얼굴 확인하기</Button>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            margin: "100px 0px",
+            width: "100%",
+            textAlign: "center",
+          }}
+        >
+          <CircularIntegration
+            onclick={inferenceButtonClick}
+            success={success}
+            loading={loading}
+          ></CircularIntegration>
         </div>
         <div
           style={{
@@ -73,15 +106,17 @@ export const CustomerListToolbar = (props) => {
             width: "100%",
             height: "60%",
             padding: "0 5%",
+            justifyContent: "center",
             textAlign: "center",
-            display: "flex; flex-direction: column",
+            display: "block",
+            flexDirection: "column",
           }}
         >
           <h2>결과</h2>
           <img
             src="static/images/baby.png"
             // style={{ width: 200, height: 200 }}
-            style={{ width: "50%", height: "50%" }}
+            style={{ margin: "auto", width: "50%", height: "50%" }}
           ></img>
         </div>
         <div
@@ -90,7 +125,8 @@ export const CustomerListToolbar = (props) => {
             height: 280,
             padding: "0 2%",
             textAlign: "center",
-            display: "flex; flex-direction: column",
+            display: "block",
+            flexDirection: "column",
           }}
         >
           <div style={{ textAlign: "center", width: "100%", height: 200 }}>
