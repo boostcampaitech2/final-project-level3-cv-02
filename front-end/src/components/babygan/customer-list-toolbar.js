@@ -73,7 +73,10 @@ export const CustomerListToolbar = (props) => {
           }}
         >
           <h2>결과</h2>
-          <div style={{ width: 200, height: 200 }}></div>
+          <img
+            src="https://i1.wp.com/sharehows.com/wp-content/uploads/2017/09/0-4.jpg?fit=800%2C400&ssl=1"
+            style={{ width: 200, height: 200 }}
+          ></img>
         </div>
         <div
           style={{
