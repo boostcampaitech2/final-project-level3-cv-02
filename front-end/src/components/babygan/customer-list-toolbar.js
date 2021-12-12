@@ -46,7 +46,7 @@ export const CustomerListToolbar = (props) => {
           m: -1,
         }}
       >
-        <div style={{ height: 280, padding: "0 5%" }}>
+        <div style={{ width: "50%", maxHeight: "35%", height: "35%", padding: "0 5%" }}>
           <FileInput
             id={1}
             gender={"남성"}
@@ -55,7 +55,7 @@ export const CustomerListToolbar = (props) => {
             onChangeImage={setFirstSelectedImage}
           />
         </div>
-        <div style={{ height: 280, padding: "0 5%" }}>
+        <div style={{ width: "50%", height: "35%", padding: "0 5%" }}>
           <FileInput
             gender={"여성"}
             id={2}
@@ -64,9 +64,14 @@ export const CustomerListToolbar = (props) => {
             onChangeImage={setSecondSelectedImage}
           />
         </div>
+        <div style={{ margin: "100px 0px", width: "100%", textAlign: "center" }}>
+          <Button variant="contained">아기 얼굴 확인하기</Button>
+        </div>
         <div
           style={{
-            height: 280,
+            marginTop: 100,
+            width: "100%",
+            height: "60%",
             padding: "0 5%",
             textAlign: "center",
             display: "flex; flex-direction: column",
@@ -74,31 +79,35 @@ export const CustomerListToolbar = (props) => {
         >
           <h2>결과</h2>
           <img
-            src="https://i1.wp.com/sharehows.com/wp-content/uploads/2017/09/0-4.jpg?fit=800%2C400&ssl=1"
-            style={{ width: 200, height: 200 }}
+            src="static/images/baby.png"
+            // style={{ width: 200, height: 200 }}
+            style={{ width: "50%", height: "50%" }}
           ></img>
         </div>
         <div
           style={{
+            width: "100%",
             height: 280,
             padding: "0 2%",
             textAlign: "center",
             display: "flex; flex-direction: column",
           }}
         >
-          <div style={{ width: 200, height: 200 }}>
+          <div style={{ textAlign: "center", width: "100%", height: 200 }}>
             <TextField
               id="outlined-multiline-static"
               label="우리아기를 자랑해보세요!"
               multiline
-              style={{ marginBottom: 40 }}
+              style={{ marginBottom: 40, width: "50%" }}
               value={comment}
               onChange={handleChange}
               rows={7}
               defaultValue="우리아기는 연예인가능함"
             />
-            <Button variant="contained">공유하기</Button>
           </div>
+          <Button style={{ marginTop: 30, width: "30%" }} variant="contained">
+            공유하기
+          </Button>
         </div>
       </Box>
     </Box>
