@@ -1,18 +1,13 @@
 import boto3
 import os
-from dotenv import load_dotenv
 
-load_dotenv(dotenv_path = "../.env")
-access_key_id = os.getenv('access_key_ID')
-access_key_pass = os.getenv('access_key_PASS')
-
-def s3_connection():
+def s3_connection(access_key_id, access_key_pass):
     try:
         s3 = boto3.client(
             service_name="s3",
             region_name="ap-northeast-2", # 자신이 설정한 bucket region
-            aws_access_key_id=access_key_id,
-            aws_secret_access_key=access_key_pass,
+            aws_access_key_id = access_key_id,
+            aws_secret_access_key = access_key_pass,
         )
     except Exception as e:
         print(e)
@@ -34,10 +29,12 @@ def s3_put_object(s3, bucket, filepath, access_key):
             Filename=filepath,
             Bucket=bucket,
             Key=access_key,
-            ExtraArgs={"ContentType": "image/jpg", "ACL": "public-read"},
+            ExtraArgs={"ContentType": "image/png", "ACL": "public-read"},
         )
     except Exception as e:
+        print(e,"error")
         return False
+    
     return True
 
 def s3_get_image_url(s3, filename):
