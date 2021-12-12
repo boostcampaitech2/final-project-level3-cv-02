@@ -20,7 +20,8 @@ def create_upload_files(files: List[UploadFile] = File(...)):
     temp = s3_put_object(s3,"12war", files[0].filename, "man/test_image.jpg") 
     temp2 = s3_put_object(s3,"12war", files[1].filename, "woman/test_image.jpg") 
     print(temp)
-    return FileResponse("mlops.png")
+    return {"result":(s3_get_image_url(s3,'man/test_image.jpg'))}
+    #FileResponse("mlops.png")
 
 @router.get("/")
 def uploader():
