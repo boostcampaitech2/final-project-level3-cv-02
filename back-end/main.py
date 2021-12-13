@@ -6,7 +6,10 @@ from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError
 from starlette.exceptions import HTTPException
 from typing import Callable
-
+from dotenv import load_dotenv
+import os
+from api.s3 import *
+#사람얽굴이 없나봐 ~ 다 셀카찍어서 한장씩 보내도록해 ~ 
 def create_start_app_handler(app: FastAPI) -> Callable:
     def start_app() -> None:
         preload_model()
@@ -26,4 +29,10 @@ def get_application() -> FastAPI:
 app = get_application()
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=8080, reload=False, debug=False)
+
+
+    # access_key_id = os.getenv('access_key_ID')
+    # access_key_pass = os.getenv('access_key_PASS')
+    # s3 = s3_connection (access_key_id, access_key_pass)
+    
+    uvicorn.run("main:app", host="0.0.0.0", port=8080, reload=True, debug=False)
