@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import {
   Box,
   Button,
@@ -8,18 +8,23 @@ import {
   InputAdornment,
   SvgIcon,
   Typography,
+  CircularProgress,
 } from "@mui/material";
 import { Search as SearchIcon } from "../../icons/search";
 import { Upload as UploadIcon } from "../../icons/upload";
 import { Download as DownloadIcon } from "../../icons/download";
 import FileInput from "./file_input";
+import CircularIntegration from "./progressbar";
 
 export const CustomerListToolbar = (props) => {
+  const timer = useRef();
   const [firstSelectedImage, setFirstSelectedImage] = useState(null);
   const [firstImageUrl, setFirstImageUrl] = useState(null);
   const [secondSelectedImage, setSecondSelectedImage] = useState(null);
   const [secondImageUrl, setSecondImageUrl] = useState(null);
   const [comment, setComment] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
   const handleChange = (event) => {
     setComment(event.target.value);
   };
@@ -36,6 +41,22 @@ export const CustomerListToolbar = (props) => {
     }
   }, [secondSelectedImage]);
 
+  useEffect(() => {
+    return () => {
+      clearTimeout(timer.current);
+    };
+  }, []);
+  const inferenceButtonClick = () => {
+    if (!loading) {
+      setSuccess(false);
+      setLoading(true);
+      timer.current = window.setTimeout(() => {
+        setSuccess(true);
+        setLoading(false);
+      }, 2000);
+    }
+  };
+
   return (
     <Box {...props}>
       <Box
@@ -46,7 +67,7 @@ export const CustomerListToolbar = (props) => {
           m: -1,
         }}
       >
-        <div style={{ height: 280, padding: "0 5%" }}>
+        <div style={{ width: "50%", maxHeight: "35%", height: "35%", padding: "0 5%" }}>
           <FileInput
             id={1}
             gender={"남성"}
@@ -55,7 +76,7 @@ export const CustomerListToolbar = (props) => {
             onChangeImage={setFirstSelectedImage}
           />
         </div>
-        <div style={{ height: 280, padding: "0 5%" }}>
+        <div style={{ width: "50%", height: "35%", padding: "0 5%" }}>
           <FileInput
             gender={"여성"}
             id={2}
@@ -66,39 +87,63 @@ export const CustomerListToolbar = (props) => {
         </div>
         <div
           style={{
-            height: 280,
-            padding: "0 5%",
+            display: "flex",
+            justifyContent: "center",
+            margin: "100px 0px",
+            width: "100%",
             textAlign: "center",
-            display: "flex; flex-direction: column",
+          }}
+        >
+          <CircularIntegration
+            onclick={inferenceButtonClick}
+            success={success}
+            loading={loading}
+          ></CircularIntegration>
+        </div>
+        <div
+          style={{
+            marginTop: 100,
+            width: "100%",
+            height: "60%",
+            padding: "0 5%",
+            justifyContent: "center",
+            textAlign: "center",
+            display: "block",
+            flexDirection: "column",
           }}
         >
           <h2>결과</h2>
           <img
-            src="https://i1.wp.com/sharehows.com/wp-content/uploads/2017/09/0-4.jpg?fit=800%2C400&ssl=1"
-            style={{ width: 200, height: 200 }}
+            src="static/images/baby.png"
+            // style={{ width: 200, height: 200 }}
+            style={{ margin: "auto", width: "50%", height: "50%" }}
           ></img>
         </div>
         <div
           style={{
+            width: "100%",
             height: 280,
             padding: "0 2%",
             textAlign: "center",
-            display: "flex; flex-direction: column",
+            display: "block",
+            flexDirection: "column",
           }}
         >
-          <div style={{ width: 200, height: 200 }}>
+          <div style={{ textAlign: "center", width: "100%", height: 200 }}>
             <TextField
               id="outlined-multiline-static"
               label="우리아기를 자랑해보세요!"
               multiline
-              style={{ marginBottom: 40 }}
+              style={{ marginBottom: 40, width: "50%" }}
               value={comment}
               onChange={handleChange}
               rows={7}
               defaultValue="우리아기는 연예인가능함"
             />
-            <Button variant="contained">공유하기</Button>
           </div>
+          <Button style={{ marginTop: 30, width: "30%" }} variant="contained">
+            공유하기
+          </Button>
         </div>
       </Box>
     </Box>

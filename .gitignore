@@ -149,3 +149,18 @@ docker/id_rsa.pub
 
 back-end/.env
 back-end/api/.env
+
+# BabyGAN
+babygan/videos/*.*
+babygan/latent_representations/*.*
+babygan/generated_images/*.*
+babygan/aligned_images/*.*
+babygan/masks/*.*
+babygan/mother_image/*.*
+babygan/father_image/*.*
+
+*.pyc
+*.pkl
+*.dat
+*.dat.bz2
+*.h5

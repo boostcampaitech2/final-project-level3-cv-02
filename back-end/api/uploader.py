@@ -1,4 +1,7 @@
+import io
+from PIL import Image
 from typing import List
+import uuid
 
 from fastapi import APIRouter, File, UploadFile
 from fastapi.responses import HTMLResponse, FileResponse
@@ -19,10 +22,20 @@ def create_upload_files(
     father_image: UploadFile = File(...),
     mother_image: UploadFile = File(...),
     ):
-    father = s3_put_object(s3, "12war", father_image.filename, "man/test_image.jpg") 
-    mother = s3_put_object(s3, "12war", mother_image.filename, "woman/test_image.jpg") 
-    tmp_url = s3_get_image_url(s3,'man/test_image')
-    return {"tmp_url":tmp_url}
+    setting_uuid = str(uuid.uuid4())
+    father_image_name=setting_uuid+father_image.filename
+    mother_image_name=setting_uuid+mother_image.filename
+    s3.upload_fileobj(
+        father_image.file, "12war", "man/"+father_image_name, ExtraArgs={"ContentType": "image/png", "ACL": "public-read"}
+    )
+    s3.upload_fileobj(
+        mother_image.file, "12war", "woman/"+mother_image_name, ExtraArgs={"ContentType": "image/png", "ACL": "public-read"}
+    )
+
+    # 추후 아기사진 올리고 받아와야함
+    # 아기 사진도 같은 uuid쓰면됨(setting_uuid)
+    baby_image_path = s3_get_image_url(s3,'baby/field-6558125_1920')
+    return { "baby_image_path": baby_image_path }
 
 @router.get("/")
 def uploader():
