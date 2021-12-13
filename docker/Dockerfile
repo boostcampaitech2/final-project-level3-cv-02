@@ -16,11 +16,22 @@ RUN mkdir -p -m 0600 /root/.ssh \
 ## ADD SSH Key into Docker container
 ADD id_rsa /root/.ssh/id_rsa
 
-COPY . /main
+
+RUN pip install pip==21.2.4 && \
+	git clone -b develop git@github.com:boostcampaitech2/final-project-level3-cv-02.git /root/main && \
+	pip install -r /root/main/docker/requirements.txt && \
+	cd /root/main && \
+	git checkout -b master
+
+# 2nd Stage
+FROM python:3.8.7-slim-buster
+LABEL maintainer="sejongjeong <wjdtpwhd@gmail.com>"
+
+# copy all the settings and packages from 1st stage (builder) to avoid leak ssh key
+COPY --from=builder /usr/local/lib/python3.8/site-packages /usr/local/lib/python3.8/site-packages
+COPY --from=builder /root/main /main
 WORKDIR /main
 ENV PYTHONPATH=/main
 ENV PYTHONUNBUFFERED=1
 
-RUN pip install pip==21.2.4 && \
-	pip install -r requirements.txt && \
-	git clone 
+ENTRYPOINT [ "python", "./back-end/main.py"]
