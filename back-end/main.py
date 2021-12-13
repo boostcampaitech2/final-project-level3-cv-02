@@ -14,6 +14,9 @@ def create_start_app_handler(app: FastAPI) -> Callable:
 
     return start_app
 
+def set_cors(application: FastAPI):
+    origins = ["*" ]
+    application.add_middleware( CORSMiddleware, allow_origins=origins, allow_credentials=True, allow_methods=["*"], allow_headers=["*"], )
 
 def get_application() -> FastAPI:
     application = FastAPI()
@@ -21,14 +24,9 @@ def get_application() -> FastAPI:
     pre_load = False
     if pre_load:
         application.add_event_handler("startup", create_start_app_handler(application))
-    application = set_cors(application)
+    set_cors(application)
     return application
 
-def set_cors(application: FastAPI)-> FastAPI:
-    origins = ["*" ]
-    application.add_middleware( CORSMiddleware, allow_origins=origins, allow_credentials=True, allow_methods=["*"], allow_headers=["*"], )
-    
-    return application
 
 app = get_application()
 
