@@ -15,8 +15,7 @@ kst = pendulum.timezone("Asia/Seoul")
 with DAG(
     dag_id='babygan_inference',
     description='babygan inference',
-    # start_date=days_ago(2),
-    start_date=datetime(2021, 12, 14, tzinfo=kst), # 2021.12.15일부터 시작
+    start_date=days_ago(2),
     schedule_interval='0 9 * * *', # 매일 오전 9시 마다
     tags=['final_project'],
 )as dag:
@@ -25,7 +24,7 @@ with DAG(
     t1 = BashOperator(
         task_id='inference',
         bash_command="""
-            sh $AIRFLOW_HOME/dags/scipts/inference.sh
+        sh $AIRFLOW_HOME/dags/scripts/inference.sh
         """,
         depends_on_past=True,
         owner='ujin',
