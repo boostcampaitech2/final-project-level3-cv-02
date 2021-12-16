@@ -165,5 +165,10 @@ babygan/father_image/*.*
 *.dat.bz2
 *.h5
 
-airflow/dags/__pycache__
-airflow/logs
+#airflow
+airflow/logs/
+airflow/logs/scheduler/latest
+sample/
+temp_images/
+checkpoint/
+
