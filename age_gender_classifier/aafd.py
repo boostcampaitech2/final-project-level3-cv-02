@@ -6,18 +6,6 @@ import torch
 import torch.nn as nn
 from torch.utils.data import Dataset
 
-
-# 0 : ~19 female
-# 1 : ~19 male
-# 2 : 20~29 female
-# 3 : 20~29 male
-# 4 : 20~29 female
-# 5 : 30~39 male
-# 6 : 30~39 female
-# 7 : 40~59 male
-# 8 : 60~ female
-# 9 : 60~ male
-
 def get_age_label(age):
     # 0~20
     if age < 18:
@@ -70,8 +58,3 @@ class AAFD(Dataset):
         if self.transform is not None:
             image= self.transform(image=image)["image"]
         return image, label
-
-
-
-if __name__ == "__main__":
-    train_loader, val_loader = AAFDDataLoader(mode="train"), AAFDDataLoader(mode="val")
