@@ -37,7 +37,9 @@ if __name__ == "__main__":
 
     landmarks_model_path = unpack_bz2("./babygan/shape_predictor_68_face_landmarks.dat.bz2")
     RAW_IMAGES_DIR = args.raw_dir 
-    ALIGNED_IMAGES_DIR = args.aligned_dir 
+    ALIGNED_IMAGES_DIR = args.aligned_dir
+    print(ALIGNED_IMAGES_DIR)
+    os.makedirs(ALIGNED_IMAGES_DIR,exist_ok=True)
     url = RAW_IMAGES_DIR 
     #os.system("curl " + url + "> ./babygan/hi.jpg")  #이게 맞아?,,.
     #RAW_IMAGES_DIR2 = "./babygan/hyundong"
@@ -47,9 +49,7 @@ if __name__ == "__main__":
         print('Aligning %s ...' % img_name)
         try:
             raw_img_path = os.path.join(RAW_IMAGES_DIR, img_name) 
-            print(raw_img_path , "#"*100)
             fn = face_img_name = '%s_%02d.png' % (os.path.splitext(img_name)[0], 1) #<< 여기서 오류인가본디 아 이제 아내얼굴이 없다.
-            print(fn , "#"*100)
             if os.path.isfile(fn):
                 continue
             print('Getting landmarks...') 

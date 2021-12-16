@@ -34,18 +34,18 @@ from api.api import router as api_router
 # from core.config import API_PREFIX, DEBUG, PROJECT_NAME, VERSION
 # from core.events import create_start_app_handler
 from fastapi import FastAPI
-from fastapi.exceptions import RequestValidationError
+from fastapi.exceptions import RequestValidationError 
 from fastapi.middleware.cors import CORSMiddleware
-from starlette.exceptions import HTTPException
-from typing import Callable
-
-def create_start_app_handler(app: FastAPI) -> Callable:
-    def start_app() -> None:
+from starlette.exceptions import HTTPException 
+from typing import Callable 
+#
+def create_start_app_handler(app: FastAPI) -> Callable: 
+    def start_app() -> None: 
         preload_model()
 
     return start_app
 
-def set_cors(application: FastAPI):
+def set_cors(application: FastAPI): # 아 아니다 로컬로 뜬다. ㅋㅋㅋㅋㅋ아냐아냐 ~ 
     origins = ["*" ]
     application.add_middleware( CORSMiddleware, allow_origins=origins, allow_credentials=True, allow_methods=["*"], allow_headers=["*"], )
 

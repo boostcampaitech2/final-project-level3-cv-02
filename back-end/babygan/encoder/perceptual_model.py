@@ -14,7 +14,7 @@ from keras.applications.vgg16 import VGG16, preprocess_input
 import keras.backend as K
 import traceback
 import sys
-#sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__)))) 
+#sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__)))) ;-;
 sys.path.append("..")
 from babygan.dnnlib import tflib 
 #import dnnlib.tflib as tflib 안마주했을 가능성이 큰게 이게 back-end에서 main부르고 api갓다가 inference에서 또 머 실행하고 머 실행하고 이러니깐,..,
@@ -57,6 +57,7 @@ def create_stub(batch_size):
     return tf.constant(0, dtype='float32', shape=(batch_size, 0))
 
 def unpack_bz2(src_path):
+    src_path = "./babygan/"+src_path
     data = bz2.BZ2File(src_path).read()
     dst_path = src_path[:-4]
     with open(dst_path, 'wb') as fp:
@@ -150,7 +151,7 @@ class PerceptualModel:
         self.add_placeholder("ref_weight")
 
         if (self.vgg_loss is not None):
-            vgg16 = VGG16(include_top=False, weights='vgg16_weights_tf_dim_ordering_tf_kernels_notop.h5', input_shape=(self.img_size, self.img_size, 3)) # https://github.com/fchollet/deep-learning-models/releases/download/v0.1/vgg16_weights_tf_dim_ordering_tf_kernels_notop.h5
+            vgg16 = VGG16(include_top=False, weights='./babygan/vgg16_weights_tf_dim_ordering_tf_kernels_notop.h5', input_shape=(self.img_size, self.img_size, 3)) # https://github.com/fchollet/deep-learning-models/releases/download/v0.1/vgg16_weights_tf_dim_ordering_tf_kernels_notop.h5
             self.perceptual_model = Model(vgg16.input, vgg16.layers[self.layer].output)
             generated_img_features = self.perceptual_model(preprocess_input(self.ref_weight * generated_image))
             self.ref_img_features = tf.get_variable('ref_img_features', shape=generated_img_features.shape,

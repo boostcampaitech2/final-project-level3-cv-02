@@ -348,7 +348,6 @@ def open_url(url: str, cache_dir: str = None, num_attempts: int = 10, verbose: b
     url = baby + url
     if not is_url(url) and os.path.isfile(url):
         return open(url, 'rb')
-    print(url , "@@@@@@@@@@@@@@@@@@@@@@@@@@@")# 아 babygan/ 설정해야된다 아까 얼라인에서도 따로 한거 있음.
     assert is_url(url)
     assert num_attempts >= 1
 

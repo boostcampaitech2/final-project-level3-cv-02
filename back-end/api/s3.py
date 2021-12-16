@@ -9,10 +9,10 @@ def s3_connection(access_key_id, access_key_pass):
             aws_access_key_id = access_key_id,
             aws_secret_access_key = access_key_pass,
         )
-    except Exception as e:
-        print(e)
+    except Exception as e:  
+        print(e) 
     else:
-        print("s3 bucket connected!")
+        print("s3 bucket connected!") 
         return s3
 
 def s3_put_object(s3, bucket, filepath, access_key):
@@ -43,7 +43,7 @@ def s3_get_image_url(s3, filename):
     filename : s3에 저장된 파일 명
     """
     location = s3.get_bucket_location(Bucket="12war")["LocationConstraint"]
-    return f"https://12war.s3.{location}.amazonaws.com/{filename}.jpg"
+    return f"https://12war.s3.{location}.amazonaws.com/{filename}"  #??...
 
 
 

@@ -1,7 +1,7 @@
 import math
 import tensorflow as tf
 import numpy as np
-#import dnnlib.tflib as tflib 와 근데 이거 불러오는데만 20초 넘어가고 있는거 같은데 . 
+#import dnnlib.tflib as tflib 
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__)))) 
