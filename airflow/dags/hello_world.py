@@ -23,7 +23,8 @@ with DAG(
     # bach command로 echo hello 실행
     t1 = BashOperator(
         task_id='print_hello',
-        bash_command='echo hello',
+        # bash_command='echo hello',
+        bash_command='sh $AIRFLOW_HOME/dags/scipts/hello.sh',
         owner='ujin',
         retries=2,
         retry_delay=timedelta(minutes=5),

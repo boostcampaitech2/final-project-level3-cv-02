@@ -33,3 +33,196 @@ AIRFLOW_CTX_DAG_RUN_ID=manual__2021-12-15T05:10:51.267608+00:00
 [2021-12-15 05:10:54,365] {local_task_job.py:264} INFO - 1 downstream tasks scheduled from follow-on schedule check
 [2021-12-15 05:10:54,366] {logging_mixin.py:109} WARNING - /opt/conda/lib/python3.8/site-packages/airflow/models/dag.py:1069 SADeprecationWarning: Query.value() is deprecated and will be removed in a future release.  Please use Query.with_entities() in combination with Query.scalar() (deprecated since: 1.4)
 [2021-12-15 05:10:54,367] {logging_mixin.py:109} WARNING - /opt/conda/lib/python3.8/site-packages/airflow/models/dag.py:1069 SADeprecationWarning: Query.values() is deprecated and will be removed in a future release.  Please use Query.with_entities() (deprecated since: 1.4)
+[2021-12-15 05:39:24,385] {taskinstance.py:1035} INFO - Dependencies all met for <TaskInstance: hello_world.print_hello manual__2021-12-15T05:39:21.396028+00:00 [queued]>
+[2021-12-15 05:39:24,393] {taskinstance.py:1035} INFO - Dependencies all met for <TaskInstance: hello_world.print_hello manual__2021-12-15T05:39:21.396028+00:00 [queued]>
+[2021-12-15 05:39:24,393] {taskinstance.py:1241} INFO - 
+--------------------------------------------------------------------------------
+[2021-12-15 05:39:24,393] {taskinstance.py:1242} INFO - Starting attempt 1 of 3
+[2021-12-15 05:39:24,393] {taskinstance.py:1243} INFO - 
+--------------------------------------------------------------------------------
+[2021-12-15 05:39:24,407] {taskinstance.py:1262} INFO - Executing <Task(BashOperator): print_hello> on 2021-12-15 05:39:21.396028+00:00
+[2021-12-15 05:39:24,409] {standard_task_runner.py:52} INFO - Started process 9835 to run task
+[2021-12-15 05:39:24,414] {standard_task_runner.py:76} INFO - Running: ['airflow', 'tasks', 'run', 'hello_world', 'print_hello', 'manual__2021-12-15T05:39:21.396028+00:00', '--job-id', '7', '--raw', '--subdir', '/opt/ml/final-project-level3-cv-02/airflow/dags/hello_world.py', '--cfg-path', '/tmp/tmppds51pa7', '--error-file', '/tmp/tmpj8tqilqx']
+[2021-12-15 05:39:24,415] {standard_task_runner.py:77} INFO - Job 7: Subtask print_hello
+[2021-12-15 05:39:24,443] {logging_mixin.py:109} INFO - Running <TaskInstance: hello_world.print_hello manual__2021-12-15T05:39:21.396028+00:00 [running]> on host 66df403e5cd0
+[2021-12-15 05:39:24,464] {logging_mixin.py:109} WARNING - /opt/conda/lib/python3.8/site-packages/airflow/models/xcom.py:322 SAWarning: TypeDecorator UtcDateTime(timezone=True) will not produce a cache key because the ``cache_ok`` attribute is not set to True.  This can have significant performance implications including some performance degradations in comparison to prior SQLAlchemy versions.  Set this attribute to True if this type object's state is safe to use in a cache key, or False to disable this warning. (Background on this error at: https://sqlalche.me/e/14/cprf)
+[2021-12-15 05:39:24,470] {logging_mixin.py:109} WARNING - /opt/conda/lib/python3.8/site-packages/airflow/models/renderedtifields.py:126 SAWarning: TypeDecorator UtcDateTime(timezone=True) will not produce a cache key because the ``cache_ok`` attribute is not set to True.  This can have significant performance implications including some performance degradations in comparison to prior SQLAlchemy versions.  Set this attribute to True if this type object's state is safe to use in a cache key, or False to disable this warning. (Background on this error at: https://sqlalche.me/e/14/cprf)
+[2021-12-15 05:39:24,479] {logging_mixin.py:109} WARNING - /opt/conda/lib/python3.8/site-packages/airflow/models/renderedtifields.py:162 SAWarning: Coercing Subquery object into a select() for use in IN(); please pass a select() construct explicitly
+[2021-12-15 05:39:24,482] {logging_mixin.py:109} WARNING - /opt/conda/lib/python3.8/site-packages/airflow/models/renderedtifields.py:159 SAWarning: TypeDecorator UtcDateTime(timezone=True) will not produce a cache key because the ``cache_ok`` attribute is not set to True.  This can have significant performance implications including some performance degradations in comparison to prior SQLAlchemy versions.  Set this attribute to True if this type object's state is safe to use in a cache key, or False to disable this warning. (Background on this error at: https://sqlalche.me/e/14/cprf)
+[2021-12-15 05:39:24,484] {taskinstance.py:1412} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=ujin
+AIRFLOW_CTX_DAG_ID=hello_world
+AIRFLOW_CTX_TASK_ID=print_hello
+AIRFLOW_CTX_EXECUTION_DATE=2021-12-15T05:39:21.396028+00:00
+AIRFLOW_CTX_DAG_RUN_ID=manual__2021-12-15T05:39:21.396028+00:00
+[2021-12-15 05:39:24,485] {subprocess.py:62} INFO - Tmp dir root location: 
+ /tmp
+[2021-12-15 05:39:24,486] {subprocess.py:74} INFO - Running command: ['bash', '-c', 'echo hello']
+[2021-12-15 05:39:24,492] {subprocess.py:85} INFO - Output:
+[2021-12-15 05:39:24,493] {subprocess.py:89} INFO - hello
+[2021-12-15 05:39:24,493] {subprocess.py:93} INFO - Command exited with return code 0
+[2021-12-15 05:39:24,498] {logging_mixin.py:109} WARNING - /opt/conda/lib/python3.8/site-packages/airflow/models/xcom.py:102 SAWarning: TypeDecorator UtcDateTime(timezone=True) will not produce a cache key because the ``cache_ok`` attribute is not set to True.  This can have significant performance implications including some performance degradations in comparison to prior SQLAlchemy versions.  Set this attribute to True if this type object's state is safe to use in a cache key, or False to disable this warning. (Background on this error at: https://sqlalche.me/e/14/cprf)
+[2021-12-15 05:39:24,511] {taskinstance.py:1270} INFO - Marking task as SUCCESS. dag_id=hello_world, task_id=print_hello, execution_date=20211215T053921, start_date=20211215T053924, end_date=20211215T053924
+[2021-12-15 05:39:24,544] {local_task_job.py:154} INFO - Task exited with return code 0
+[2021-12-15 05:39:24,566] {logging_mixin.py:109} WARNING - /opt/conda/lib/python3.8/site-packages/airflow/models/dagrun.py:418 SAWarning: TypeDecorator UtcDateTime(timezone=True) will not produce a cache key because the ``cache_ok`` attribute is not set to True.  This can have significant performance implications including some performance degradations in comparison to prior SQLAlchemy versions.  Set this attribute to True if this type object's state is safe to use in a cache key, or False to disable this warning. (Background on this error at: https://sqlalche.me/e/14/cprf)
+[2021-12-15 05:39:24,574] {local_task_job.py:264} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2021-12-15 05:39:24,575] {logging_mixin.py:109} WARNING - /opt/conda/lib/python3.8/site-packages/airflow/models/dag.py:1069 SADeprecationWarning: Query.value() is deprecated and will be removed in a future release.  Please use Query.with_entities() in combination with Query.scalar() (deprecated since: 1.4)
+[2021-12-15 05:39:24,576] {logging_mixin.py:109} WARNING - /opt/conda/lib/python3.8/site-packages/airflow/models/dag.py:1069 SADeprecationWarning: Query.values() is deprecated and will be removed in a future release.  Please use Query.with_entities() (deprecated since: 1.4)
+[2021-12-15 08:05:59,593] {taskinstance.py:1035} INFO - Dependencies all met for <TaskInstance: hello_world.print_hello manual__2021-12-15T08:05:56.379704+00:00 [queued]>
+[2021-12-15 08:05:59,599] {taskinstance.py:1035} INFO - Dependencies all met for <TaskInstance: hello_world.print_hello manual__2021-12-15T08:05:56.379704+00:00 [queued]>
+[2021-12-15 08:05:59,599] {taskinstance.py:1241} INFO - 
+--------------------------------------------------------------------------------
+[2021-12-15 08:05:59,600] {taskinstance.py:1242} INFO - Starting attempt 1 of 3
+[2021-12-15 08:05:59,600] {taskinstance.py:1243} INFO - 
+--------------------------------------------------------------------------------
+[2021-12-15 08:05:59,613] {taskinstance.py:1262} INFO - Executing <Task(BashOperator): print_hello> on 2021-12-15 08:05:56.379704+00:00
+[2021-12-15 08:05:59,615] {standard_task_runner.py:52} INFO - Started process 40527 to run task
+[2021-12-15 08:05:59,618] {standard_task_runner.py:76} INFO - Running: ['airflow', 'tasks', 'run', 'hello_world', 'print_hello', 'manual__2021-12-15T08:05:56.379704+00:00', '--job-id', '15', '--raw', '--subdir', '/opt/ml/final-project-level3-cv-02/airflow/dags/hello_world.py', '--cfg-path', '/tmp/tmp7c44asfi', '--error-file', '/tmp/tmpdbjwik1o']
+[2021-12-15 08:05:59,619] {standard_task_runner.py:77} INFO - Job 15: Subtask print_hello
+[2021-12-15 08:05:59,647] {logging_mixin.py:109} INFO - Running <TaskInstance: hello_world.print_hello manual__2021-12-15T08:05:56.379704+00:00 [running]> on host 66df403e5cd0
+[2021-12-15 08:05:59,671] {logging_mixin.py:109} WARNING - /opt/conda/lib/python3.8/site-packages/airflow/models/xcom.py:322 SAWarning: TypeDecorator UtcDateTime(timezone=True) will not produce a cache key because the ``cache_ok`` attribute is not set to True.  This can have significant performance implications including some performance degradations in comparison to prior SQLAlchemy versions.  Set this attribute to True if this type object's state is safe to use in a cache key, or False to disable this warning. (Background on this error at: https://sqlalche.me/e/14/cprf)
+[2021-12-15 08:05:59,673] {taskinstance.py:1686} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 1324, in _run_raw_task
+    self._execute_task_with_callbacks(context)
+  File "/opt/conda/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 1406, in _execute_task_with_callbacks
+    self.render_templates(context=context)
+  File "/opt/conda/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 2088, in render_templates
+    self.task.render_template_fields(context)
+  File "/opt/conda/lib/python3.8/site-packages/airflow/models/baseoperator.py", line 1057, in render_template_fields
+    self._do_render_template_fields(self, self.template_fields, context, jinja_env, set())
+  File "/opt/conda/lib/python3.8/site-packages/airflow/models/baseoperator.py", line 1070, in _do_render_template_fields
+    rendered_content = self.render_template(content, context, jinja_env, seen_oids)
+  File "/opt/conda/lib/python3.8/site-packages/airflow/models/baseoperator.py", line 1105, in render_template
+    return jinja_env.get_template(content).render(**context)
+  File "/opt/conda/lib/python3.8/site-packages/jinja2/environment.py", line 883, in get_template
+    return self._load_template(name, self.make_globals(globals))
+  File "/opt/conda/lib/python3.8/site-packages/jinja2/environment.py", line 857, in _load_template
+    template = self.loader.load(self, name, globals)
+  File "/opt/conda/lib/python3.8/site-packages/jinja2/loaders.py", line 115, in load
+    source, filename, uptodate = self.get_source(environment, name)
+  File "/opt/conda/lib/python3.8/site-packages/jinja2/loaders.py", line 197, in get_source
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: sh $AIRFLOW_HOME/dags/scipts/hello.sh
+[2021-12-15 08:05:59,678] {taskinstance.py:1270} INFO - Marking task as UP_FOR_RETRY. dag_id=hello_world, task_id=print_hello, execution_date=20211215T080556, start_date=20211215T080559, end_date=20211215T080559
+[2021-12-15 08:05:59,688] {standard_task_runner.py:88} ERROR - Failed to execute job 15 for task print_hello
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.8/site-packages/airflow/task/task_runner/standard_task_runner.py", line 85, in _start_by_fork
+    args.func(args, dag=self.dag)
+  File "/opt/conda/lib/python3.8/site-packages/airflow/cli/cli_parser.py", line 48, in command
+    return func(*args, **kwargs)
+  File "/opt/conda/lib/python3.8/site-packages/airflow/utils/cli.py", line 92, in wrapper
+    return f(*args, **kwargs)
+  File "/opt/conda/lib/python3.8/site-packages/airflow/cli/commands/task_command.py", line 292, in task_run
+    _run_task_by_selected_method(args, dag, ti)
+  File "/opt/conda/lib/python3.8/site-packages/airflow/cli/commands/task_command.py", line 107, in _run_task_by_selected_method
+    _run_raw_task(args, ti)
+  File "/opt/conda/lib/python3.8/site-packages/airflow/cli/commands/task_command.py", line 180, in _run_raw_task
+    ti._run_raw_task(
+  File "/opt/conda/lib/python3.8/site-packages/airflow/utils/session.py", line 70, in wrapper
+    return func(*args, session=session, **kwargs)
+  File "/opt/conda/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 1324, in _run_raw_task
+    self._execute_task_with_callbacks(context)
+  File "/opt/conda/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 1406, in _execute_task_with_callbacks
+    self.render_templates(context=context)
+  File "/opt/conda/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 2088, in render_templates
+    self.task.render_template_fields(context)
+  File "/opt/conda/lib/python3.8/site-packages/airflow/models/baseoperator.py", line 1057, in render_template_fields
+    self._do_render_template_fields(self, self.template_fields, context, jinja_env, set())
+  File "/opt/conda/lib/python3.8/site-packages/airflow/models/baseoperator.py", line 1070, in _do_render_template_fields
+    rendered_content = self.render_template(content, context, jinja_env, seen_oids)
+  File "/opt/conda/lib/python3.8/site-packages/airflow/models/baseoperator.py", line 1105, in render_template
+    return jinja_env.get_template(content).render(**context)
+  File "/opt/conda/lib/python3.8/site-packages/jinja2/environment.py", line 883, in get_template
+    return self._load_template(name, self.make_globals(globals))
+  File "/opt/conda/lib/python3.8/site-packages/jinja2/environment.py", line 857, in _load_template
+    template = self.loader.load(self, name, globals)
+  File "/opt/conda/lib/python3.8/site-packages/jinja2/loaders.py", line 115, in load
+    source, filename, uptodate = self.get_source(environment, name)
+  File "/opt/conda/lib/python3.8/site-packages/jinja2/loaders.py", line 197, in get_source
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: sh $AIRFLOW_HOME/dags/scipts/hello.sh
+[2021-12-15 08:05:59,710] {local_task_job.py:154} INFO - Task exited with return code 1
+[2021-12-15 08:05:59,731] {logging_mixin.py:109} WARNING - /opt/conda/lib/python3.8/site-packages/airflow/models/dagrun.py:418 SAWarning: TypeDecorator UtcDateTime(timezone=True) will not produce a cache key because the ``cache_ok`` attribute is not set to True.  This can have significant performance implications including some performance degradations in comparison to prior SQLAlchemy versions.  Set this attribute to True if this type object's state is safe to use in a cache key, or False to disable this warning. (Background on this error at: https://sqlalche.me/e/14/cprf)
+[2021-12-15 08:05:59,737] {local_task_job.py:264} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2021-12-15 08:05:59,739] {logging_mixin.py:109} WARNING - /opt/conda/lib/python3.8/site-packages/airflow/models/dag.py:1069 SADeprecationWarning: Query.value() is deprecated and will be removed in a future release.  Please use Query.with_entities() in combination with Query.scalar() (deprecated since: 1.4)
+[2021-12-15 08:05:59,740] {logging_mixin.py:109} WARNING - /opt/conda/lib/python3.8/site-packages/airflow/models/dag.py:1069 SADeprecationWarning: Query.values() is deprecated and will be removed in a future release.  Please use Query.with_entities() (deprecated since: 1.4)
+[2021-12-15 08:58:51,587] {taskinstance.py:1035} INFO - Dependencies all met for <TaskInstance: hello_world.print_hello manual__2021-12-15T08:58:48.348490+00:00 [queued]>
+[2021-12-15 08:58:51,595] {taskinstance.py:1035} INFO - Dependencies all met for <TaskInstance: hello_world.print_hello manual__2021-12-15T08:58:48.348490+00:00 [queued]>
+[2021-12-15 08:58:51,595] {taskinstance.py:1241} INFO - 
+--------------------------------------------------------------------------------
+[2021-12-15 08:58:51,595] {taskinstance.py:1242} INFO - Starting attempt 1 of 3
+[2021-12-15 08:58:51,595] {taskinstance.py:1243} INFO - 
+--------------------------------------------------------------------------------
+[2021-12-15 08:58:51,608] {taskinstance.py:1262} INFO - Executing <Task(BashOperator): print_hello> on 2021-12-15 08:58:48.348490+00:00
+[2021-12-15 08:58:51,610] {standard_task_runner.py:52} INFO - Started process 51385 to run task
+[2021-12-15 08:58:51,614] {standard_task_runner.py:76} INFO - Running: ['airflow', 'tasks', 'run', 'hello_world', 'print_hello', 'manual__2021-12-15T08:58:48.348490+00:00', '--job-id', '18', '--raw', '--subdir', '/opt/ml/final-project-level3-cv-02/airflow/dags/hello_world.py', '--cfg-path', '/tmp/tmpeo_3l_b6', '--error-file', '/tmp/tmplthr80ym']
+[2021-12-15 08:58:51,615] {standard_task_runner.py:77} INFO - Job 18: Subtask print_hello
+[2021-12-15 08:58:51,645] {logging_mixin.py:109} INFO - Running <TaskInstance: hello_world.print_hello manual__2021-12-15T08:58:48.348490+00:00 [running]> on host 66df403e5cd0
+[2021-12-15 08:58:51,667] {logging_mixin.py:109} WARNING - /opt/conda/lib/python3.8/site-packages/airflow/models/xcom.py:322 SAWarning: TypeDecorator UtcDateTime(timezone=True) will not produce a cache key because the ``cache_ok`` attribute is not set to True.  This can have significant performance implications including some performance degradations in comparison to prior SQLAlchemy versions.  Set this attribute to True if this type object's state is safe to use in a cache key, or False to disable this warning. (Background on this error at: https://sqlalche.me/e/14/cprf)
+[2021-12-15 08:58:51,670] {taskinstance.py:1686} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 1324, in _run_raw_task
+    self._execute_task_with_callbacks(context)
+  File "/opt/conda/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 1406, in _execute_task_with_callbacks
+    self.render_templates(context=context)
+  File "/opt/conda/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 2088, in render_templates
+    self.task.render_template_fields(context)
+  File "/opt/conda/lib/python3.8/site-packages/airflow/models/baseoperator.py", line 1057, in render_template_fields
+    self._do_render_template_fields(self, self.template_fields, context, jinja_env, set())
+  File "/opt/conda/lib/python3.8/site-packages/airflow/models/baseoperator.py", line 1070, in _do_render_template_fields
+    rendered_content = self.render_template(content, context, jinja_env, seen_oids)
+  File "/opt/conda/lib/python3.8/site-packages/airflow/models/baseoperator.py", line 1105, in render_template
+    return jinja_env.get_template(content).render(**context)
+  File "/opt/conda/lib/python3.8/site-packages/jinja2/environment.py", line 883, in get_template
+    return self._load_template(name, self.make_globals(globals))
+  File "/opt/conda/lib/python3.8/site-packages/jinja2/environment.py", line 857, in _load_template
+    template = self.loader.load(self, name, globals)
+  File "/opt/conda/lib/python3.8/site-packages/jinja2/loaders.py", line 115, in load
+    source, filename, uptodate = self.get_source(environment, name)
+  File "/opt/conda/lib/python3.8/site-packages/jinja2/loaders.py", line 197, in get_source
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: sh scipts/hello.sh
+[2021-12-15 08:58:51,674] {taskinstance.py:1270} INFO - Marking task as UP_FOR_RETRY. dag_id=hello_world, task_id=print_hello, execution_date=20211215T085848, start_date=20211215T085851, end_date=20211215T085851
+[2021-12-15 08:58:51,684] {standard_task_runner.py:88} ERROR - Failed to execute job 18 for task print_hello
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.8/site-packages/airflow/task/task_runner/standard_task_runner.py", line 85, in _start_by_fork
+    args.func(args, dag=self.dag)
+  File "/opt/conda/lib/python3.8/site-packages/airflow/cli/cli_parser.py", line 48, in command
+    return func(*args, **kwargs)
+  File "/opt/conda/lib/python3.8/site-packages/airflow/utils/cli.py", line 92, in wrapper
+    return f(*args, **kwargs)
+  File "/opt/conda/lib/python3.8/site-packages/airflow/cli/commands/task_command.py", line 292, in task_run
+    _run_task_by_selected_method(args, dag, ti)
+  File "/opt/conda/lib/python3.8/site-packages/airflow/cli/commands/task_command.py", line 107, in _run_task_by_selected_method
+    _run_raw_task(args, ti)
+  File "/opt/conda/lib/python3.8/site-packages/airflow/cli/commands/task_command.py", line 180, in _run_raw_task
+    ti._run_raw_task(
+  File "/opt/conda/lib/python3.8/site-packages/airflow/utils/session.py", line 70, in wrapper
+    return func(*args, session=session, **kwargs)
+  File "/opt/conda/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 1324, in _run_raw_task
+    self._execute_task_with_callbacks(context)
+  File "/opt/conda/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 1406, in _execute_task_with_callbacks
+    self.render_templates(context=context)
+  File "/opt/conda/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 2088, in render_templates
+    self.task.render_template_fields(context)
+  File "/opt/conda/lib/python3.8/site-packages/airflow/models/baseoperator.py", line 1057, in render_template_fields
+    self._do_render_template_fields(self, self.template_fields, context, jinja_env, set())
+  File "/opt/conda/lib/python3.8/site-packages/airflow/models/baseoperator.py", line 1070, in _do_render_template_fields
+    rendered_content = self.render_template(content, context, jinja_env, seen_oids)
+  File "/opt/conda/lib/python3.8/site-packages/airflow/models/baseoperator.py", line 1105, in render_template
+    return jinja_env.get_template(content).render(**context)
+  File "/opt/conda/lib/python3.8/site-packages/jinja2/environment.py", line 883, in get_template
+    return self._load_template(name, self.make_globals(globals))
+  File "/opt/conda/lib/python3.8/site-packages/jinja2/environment.py", line 857, in _load_template
+    template = self.loader.load(self, name, globals)
+  File "/opt/conda/lib/python3.8/site-packages/jinja2/loaders.py", line 115, in load
+    source, filename, uptodate = self.get_source(environment, name)
+  File "/opt/conda/lib/python3.8/site-packages/jinja2/loaders.py", line 197, in get_source
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: sh scipts/hello.sh
+[2021-12-15 08:58:51,705] {local_task_job.py:154} INFO - Task exited with return code 1
+[2021-12-15 08:58:51,728] {logging_mixin.py:109} WARNING - /opt/conda/lib/python3.8/site-packages/airflow/models/dagrun.py:418 SAWarning: TypeDecorator UtcDateTime(timezone=True) will not produce a cache key because the ``cache_ok`` attribute is not set to True.  This can have significant performance implications including some performance degradations in comparison to prior SQLAlchemy versions.  Set this attribute to True if this type object's state is safe to use in a cache key, or False to disable this warning. (Background on this error at: https://sqlalche.me/e/14/cprf)
+[2021-12-15 08:58:51,736] {local_task_job.py:264} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2021-12-15 08:58:51,737] {logging_mixin.py:109} WARNING - /opt/conda/lib/python3.8/site-packages/airflow/models/dag.py:1069 SADeprecationWarning: Query.value() is deprecated and will be removed in a future release.  Please use Query.with_entities() in combination with Query.scalar() (deprecated since: 1.4)
+[2021-12-15 08:58:51,738] {logging_mixin.py:109} WARNING - /opt/conda/lib/python3.8/site-packages/airflow/models/dag.py:1069 SADeprecationWarning: Query.values() is deprecated and will be removed in a future release.  Please use Query.with_entities() (deprecated since: 1.4)
