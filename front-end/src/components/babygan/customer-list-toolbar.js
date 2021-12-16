@@ -1,4 +1,5 @@
-import { useRef, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import axios, { AxiosResponse } from "axios";
 import {
   Box,
   Button,
@@ -17,7 +18,6 @@ import FileInput from "./file_input";
 import CircularIntegration from "./progressbar";
 
 export const CustomerListToolbar = (props) => {
-  const timer = useRef();
   const [firstSelectedImage, setFirstSelectedImage] = useState(null);
   const [firstImageUrl, setFirstImageUrl] = useState(null);
   const [secondSelectedImage, setSecondSelectedImage] = useState(null);
@@ -25,6 +25,8 @@ export const CustomerListToolbar = (props) => {
   const [comment, setComment] = useState(null);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [babyImg, setBabyImg] = useState("static/images/baby.png");
+
   const handleChange = (event) => {
     setComment(event.target.value);
   };
@@ -41,19 +43,25 @@ export const CustomerListToolbar = (props) => {
     }
   }, [secondSelectedImage]);
 
-  useEffect(() => {
-    return () => {
-      clearTimeout(timer.current);
-    };
-  }, []);
-  const inferenceButtonClick = () => {
+  const inferenceButtonClick = async (event) => {
     if (!loading) {
       setSuccess(false);
       setLoading(true);
-      timer.current = window.setTimeout(() => {
-        setSuccess(true);
-        setLoading(false);
-      }, 2000);
+      let bodyFormData = new FormData();
+      bodyFormData.append("father_image", firstSelectedImage);
+      bodyFormData.append("mother_image", secondSelectedImage);
+
+      event.preventDefault();
+      await axios
+        .post(`http://49.50.173.155:6012/uploadfiles`, bodyFormData)
+        .then((response) => {
+          setBabyImg(response.data.baby_image_path);
+        })
+        .catch((error) => {
+          console.log("failed", error);
+        });
+      setSuccess(true);
+      setLoading(false);
     }
   };
 
@@ -114,13 +122,14 @@ export const CustomerListToolbar = (props) => {
         >
           <h2>결과</h2>
           <img
-            src="static/images/baby.png"
+            src={babyImg}
             // style={{ width: 200, height: 200 }}
             style={{ margin: "auto", width: "50%", height: "50%" }}
           ></img>
         </div>
         <div
           style={{
+            marginTop: 50,
             width: "100%",
             height: 280,
             padding: "0 2%",
