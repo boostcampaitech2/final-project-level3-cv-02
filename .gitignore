@@ -172,3 +172,4 @@ sample/
 temp_images/
 checkpoint/
 
+*.pt
