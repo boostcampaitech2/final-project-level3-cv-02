@@ -53,7 +53,7 @@ export const CustomerListToolbar = (props) => {
 
       event.preventDefault();
       await axios
-        .post(`http://49.50.173.155:6012/uploadfiles`, bodyFormData)
+        .post(`http://3.37.197.179/uploadfiles`, bodyFormData)
         .then((response) => {
           setBabyImg(response.data.baby_image_path);
         })
