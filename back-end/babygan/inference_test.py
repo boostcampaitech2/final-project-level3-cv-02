@@ -60,11 +60,10 @@ def run_encode_images(u2id):
     _dst = osp.join(ROOT, f"{u2id}generated")
     _dla = osp.join(ROOT, f"{u2id}latent_representations")
     _mask_dir = osp.join(ROOT, f"{u2id}masks")
-    
 
     # run encode_images.py
     #os.system(f"python {_python_file} --early_stopping False --batch_size=2 --lr=0.25 --iterations=100 --output_video=False {_src} {_dst} {_dla}")
-    os.system(f"python {_python_file} --mask_dir {_mask_dir} --early_stopping False --batch_size=2 --lr=0.25 --iterations=200 --output_video=False {_src} {_dst} {_dla}")
+    os.system(f"python {_python_file} --mask_dir {_mask_dir} --early_stopping True --batch_size=2 --lr=0.5 --iterations=200 --output_video=False {_src} {_dst} {_dla}")
 
 
 def generate_final_image(generator, latent_vector, direction, coeffs, size):
@@ -93,7 +92,7 @@ def do_inference(f,m, u2id):
         generator_network, discriminator_network, Gs_network = pickle.load(f)
     generator = Generator(Gs_network, batch_size=1, randomize_noise=True) # 1
     model_scale = int(2*(math.log(1024,2)-1))
-    if len(os.listdir(osp.join(ROOT, 'generated_images'))) >= 2:
+    if len(os.listdir(osp.join(ROOT, f'{u2id}generated'))) >= 2:
         #first_face = np.load(osp.join(ROOT, 'latent_representations/father_01.npy'))
         #second_face = np.load(osp.join(ROOT, 'latent_representations/mother_01.npy'))
         first_face = np.load(osp.join(ROOT, f'{u2id}latent_representations/father_01.npy'))
@@ -103,7 +102,7 @@ def do_inference(f,m, u2id):
         raise ValueError('Something wrong. It may be impossible to read the face in the photos. Upload other photos and try again.')
     
     # gender : the closer to 0, the more influence the father's genotype will have. Closer to 1 - mother.
-    genes_influence = 0.5 # 0.3
+    genes_influence = 0.3 # 0.3
     style = "Default" #@param ["Default", "Father's photo", "Mother's photo"]
     if style == "Father's photo": 
         lr = ((np.arange(1,model_scale+1)/model_scale)**genes_influence).reshape((model_scale,1))
@@ -122,17 +121,17 @@ def do_inference(f,m, u2id):
     resolution = "512" # [256, 512, 1024]
     size = int(resolution), int(resolution)
     face= []
-    for i in range(-4,5):
+    for i in np.arange(-4,5,0.5):
         face.append(generate_final_image(generator, hybrid_face, age_direction, i, size))
 
     os.makedirs(ROOT+f"/{u2id}final_image", exist_ok = True)
 
-    for i in range(9): 
+    for i in range(len(face)): 
         face[i].save(osp.join(ROOT, f"{u2id}final_image/final{i}.png"))
 
     for fold in ["mother","father","generated","latent_representations","aligned","masks"]:
         print("del : " , P_ROOT+fold)
         shutil.rmtree(P_ROOT+fold)
     
-    return ROOT+f"/{u2id}final_image/final8.png"
+    return ROOT+f"/{u2id}final_image/final14.png"
     #return face
