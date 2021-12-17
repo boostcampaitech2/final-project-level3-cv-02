@@ -50,7 +50,7 @@ def run_encode_images():
     os.system(f"python {_python_file} --early_stopping False --batch_size=2 --lr=0.25 --iterations=100 --output_video=False {_src} {_dst} {_dla}")
 
 
-def generate_final_image(generator, latent_vector, direction, coeffs):
+def generate_final_image(generator, latent_vector, direction, coeffs, size):
     new_latent_vector = latent_vector.copy()
     new_latent_vector[:8] = (latent_vector + coeffs*direction)[:8]
     new_latent_vector = new_latent_vector.reshape((1, 18, 512))
@@ -94,12 +94,12 @@ def main():
     else: 
         hybrid_face = ((1-genes_influence)*first_face)+(genes_influence*second_face)
     
-    # Child's approximate age
+    # Child's approximate age   
     person_age = 10 # min:10, max:50, step:1
     intensity = -((person_age/5)-6)
     resolution = "512" # [256, 512, 1024]
-    size = int(resolution), int(resolution)
-    face = generate_final_image(generator, hybrid_face, age_direction, intensity)
+    size = (int(resolution), int(resolution))
+    face = generate_final_image(generator, hybrid_face, age_direction, intensity, size)
     face.save(osp.join(ROOT, "final_image/final.png"))
 
 if __name__ == "__main__":
