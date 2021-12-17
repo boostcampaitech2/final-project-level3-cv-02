@@ -75,7 +75,7 @@ export const CustomerListToolbar = (props) => {
           m: -1,
         }}
       >
-        <div style={{ width: "50%", maxHeight: "35%", height: "35%", padding: "0 5%" }}>
+        <div className="upload_div">
           <FileInput
             id={1}
             gender={"남성"}
@@ -84,7 +84,7 @@ export const CustomerListToolbar = (props) => {
             onChangeImage={setFirstSelectedImage}
           />
         </div>
-        <div style={{ width: "50%", height: "35%", padding: "0 5%" }}>
+        <div className="upload_div">
           <FileInput
             gender={"여성"}
             id={2}
