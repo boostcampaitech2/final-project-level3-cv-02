@@ -1,6 +1,6 @@
 import io
 from PIL import Image
-from typing import List
+from typing import List, Optional
 import uuid
 import shutil
 from fastapi import APIRouter, File, UploadFile
@@ -8,70 +8,58 @@ from fastapi.responses import HTMLResponse, FileResponse
 from dotenv import load_dotenv
 from .s3 import *
 import shutil 
-import sys
-import os
-#sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__),"../")))
-from babygan import *
 
 
-router = APIRouter()
+# router = APIRouter()
+
 load_dotenv(dotenv_path = ".env")
 access_key_id = os.getenv('access_key_ID')
 access_key_pass = os.getenv('access_key_PASS')
 s3 = s3_connection (access_key_id, access_key_pass)
-def inference_t (mother, father, u2id):
-    mother_image_url = s3_get_image_url(s3, "woman/"+mother)
-    father_image_url = s3_get_image_url(s3,"man/"+father)
-    baby_path = inference_test.do_inference(mother_image_url, father_image_url, u2id[:8])
-    s3_put_object(s3, "12war",baby_path, f"baby/{u2id}Baby.png" )
-    #shutil.rmtree(baby_path[:-12])   # /final9.png
 
-@router.post("/uploadfiles")
-def create_upload_files(
-    father_image: UploadFile = File(...),
-    mother_image: UploadFile = File(...),
+def upload_image(
+    common_uuid : str,
+    image1: File(...),
+    image2: Optional[str] = None
     ):
-    setting_uuid = str(uuid.uuid4())
-
-    father_image_name=setting_uuid+"Father.png"#father_image.filename
-    mother_image_name=setting_uuid+"Mother.png"#mother_image.filename
-    s3.upload_fileobj(
-        father_image.file, "12war", "man/"+father_image_name, ExtraArgs={"ContentType": "image/png", "ACL": "public-read"}
-    )
-    s3.upload_fileobj(
-        mother_image.file, "12war", "woman/"+mother_image_name, ExtraArgs={"ContentType": "image/png", "ACL": "public-read"}
-    )
-    inference_t(mother_image_name, father_image_name, setting_uuid)
-    baby_image_path = s3_get_image_url(s3,'baby/'+setting_uuid+"Baby.png") 
-    return { "baby_image_path": baby_image_path }
-    # try : 
-    #     inference_t(mother_image_name, father_image_name, setting_uuid)
-    #     baby_image_path = s3_get_image_url(s3,'baby/'+setting_uuid+"Baby.png") 
-    #     return { "baby_image_path": baby_image_path }
-    # except :
-    #     show_del_path = []
-    #     for fold in ["mother","father","generated","latent_representations","aligned","masks"]:
-    #         del_path = f"../babygan/{setting_uuid[:8]}{fold}"
-    #         if os.path.isdir(del_path):
-    #             show_del_path.append(del_path)
-    #             print("##error##")
-    #             shutil.rmtree(del_path)
-    #             print("del : ",del_path)
-    #             print("#########")
-    #     return {"delete_path":show_del_path}
-    
-
-@router.get("/")
-def uploader():
-    content = """
-<body>
-<form action="/uploadfiles/" enctype="multipart/form-data" method="post">
-<input name="father_image" type="file">
-<input name="mother_image" type="file">
-<input type="submit">
-</form>
-</body>
     """
-    return HTMLResponse(content=content)
+    image의 url을 추출하고 DB에 저장합니다.
+    image가 2개 들어오는 경우(부모 이미지 저장)와 1개 들어오는 경우(자식)를 커버합니다.
+    Args:
+        common_uuid : father, mother, baby의 공통 uuid
+        image1 : Father image if image2 exist else Baby image
+        image2 : Mother image if exist else None
+    Return:
+        generated image url
+    """
+    if image2:
+        father_image_name = common_uuid + "Father.png"
+        mother_image_name = common_uuid + "Mother.png"
+
+        s3.upload_fileobj(
+            image1.file, "12war", "man/"+father_image_name, 
+            ExtraArgs={"ContentType": "image/png", "ACL": "public-read"}
+        )
+        s3.upload_fileobj(
+            image2.file, "12war", "woman/"+mother_image_name, 
+            ExtraArgs={"ContentType": "image/png", "ACL": "public-read"}
+        )
+        
+        father_url = s3_get_image_url(s3, "man/"+father_image_name)
+        mother_url = s3_get_image_url(s3, "woman/"+mother_image_name)
+        
+        return father_url, mother_url
+    
+    else:
+        baby_image_name = common_uuid + "Baby.png"
+        
+        s3.upload_fileobj(
+            image1.file, "12war", "baby/"+baby_image_name, 
+            ExtraArgs={"ContentType": "image/png", "ACL": "public-read"}
+        )
+
+        baby_url = s3_get_image_url(s3, "baby/"+baby_image_name)
+
+        return baby_url
 
 
