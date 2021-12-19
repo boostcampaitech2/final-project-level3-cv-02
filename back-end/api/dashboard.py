@@ -41,11 +41,11 @@ def get_user_inflow():
     Return:
         list : 남성, 여성, 전체 이용자의 나이대 별 유입 횟수
     """
-    inflow_by_gender = [{
+    inflow_by_gender = {
         "Male": [1, 1, 1, 1, 1],
         "Female": [2, 2, 2, 2, 2],
         "Total": [3, 3, 3, 3, 3]
-    }]
+    }
 
     return inflow_by_gender
 
@@ -70,7 +70,7 @@ def get_bounce_rate():
         else:
             no_stay += 1
 
-    bounce_rate = [{"stay":stay, "no_stay":no_stay}] 
+    bounce_rate = {"stay":stay, "no_stay":no_stay}
 
     return bounce_rate
 
@@ -110,11 +110,26 @@ def get_time():
                 else:
                     inference_time = tmp_time
                 inference_time += 1
-
+            except:
+                print("TypeError: DateTime is NoneType")
+                
     
     average_bounce_time = bounce_time / bounce_cnt
     average_inference_time = inference_time / inference_cnt
 
     return [{"bounce_time": average_bounce_time, "inference_time": average_inference_time}]
     
+
+@router.get("/dashboard/attempts")
+def get_num_of_attempts():
+    """
+    총 시도 횟수를 반환합니다.
+    Return:
+        json : 총 시도 횟수
+    """
+    db = get_db()
+
+    users = crud.get_inference_results(db, skip=0, limit=100)
+
+    return {"attempts": len(users)}
 
