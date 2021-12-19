@@ -33,7 +33,7 @@ def get_db():
     finally:
         db.close()
 
-@router.get("/gallery" ) # 추후에 uploadfiles 이름 변경 -> predict
+@router.get("/gallery")
 def get_image_url():
     """
     gallery에 표시될 이미지 url을 반환합니다.
@@ -47,8 +47,9 @@ def get_image_url():
     users = crud.get_inference_results(db, skip=0, limit=100)
 
     for i, user in enumerate(users):
-        urls.append({user.father_url, user.mother_url, user.baby_url, user.comment})
-
+        if user.comment:
+            urls.append({"father_url": user.father_url, "mother_url": user.mother_url, "baby_url": user.baby_url, "comment": user.comment})
+    
     return urls
 
 
