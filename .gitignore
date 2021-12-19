@@ -171,6 +171,8 @@ airflow/logs/scheduler/latest
 sample/
 temp_images/
 checkpoint/
+airflow/csv
 
 *.pt
 .env
+airflow/csv
