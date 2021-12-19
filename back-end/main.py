@@ -8,7 +8,14 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.exceptions import HTTPException 
 from typing import Callable 
-#
+
+
+from model import models
+from model.models import Base
+from model.database import SessionLocal, engine
+
+models.Base.metadata.create_all(bind=engine)
+
 def create_start_app_handler(app: FastAPI) -> Callable: 
     def start_app() -> None: 
         preload_model()
@@ -28,10 +35,7 @@ def get_application() -> FastAPI:
     set_cors(application)
     return application
 
-
 app = get_application()
-
-
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=6006 , reload=True, debug=False)
