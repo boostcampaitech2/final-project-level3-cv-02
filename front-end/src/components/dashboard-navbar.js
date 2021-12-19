@@ -37,6 +37,17 @@ export const DashboardNavbar = (props) => {
             px: 2,
           }}
         >
+          <IconButton
+            onClick={onSidebarOpen}
+            sx={{
+              display: {
+                xs: "inline-flex",
+                lg: "none",
+              },
+            }}
+          >
+            <MenuIcon fontSize="small" />
+          </IconButton>
           <h2 style={{ width: "100%", color: "black" }}>
             부스트캠프 AITECH 2기 CV-02 Team (12WAR)
           </h2>
