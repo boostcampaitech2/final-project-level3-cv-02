@@ -43,7 +43,7 @@ class DBController:
 
 	def out_csv(self):
 		self.createDirectory()
-		with open('./csv/data.csv','w', newline='') as f:
+		with open('./csv/data.csv','w', newline='') as f: # airflow/csv 
 			w = csv.writer(f)
 			w.writerow(self.col_name)
 			for i in range(len(self.res)):
