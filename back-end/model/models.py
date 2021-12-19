@@ -19,6 +19,13 @@ class InferenceResult(Base):
 
     created_time = Column(DateTime, default=func.now())
     comment = Column(String)
+
+    closed_at = Column(DateTime, default=None)
+    complete = Column(Boolean, default=None)
+
+    age = Column(String, default="None")
+    gender = Column(String, default="None")
+
     # items = relationship("Item", back_populates="owner")
 
 

@@ -13,6 +13,6 @@ def create_inference_result(db: Session, inference_result: schemas.InferenceResu
         baby_url = inference_result['baby_url'],
         comment = inference_result['comment']
     )
-    db.add(db_result)
+    db.add(db_result)   
     db.commit()
     return db_result
