@@ -1,14 +1,20 @@
 import pymysql
 import csv
 import os
+from dotenv import load_dotenv
 
 class DBController:
-	def __init__(self, user='cv02', pw='boostcampcv02', host='cv02.cufn2thqplnf.ap-northeast-2.rds.amazonaws.com', db='cv02'):
+	def __init__(self):
+		load_dotenv(
+			dotenv_path="../.env",
+			override=True,
+			verbose=False
+			)
 		self.connect = pymysql.connect(
-			user=user, 
-			passwd=pw, 
-			host=host, 
-			db=db, 
+			user=os.getenv('MYSQL_USER'), 
+			passwd=os.getenv('MYSQL_PASSWORD'), 
+			host=os.getenv('MYSQL_SERVER'),
+			db=os.getenv('MYSQL_DB'), 
 			charset='utf8'
 		)
 		self.cursor = self.connect.cursor()

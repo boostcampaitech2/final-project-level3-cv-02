@@ -171,10 +171,7 @@ airflow/logs/scheduler/latest
 sample/
 temp_images/
 checkpoint/
-<<<<<<< HEAD
 
 *.pt
 .env
-=======
 airflow/csv
->>>>>>> feat: load_data and save to csv
