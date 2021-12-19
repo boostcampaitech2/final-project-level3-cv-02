@@ -173,3 +173,4 @@ temp_images/
 checkpoint/
 
 *.pt
+.env
