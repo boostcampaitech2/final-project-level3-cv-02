@@ -1,5 +1,5 @@
 #!/bin/bash
 echo "baby gan inference"
-echo pwd
-cd .../babygan
+pwd
+cd /opt/ml/final-project-level3-cv-02/babygan
 python inference.py
