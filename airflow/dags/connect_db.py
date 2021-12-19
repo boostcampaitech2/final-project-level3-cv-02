@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 class DBController:
 	def __init__(self):
 		load_dotenv(
-			dotenv_path="../../.env",
+			dotenv_path="/opt/ml/final-project-level3-cv-02/.env",
 			override=True,
 			verbose=False
 			)
