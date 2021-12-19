@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 class DBController:
 	def __init__(self):
 		load_dotenv(
-			dotenv_path="../.env",
+			dotenv_path="../../.env",
 			override=True,
 			verbose=False
 			)
@@ -52,7 +52,7 @@ class DBController:
 	def save_data(self):
 		sql = ''
 		self.cursor.execute(sql)
-		col_name = cursor.fetchall()
+		col_name = self.cursor.fetchall()
 
 # test = DBController()
 # test.load_data()
