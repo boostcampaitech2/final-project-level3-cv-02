@@ -20,11 +20,11 @@ load_dotenv(dotenv_path = ".env")
 access_key_id = os.getenv('access_key_ID')
 access_key_pass = os.getenv('access_key_PASS')
 
-
-
 kst = pendulum.timezone("Asia/Seoul")
+AIRFLOW_HOME = ' /opt/ml/final-project-level3-cv-02/airflow'
+INFER_RESULT_PATH = os.path.join(AIRFLOW_HOME, 'infer_result')
 
-def connect_db():
+def connect_db_get_data():
     # user_nm = 'admin'
     # passwd = 'celebdbteam2@#'
     # host_url = 'db.ds.mycelebs.com'
@@ -44,15 +44,19 @@ def connect_db():
     select * from cv02.inference_result''', con = DB)
     print(data.shape[0])
 
-    return data
+    os.mkdir(INFER_RESULT_PATH)
+    data.to_csv(f'{AIRFLOW_HOME}/infer_result/infer_result_latest.csv', index=False)
+    print(f'save inference_result_latest in {AIRFLOW_HOME}/infer_result')
+    return 
+   
 
-def image_download_from_s3():   
-    pass
+def calculate_bounce_rate(result):
+    print(f'calculate bounce rate')
+    df = pd.read_csv(f'{AIRFLOW_HOME}/infer_result/infer_result_latest.csv')
+    
+    
+    return
 
-
-def data_preprocessing(result):
-    df = pd.DataFrame()
-    return df
 
 def data_to_db():
     pass
@@ -73,7 +77,7 @@ default_args_sql = {
     'email_on_retry': False,
 }
 
-mysql_dag = DAG(
+with DAG(
     dag_id='user_statics',
     description='get user statics',
     start_date=days_ago(1),
@@ -81,7 +85,8 @@ mysql_dag = DAG(
     default_args=default_args_sql,
     tags=['final_project'],
     catchup=False,
-)
+) as mysql_dag:
+
 
 # # TODO 
 # get_infer_result_task = MySqlOperator(
@@ -90,15 +95,20 @@ mysql_dag = DAG(
 #     dag=mysql_dag,
 # )
 
-# this
-get_infer_result_pymysql_task = PythonOperator(
-    task_id = 'get_infer_result',
-    python_callable=connect_db,
-    dag=mysql_dag,
-)
+    # this
+    get_infer_result_pymysql_task = PythonOperator(
+        task_id = 'get_infer_result',
+        python_callable=connect_db_get_data,
+        dag=mysql_dag,
+    )
 
+    calculate_bounce_rate_task = PythonOperator(
+        task_id = 'calculate_bouce_rate',
+        python_callable=calculate_bounce_rate,
+        dag=mysql_dag,
+    )
 
-get_infer_result_pymysql_task
+    get_infer_result_pymysql_task >> calculate_bounce_rate_task
 
 '''
 sql
