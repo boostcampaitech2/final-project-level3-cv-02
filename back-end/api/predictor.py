@@ -29,19 +29,11 @@ load_dotenv(dotenv_path = ".env")
 def get_db():
     db = SessionLocal()
     try:
-        yield db
+        return db
     finally:
         db.close()
 
-# @router.get("/users/", response_model=List[schemas.InferenceResult])
-def read_queries(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    return crud.get_inference_results(db, skip=skip, limit=limit)
-
-# @router.post("/users",response_model=schemas.InferenceResult)
-def create_query(inference_result:schemas.InferenceResultCreate, db: Session = Depends(get_db)):
-    return crud.create_inference_result(db, inference_result=inference_result.dict())
-
-@router.post("/uploadfiles") # 추후에 uploadfiles 이름 변경 -> predict
+@router.post("/uploadfiles" ) # 추후에 uploadfiles 이름 변경 -> predict
 def predict(
     father_image: UploadFile = File(...),
     mother_image: UploadFile = File(...),
@@ -61,8 +53,10 @@ def predict(
     # baby_file_path = inference_test.do_inference(father_url, mother_url, setting_uuid[:8])
 
     # baby_url = upload_image(setting_uuid, baby_file_path, "baby")
+    db = get_db()
 
-    create_query(inference_result = ({"id":setting_uuid, "father_url":father_url, "mother_url":mother_url, "baby_url":"baby_url_test"}))
+    # a = crud.get_inference_results(db, skip=0, limit=100)
+    crud.create_inference_result(db, inference_result = {"id":setting_uuid, "father_url":father_url, "mother_url":mother_url, "baby_url":"baby_url_test", "comment":"dd"})
 
     return { "baby_image_path": "baby_url" } # 요거 주석처리 한 것
 

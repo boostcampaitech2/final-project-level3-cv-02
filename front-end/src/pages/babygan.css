@@ -1,0 +1,12 @@
+.upload_div {
+  width: 50%;
+  height: 35%;
+  padding: 0 5%;
+}
+@media (max-width: 500px) {
+  .upload_div {
+    width: 100%;
+    height: 25%;
+    padding: 0 5%;
+  }
+}
