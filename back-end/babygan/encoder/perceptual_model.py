@@ -142,11 +142,12 @@ class PerceptualModel:
         generated_image_tensor = generator.generated_image
         generated_image = tf.compat.v1.image.resize_nearest_neighbor(generated_image_tensor,
                                                                   (self.img_size, self.img_size), align_corners=True)
-
-        self.ref_img = tf.get_variable('ref_img', shape=generated_image.shape,
-                                                dtype='float32', initializer=tf.initializers.zeros())
-        self.ref_weight = tf.get_variable('ref_weight', shape=generated_image.shape,
-                                               dtype='float32', initializer=tf.initializers.zeros())
+        with tf.compat.v1.variable_scope("ref_img", reuse=tf.compat.v1.AUTO_REUSE):
+            self.ref_img = tf.get_variable('ref_img', shape=generated_image.shape,
+                                                    dtype='float32', initializer=tf.initializers.zeros())
+        with tf.compat.v1.variable_scope("ref_weight", reuse=tf.compat.v1.AUTO_REUSE):
+            self.ref_weight = tf.get_variable('ref_weight', shape=generated_image.shape,
+                                                    dtype='float32', initializer=tf.initializers.zeros())
         self.add_placeholder("ref_img")
         self.add_placeholder("ref_weight")
 
@@ -154,10 +155,14 @@ class PerceptualModel:
             vgg16 = VGG16(include_top=False, weights='./babygan/vgg16_weights_tf_dim_ordering_tf_kernels_notop.h5', input_shape=(self.img_size, self.img_size, 3)) # https://github.com/fchollet/deep-learning-models/releases/download/v0.1/vgg16_weights_tf_dim_ordering_tf_kernels_notop.h5
             self.perceptual_model = Model(vgg16.input, vgg16.layers[self.layer].output)
             generated_img_features = self.perceptual_model(preprocess_input(self.ref_weight * generated_image))
-            self.ref_img_features = tf.get_variable('ref_img_features', shape=generated_img_features.shape,
-                                                dtype='float32', initializer=tf.initializers.zeros())
-            self.features_weight = tf.get_variable('features_weight', shape=generated_img_features.shape,
-                                               dtype='float32', initializer=tf.initializers.zeros())
+
+            with tf.compat.v1.variable_scope("ref_img_features", reuse=tf.compat.v1.AUTO_REUSE):
+                self.ref_img_features = tf.get_variable('ref_img_features', shape=generated_img_features.shape,
+                                                    dtype='float32', initializer=tf.initializers.zeros())
+            
+            with tf.compat.v1.variable_scope("features_weight", reuse=tf.compat.v1.AUTO_REUSE):
+                self.features_weight = tf.get_variable('features_weight', shape=generated_img_features.shape,
+                                                    dtype='float32', initializer=tf.initializers.zeros())
             self.sess.run([self.features_weight.initializer, self.features_weight.initializer])
             self.add_placeholder("ref_img_features")
             self.add_placeholder("features_weight")
