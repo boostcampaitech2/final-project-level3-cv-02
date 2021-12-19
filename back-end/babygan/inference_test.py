@@ -13,6 +13,8 @@ from .dnnlib import tflib as tflib
 from .ffhq_dataset.face_alignment import image_align
 from .ffhq_dataset.landmarks_detector import LandmarksDetector
 
+from . import encode_images_test
+
 from .encoder.generator_model import Generator
 import math
 from PIL import Image
@@ -60,10 +62,10 @@ def run_encode_images(u2id):
     _dst = osp.join(ROOT, f"{u2id}generated")
     _dla = osp.join(ROOT, f"{u2id}latent_representations")
     _mask_dir = osp.join(ROOT, f"{u2id}masks")
-
+    encode_images_test.encode_images(u2id)
     # run encode_images.py
     #os.system(f"python {_python_file} --early_stopping False --batch_size=2 --lr=0.25 --iterations=100 --output_video=False {_src} {_dst} {_dla}")
-    os.system(f"python {_python_file} --mask_dir {_mask_dir} --early_stopping True --batch_size=2 --lr=0.5 --iterations=200 --output_video=False {_src} {_dst} {_dla}")
+    #os.system(f"python {_python_file} --mask_dir {_mask_dir} --early_stopping True --batch_size=2 --lr=0.5 --iterations=200 --output_video=False {_src} {_dst} {_dla}")
 
 
 def generate_final_image(generator, latent_vector, direction, coeffs, size):
