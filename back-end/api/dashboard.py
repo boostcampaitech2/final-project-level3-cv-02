@@ -61,10 +61,9 @@ def get_bounce_rate():
 
     db = get_db()
 
-    users = crud.get_inference_results(db, skip=0, limit=100)
+    users = crud.get_inference_results(db)
 
     for user in users:
-        print(user)
         if user.complete:
             stay += 1
         else:
@@ -84,40 +83,12 @@ def get_time():
     """
     db = get_db()
 
-    users = crud.get_inference_results(db, skip=0, limit=100)
+    statistic = crud.get_statistic(db)
 
-    bounce_time = None
-    inference_time = None
+    bounce_time = statistic.avg_bounce_time
+    inference_time = statistic.avg_inference_time
 
-    bounce_cnt = 0
-    inference_cnt = 0
-
-    for user in users:
-        tmp_time = user.closed_at - user.created_time
-        if not user.complete:
-            try:
-                if bounce_time:
-                    bounce_time += tmp_time 
-                else :
-                    bounce_time = tmp_time 
-                bounce_cnt += 1
-            except:
-                print("TypeError: DateTime is NoneType")
-        else:
-            try:
-                if inference_time:
-                    inference_time += tmp_time
-                else:
-                    inference_time = tmp_time
-                inference_time += 1
-            except:
-                print("TypeError: DateTime is NoneType")
-                
-    
-    average_bounce_time = bounce_time / bounce_cnt
-    average_inference_time = inference_time / inference_cnt
-
-    return {"bounce_time": average_bounce_time, "inference_time": average_inference_time}
+    return {"bounce_time": bounce_time, "inference_time": inference_time}
     
 
 @router.get("/dashboard/attempts")
