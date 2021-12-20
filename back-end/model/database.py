@@ -16,7 +16,7 @@ database = os.getenv("MYSQL_DB")
 MYSQL_DB = f"mysql+pymysql://{user}:{password}@{host}:{port}/{database}?charset=utf8"
 
 # Create the SQLAlchemy engine
-engine = create_engine(MYSQL_DB, encoding="utf-8")
+engine = create_engine(MYSQL_DB, encoding="utf-8", pool_size=20, max_overflow=0)
 
 # Create a SessionLocal class(not database session yet, will be)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

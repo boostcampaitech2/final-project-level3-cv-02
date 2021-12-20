@@ -9,14 +9,13 @@ from airflow.operators.bash import BashOperator
 from airflow.operators.python import PythonOperator, task
 # from ...babygan import inference
 
-# 한국 시간 timezone 설정
 kst = pendulum.timezone("Asia/Seoul")
 
 with DAG(
     dag_id='babygan_inference',
     description='babygan inference',
     start_date=days_ago(2),
-    schedule_interval='0 9 * * *', # 매일 오전 9시 마다
+    schedule_interval='0 9 * * *',
     tags=['final_project'],
 )as dag:
 
