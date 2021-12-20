@@ -1,8 +1,23 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime, Float
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 
 from .database import Base
+
+class Statistic(Base):
+    __tablename__ = "statistic"
+
+    avg_bounce_time = Column(Integer, primary_key=True)
+    total_user = Column(Integer)
+    avg_inference_time = Column(Integer)
+
+class UserStatistic(Base):
+    __tablename__ = "user_statistic"
+    id = Column(Integer, primary_key=True)
+    gender = Column(String)
+    age = Column(Integer)
+    rate = Column(Float)
+    
 
 class InferenceResult(Base):
     """
