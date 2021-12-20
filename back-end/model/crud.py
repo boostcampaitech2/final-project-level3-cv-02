@@ -12,8 +12,8 @@ from sqlalchemy.sql import func
 
 
 
-def get_inference_results(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.InferenceResult).offset(skip).limit(limit).all()
+def get_inference_results(db: Session):
+    return db.query(models.InferenceResult).all()
 
 def create_inference_result(db: Session, inference_result: schemas.InferenceResultCreate):
     db_result = models.InferenceResult(
@@ -45,4 +45,13 @@ def update_inference_result (db:Session, uuid: str, baby_url:str ):#, comment:st
     db.commit()
 
     return db_update
+
+def update_comment(db: Session, uuid: str, comment: str):
+    db_share = db.query(models.InferenceResult).filter(models.InferenceResult.id==uuid).one()
+
+    db_share.comment = comment
+
+    db.commit()
+
+    return db_share
 
