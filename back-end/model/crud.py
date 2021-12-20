@@ -10,8 +10,6 @@ from sqlalchemy.sql import func
 #     values(name='user #5')
 # )
 
-
-
 def get_inference_results(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.InferenceResult).offset(skip).limit(limit).all()
 
@@ -26,7 +24,6 @@ def create_inference_result(db: Session, inference_result: schemas.InferenceResu
     )
     db.add(db_result)
     db.commit()
-    print("in 57@@@@" *30)
     return db_result
 
 def update_inference_result (db:Session, uuid: str, baby_url:str ):#, comment:str)  # inference_result:schemas.InferenceResultCreate):
