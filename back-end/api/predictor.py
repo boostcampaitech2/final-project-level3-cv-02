@@ -33,6 +33,16 @@ def get_db():
     finally:
         db.close()
 
+@router.post("/cancle")
+def intercept (
+    uuid: str
+):
+    db = get_db()
+    db_false = db.query(models.InferenceResult).filter(models.InferenceResult.id == uuid).one()
+    db_false.complete = False 
+    db.commit()
+
+
 @router.post("/uploadfiles" ) # 추후에 uploadfiles 이름 변경 -> predict
 def predict(
     father_image: UploadFile = File(...),
@@ -53,10 +63,8 @@ def predict(
     mother_url = upload_image(setting_uuid, mother_image, "mother")
     
     db = get_db()
-    print("before57@@@"*30)
     crud.create_inference_result(db, inference_result = {"id":setting_uuid, "father_url":father_url, "mother_url":mother_url, "baby_url": None, "comment" : None, "complete": True }) #"baby_url":"baby_url_test", "comment":"dd"})
     # age gender m f id created, complete 
-    print("after57@@@"*30)
     baby_file_path = inference_test.do_inference(father_url, mother_url, setting_uuid[:8]) # png까지 받아옴.
     
     baby_url = upload_image(setting_uuid, baby_file_path, "baby")
