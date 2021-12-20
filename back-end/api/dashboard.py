@@ -117,7 +117,7 @@ def get_time():
     average_bounce_time = bounce_time / bounce_cnt
     average_inference_time = inference_time / inference_cnt
 
-    return [{"bounce_time": average_bounce_time, "inference_time": average_inference_time}]
+    return {"bounce_time": average_bounce_time, "inference_time": average_inference_time}
     
 
 @router.get("/dashboard/attempts")
@@ -129,7 +129,7 @@ def get_num_of_attempts():
     """
     db = get_db()
 
-    users = crud.get_inference_results(db, skip=0, limit=100)
+    users = crud.get_inference_results(db)
 
     return {"attempts": len(users)}
 

@@ -25,6 +25,7 @@ from model.database import SessionLocal, engine
 router = APIRouter()
 load_dotenv(dotenv_path = ".env")
 
+
 # Dependency
 def get_db():
     db = SessionLocal()
@@ -44,12 +45,23 @@ def get_image_url():
 
     db = get_db()
 
-    users = crud.get_inference_results(db, skip=0, limit=100)
+    users = crud.get_inference_results(db)
 
     for i, user in enumerate(users):
         if user.comment:
             urls.append({"father_url": user.father_url, "mother_url": user.mother_url, "baby_url": user.baby_url, "comment": user.comment})
     
     return urls
+
+@router.post("/share")
+def share_image(
+    uuid: str,
+    comment: str
+    ):
+    db = get_db()
+
+    crud.update_comment(db, uuid, comment)
+
+    
 
 
