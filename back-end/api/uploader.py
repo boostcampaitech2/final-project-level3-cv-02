@@ -33,11 +33,14 @@ def upload_image(
     """
     image_name = common_uuid + file_name + ".png"
     save_path = file_name + "/" + image_name
-
-    s3.upload_fileobj(
-        image.file, "12war", save_path, 
-        ExtraArgs={"ContentType": "image/png", "ACL": "public-read"}
-    )
+    #def s3_put_object(s3, bucket, filepath, access_key):
+    if file_name == 'baby' : 
+        s3_put_object(s3,"12war", image, save_path,)
+    else:
+        s3.upload_fileobj(
+            image.file, "12war", save_path, 
+            ExtraArgs={"ContentType": "image/png", "ACL": "public-read"}
+        )
         
     image_url = s3_get_image_url(s3, save_path)
         

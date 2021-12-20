@@ -37,6 +37,7 @@ def get_db():
 def predict(
     father_image: UploadFile = File(...),
     mother_image: UploadFile = File(...),
+    #setting_uuid : str
     ):
     """
     inference를 위한 함수입니다.
@@ -47,18 +48,28 @@ def predict(
         baby_url : S3에서 추출한 결과물 url을 반환합니다.
     """
     setting_uuid = str(uuid.uuid4())
+    
     father_url = upload_image(setting_uuid, father_image, "father")
     mother_url = upload_image(setting_uuid, mother_image, "mother")
     
-    # baby_file_path = inference_test.do_inference(father_url, mother_url, setting_uuid[:8])
-
-    # baby_url = upload_image(setting_uuid, baby_file_path, "baby")
     db = get_db()
-
+    print("before57@@@"*30)
+    crud.create_inference_result(db, inference_result = {"id":setting_uuid, "father_url":father_url, "mother_url":mother_url, "baby_url": None, "comment" : None, "complete": True }) #"baby_url":"baby_url_test", "comment":"dd"})
+    # age gender m f id created, complete 
+    print("after57@@@"*30)
+    baby_file_path = inference_test.do_inference(father_url, mother_url, setting_uuid[:8]) # png까지 받아옴.
+    
+    baby_url = upload_image(setting_uuid, baby_file_path, "baby")
+    
+    crud.update_inference_result(db, setting_uuid, baby_url ) #"comment" : comment})
+    if os.path.isdir(baby_file_path[:-12]): #final_image/final14.png"
+        print(baby_file_path[:-12])
+        shutil.rmtree(baby_file_path[:-12])
+    # update
+    # 
     # a = crud.get_inference_results(db, skip=0, limit=100)
-    crud.create_inference_result(db, inference_result = {"id":setting_uuid, "father_url":father_url, "mother_url":mother_url, "baby_url":"baby_url_test", "comment":"dd"})
 
-    return { "baby_image_path": "baby_url" } # 요거 주석처리 한 것
+    return { "baby_image_path": baby_url } # 요거 주석처리 한 것
 
 @router.get("/")
 def uploader():

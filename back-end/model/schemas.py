@@ -18,4 +18,7 @@ class InferenceResultCreate(InferenceResultBase):
     mother_url: str
     baby_url: str
     comment: str
-
+    complete: bool
+    closed_at: str 
+    created_time : str 
+    
