@@ -21,4 +21,5 @@ class InferenceResultCreate(InferenceResultBase):
     complete: bool
     closed_at: str 
     created_time : str 
-    
+    gender : str
+    age : str 
