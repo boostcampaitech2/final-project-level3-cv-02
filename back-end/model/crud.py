@@ -4,7 +4,6 @@ from fastapi import Depends
 from sqlalchemy import update
 from sqlalchemy.sql import func
 
-
 def get_inference_results(db: Session):
     return db.query(models.InferenceResult).all()
 
@@ -23,19 +22,18 @@ def create_inference_result(db: Session, inference_result: schemas.InferenceResu
         baby_url = inference_result['baby_url'],
         comment = inference_result['comment'],
         complete = inference_result['complete'] # True
+        gender = inference_result['gender']
+        age = inference_result['age']
     )
     db.add(db_result)
     db.commit()
-    print("in 57@@@@" *30)
     return db_result
 
 def update_inference_result (db:Session, uuid: str, baby_url:str ):
     
     db_update = db.query(models.InferenceResult).filter(models.InferenceResult.id == uuid).one()
 
-    print (db_update)
-
-    if not db_update.complete: # 실패 
+    if not db_update.complete: #실패 
         db_update.closed_at = func.now() # baby_url =  None 
         db_update.baby_url = None 
     else:  # 성공 
