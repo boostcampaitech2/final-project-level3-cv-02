@@ -34,7 +34,7 @@ def get_db():
         db.close()
 
 @router.post("/cancle")
-def intercept (
+def cancle (
     uuid: str
 ):
     db = get_db()
