@@ -3,7 +3,7 @@ from PIL import Image
 from typing import List
 import uuid
 import shutil
-from fastapi import APIRouter, File, UploadFile, Depends, HTTPException
+from fastapi import APIRouter, File, Form, UploadFile, Depends, HTTPException
 from fastapi.responses import HTMLResponse, FileResponse
 from dotenv import load_dotenv
 from .s3 import *
@@ -35,8 +35,11 @@ def get_db():
 
 @router.post("/cancle")
 def cancle (
-    uuid: str
+    body: dict
 ):
+    print(body)
+    uuid=body['uuid']
+    print(uuid)
     db = get_db()
     db_false = db.query(models.InferenceResult).filter(models.InferenceResult.id == uuid).one()
     db_false.complete = False 
@@ -47,9 +50,9 @@ def cancle (
 def predict(
     father_image: UploadFile = File(...),
     mother_image: UploadFile = File(...),
-    uuid : str,
-    gender : str ,
-    age : str
+    uuid : str = Form(...),
+    gender : str = Form(...),
+    age : str = Form(...)
     ):
     """
     inference를 위한 함수입니다.
@@ -65,7 +68,8 @@ def predict(
     mother_url = upload_image(setting_uuid, mother_image, "mother")
     
     db = get_db()
-    crud.create_inference_result(db, inference_result = {"id":setting_uuid, "father_url":father_url, "mother_url":mother_url, "gender":gender, "age":age "baby_url": None, "comment" : None, "complete": True }) #"baby_url":"baby_url_test", "comment":"dd"})
+    crud.create_inference_result(db, inference_result = {"id":setting_uuid, "father_url":father_url, "mother_url":mother_url, "gender":gender, "age":age, "baby_url": None, "comment" : None, "complete": True }) 
+    #"baby_url":"baby_url_test", "comment":"dd"})
     # age gender m f id created, complete 
     baby_file_path = inference_test.do_inference(father_url, mother_url, setting_uuid[:8]) # png까지 받아옴.
     

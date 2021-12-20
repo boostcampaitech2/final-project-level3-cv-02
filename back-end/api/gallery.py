@@ -53,13 +53,18 @@ def get_image_url():
     
     return urls
 
-@router.post("/share")
-def share_image(
-    uuid: str,
-    comment: str
-    ):
-    db = get_db()
 
+# class ShareParam(BaseModel):
+#     uuid: str
+#     comment: str
+    
+@router.post("/share")
+def share_image(body:dict):
+    uuid = body['uuid']
+    comment = body['comment']
+    print(uuid)
+    print(comment)
+    db = get_db()
     crud.update_comment(db, uuid, comment)
 
     

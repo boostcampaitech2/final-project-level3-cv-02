@@ -64,7 +64,6 @@ def get_bounce_rate():
     users = crud.get_inference_results(db)
 
     for user in users:
-        print(user)
         if user.complete:
             stay += 1
         else:
