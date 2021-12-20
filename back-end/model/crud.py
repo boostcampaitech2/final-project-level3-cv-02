@@ -32,17 +32,20 @@ def create_inference_result(db: Session, inference_result: schemas.InferenceResu
 def update_inference_result (db:Session, uuid: str, baby_url:str ):
     
     db_update = db.query(models.InferenceResult).filter(models.InferenceResult.id == uuid).one()
-
-    if not db_update.complete: #실패 
-        db_update.closed_at = func.now() # baby_url =  None 
-        db_update.baby_url = None 
-    else:  # 성공 
-        db_update.closed_at = func.now()
+    if db_update.complete: 
+        db_update.closed_at = func.now() 
         db_update.baby_url = baby_url 
-
-    db.commit()
+        db.commit()
 
     return db_update
+
+def update_inference_fail (db:Session, uuid: str):
+    db_update = db.query(models.InferenceResult).filter(models.InferenceResult.id == uuid).one()
+    if not db_update.complete:
+        db_update.closed_at = func.now()
+        db.commit()
+    return db_update
+
 
 def update_comment(db: Session, uuid: str, comment: str):
     db_share = db.query(models.InferenceResult).filter(models.InferenceResult.id==uuid).one()

@@ -42,8 +42,10 @@ def cancle (
     print(uuid)
     db = get_db()
     db_false = db.query(models.InferenceResult).filter(models.InferenceResult.id == uuid).one()
-    db_false.complete = False 
+    db_false.complete = False  
     db.commit()
+    crud.update_inference_fail (db=db, uuid=uuid)
+
 
 
 @router.post("/uploadfiles" ) # 추후에 uploadfiles 이름 변경 -> predict
@@ -97,5 +99,3 @@ def uploader():
         </body>
     """
     return HTMLResponse(content=content)
-
-
