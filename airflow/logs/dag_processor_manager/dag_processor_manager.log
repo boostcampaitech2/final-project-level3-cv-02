@@ -1382,3 +1382,20 @@ File Path                                                          PID  Runtime 
 ================================================================================
 [2021-12-20 09:10:49,330] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
 [2021-12-20 09:10:49,331] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-20 09:05:49.331122+00:00
+[2021-12-20 09:10:59,405] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-20 09:10:59,405] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-20 09:05:59.405561+00:00
+[2021-12-20 09:11:05,434] {manager.py:653} INFO - Searching for files in /opt/ml/final-project-level3-cv-02/airflow/dags
+[2021-12-20 09:11:05,436] {manager.py:656} INFO - There are 2 files in /opt/ml/final-project-level3-cv-02/airflow/dags
+[2021-12-20 09:11:09,506] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-20 09:11:09,506] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-20 09:06:09.506449+00:00
+[2021-12-20 09:11:09,532] {manager.py:774} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                                          PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+---------------------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/ml/final-project-level3-cv-02/airflow/dags/user_statics.py                           1           0  0.71s           2021-12-20T09:10:48
+/opt/ml/final-project-level3-cv-02/airflow/dags/inference.py     20116  0.00s             1           0  0.22s           2021-12-20T09:10:39
+================================================================================
+[2021-12-20 09:11:19,554] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-20 09:11:19,554] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-20 09:06:19.554941+00:00
