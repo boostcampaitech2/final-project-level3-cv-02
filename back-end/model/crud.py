@@ -22,6 +22,8 @@ def create_inference_result(db: Session, inference_result: schemas.InferenceResu
         baby_url = inference_result['baby_url'],
         comment = inference_result['comment'],
         complete = inference_result['complete'] # True
+        gender = inference_result['gender']
+        age = inference_result['age']
     )
     db.add(db_result)
     db.commit()
