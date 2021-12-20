@@ -2,6 +2,8 @@ import pymysql
 import csv
 import os
 from dotenv import load_dotenv
+import pandas as pd
+from sqlalchemy import create_engine
 
 class DBController:
 	def __init__(self):
@@ -10,16 +12,20 @@ class DBController:
 			override=True,
 			verbose=False
 			)
-		self.connect = pymysql.connect(
-			user=os.getenv('MYSQL_USER'), 
-			passwd=os.getenv('MYSQL_PASSWORD'), 
-			host=os.getenv('MYSQL_SERVER'),
-			db=os.getenv('MYSQL_DB'), 
+
+		self.MYSQL_USER = os.getenv('MYSQL_USER')
+		self.MYSQL_PASSWORD = os.getenv('MYSQL_PASSWORD')
+		self.MYSQL_PORT = os.getenv('MYSQL_PORT')
+		self.MYSQL_DB = os.getenv('MYSQL_DB')
+		self.MYSQL_SERVER = os.getenv('MYSQL_SERVER')
+
+		self.DB = pymysql.connect(
+			user=self.MYSQL_USER, 
+			passwd=self.MYSQL_PASSWORD, 
+			host=self.MYSQL_SERVER,
+			db=self.MYSQL_DB, 
 			charset='utf8'
 		)
-		self.cursor = self.connect.cursor()
-		self.col_name = []
-		self.res = []
 
 	def createDirectory(self, directory = './csv'):
 		try:
@@ -29,31 +35,27 @@ class DBController:
 			print("Error: Failed to create the directory.")
 
 	
-	def load_data(self):
-		sql = 'SHOW FULL COLUMNS FROM inference_result;'
-		self.cursor.execute(sql)
-		rows = self.cursor.fetchall()
-		for i in range(len(rows)):
-			self.col_name.append(rows[i][0])
-		sql = 'SELECT * FROM inference_result;'
-		self.cursor.execute(sql)
-		rows = list(self.cursor.fetchall())
-		for i in range(len(rows)):
-			self.res.append(list(rows[i]))
+	def load_data(self, table_name):
+		self.data = pd.read_sql(f'''select * from {table_name};''', con = self.DB)
+		return
 
 	def out_csv(self):
 		self.createDirectory()
-		with open('./csv/data.csv','w', newline='') as f: # airflow/csv 
-			w = csv.writer(f)
-			w.writerow(self.col_name)
-			for i in range(len(self.res)):
-				w.writerow(self.res[i])
+		self.data.to_csv('./csv/data.csv', index=False) # airflow/csv 
+		return
+		
 
-	def save_data(self):
-		sql = ''
-		self.cursor.execute(sql)
-		col_name = self.cursor.fetchall()
+	def save_data_to_db(self, df, table_name):
+		engine = create_engine(f'mysql+pymysql://{self.MYSQL_USER}:{self.MYSQL_PASSWORD}@{self.MYSQL_SERVER}:{self.MYSQL_PORT}/{self.MYSQL_DB}?charset=utf8mb4')
+		engine_conn = engine.connect()
+		df.to_sql(table_name , engine_conn, if_exists='replace', index=None)
+		engine_conn.close()
+		engine.dispose()
 
-# test = DBController()
-# test.load_data()
-# test.out_csv()
+
+# if __name__ == '__main__':
+# 	test = DBController()
+# 	table = 'inference_result'
+# 	test.load_data(table)
+# 	test.out_csv()
+	
