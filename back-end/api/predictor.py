@@ -65,7 +65,7 @@ def predict(
     mother_url = upload_image(setting_uuid, mother_image, "mother")
     
     db = get_db()
-    crud.create_inference_result(db, inference_result = {"id":setting_uuid, "father_url":father_url, "mother_url":mother_url, "gender":gender, "age":age "baby_url": None, "comment" : None, "complete": True }) #"baby_url":"baby_url_test", "comment":"dd"})
+    crud.create_inference_result(db, inference_result = {"id":setting_uuid, "father_url":father_url, "mother_url":mother_url, "gender":gender, "age":age, "baby_url": None, "comment" : None, "complete": True }) #"baby_url":"baby_url_test", "comment":"dd"})
     # age gender m f id created, complete 
     baby_file_path = inference_test.do_inference(father_url, mother_url, setting_uuid[:8]) # png까지 받아옴.
     
