@@ -4,16 +4,16 @@ from fastapi import Depends
 from sqlalchemy import update
 from sqlalchemy.sql import func
 
-# stmt = (
-#     update(user_table).
-#     where(user_table.c.id == 5).
-#     values(name='user #5')
-# )
-
-
 
 def get_inference_results(db: Session):
     return db.query(models.InferenceResult).all()
+
+
+def get_user_statistic(db: Session):
+    return db.query(models.UserStatistic).all()
+
+def get_statistic(db: Session):
+    return db.query(models.Statistic).one()
 
 def create_inference_result(db: Session, inference_result: schemas.InferenceResultCreate):
     db_result = models.InferenceResult(
@@ -29,16 +29,16 @@ def create_inference_result(db: Session, inference_result: schemas.InferenceResu
     print("in 57@@@@" *30)
     return db_result
 
-def update_inference_result (db:Session, uuid: str, baby_url:str ):#, comment:str)  # inference_result:schemas.InferenceResultCreate):
+def update_inference_result (db:Session, uuid: str, baby_url:str ):
     
     db_update = db.query(models.InferenceResult).filter(models.InferenceResult.id == uuid).one()
 
     print (db_update)
 
-    if not db_update.complete: #실패 
+    if not db_update.complete: # 실패 
         db_update.closed_at = func.now() # baby_url =  None 
         db_update.baby_url = None 
-    else:  #성공 
+    else:  # 성공 
         db_update.closed_at = func.now()
         db_update.baby_url = baby_url 
 
@@ -54,4 +54,3 @@ def update_comment(db: Session, uuid: str, comment: str):
     db.commit()
 
     return db_share
-
