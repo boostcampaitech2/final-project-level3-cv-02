@@ -47,7 +47,9 @@ def cancle (
 def predict(
     father_image: UploadFile = File(...),
     mother_image: UploadFile = File(...),
-    #setting_uuid : str
+    uuid : str,
+    gender : str ,
+    age : str
     ):
     """
     inference를 위한 함수입니다.
@@ -57,13 +59,13 @@ def predict(
     Return:
         baby_url : S3에서 추출한 결과물 url을 반환합니다.
     """
-    setting_uuid = str(uuid.uuid4())
+    setting_uuid = uuid #str(uuid.uuid4())
     
     father_url = upload_image(setting_uuid, father_image, "father")
     mother_url = upload_image(setting_uuid, mother_image, "mother")
     
     db = get_db()
-    crud.create_inference_result(db, inference_result = {"id":setting_uuid, "father_url":father_url, "mother_url":mother_url, "baby_url": None, "comment" : None, "complete": True }) #"baby_url":"baby_url_test", "comment":"dd"})
+    crud.create_inference_result(db, inference_result = {"id":setting_uuid, "father_url":father_url, "mother_url":mother_url, "gender":gender, "age":age "baby_url": None, "comment" : None, "complete": True }) #"baby_url":"baby_url_test", "comment":"dd"})
     # age gender m f id created, complete 
     baby_file_path = inference_test.do_inference(father_url, mother_url, setting_uuid[:8]) # png까지 받아옴.
     
