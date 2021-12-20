@@ -1209,3 +1209,23 @@ File Path                                                                       
 /opt/conda/lib/python3.8/site-packages/airflow/example_dags/example_external_task_marker_dag.py                                  2           0  0.10s           2021-12-15T05:14:29
 /opt/conda/lib/python3.8/site-packages/airflow/example_dags/example_subdag_operator.py                                           3           0  0.10s           2021-12-15T05:14:31
 ================================================================================
+[2021-12-20 08:55:34,906] {manager.py:504} INFO - Processing files using up to 2 processes at a time 
+[2021-12-20 08:55:34,906] {manager.py:505} INFO - Process each file at most once every 30 seconds
+[2021-12-20 08:55:34,906] {manager.py:506} INFO - Checking for new files in /opt/ml/final-project-level3-cv-02/airflow/dags every 300 seconds
+[2021-12-20 08:55:34,906] {manager.py:653} INFO - Searching for files in /opt/ml/final-project-level3-cv-02/airflow/dags
+[2021-12-20 08:55:34,907] {manager.py:656} INFO - There are 2 files in /opt/ml/final-project-level3-cv-02/airflow/dags
+[2021-12-20 08:55:35,094] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-20 08:55:35,094] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-20 08:50:35.094868+00:00
+[2021-12-20 08:55:35,122] {manager.py:774} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                                         PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+--------------------------------------------------------------  -----  ---------  --------  ----------  --------------  ----------
+/opt/ml/final-project-level3-cv-02/airflow/dags/inference.py    16445  0.03s             0           0
+/opt/ml/final-project-level3-cv-02/airflow/dags/hello_world.py  16446  0.03s             0           0
+================================================================================
+[2021-12-20 08:55:35,318] {manager.py:897} ERROR - Processor for /opt/ml/final-project-level3-cv-02/airflow/dags/inference.py exited with return code 1.
+[2021-12-20 08:55:35,471] {manager.py:897} ERROR - Processor for /opt/ml/final-project-level3-cv-02/airflow/dags/hello_world.py exited with return code 1.
+[2021-12-20 08:55:45,342] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-20 08:55:45,342] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-20 08:50:45.342638+00:00
