@@ -11,7 +11,6 @@ import os
 import pymysql
 import pandas as pd
 from sqlalchemy import create_engine
-from collections import defaultdict
 from connect_db import DBController
 
 from dotenv import load_dotenv
@@ -21,18 +20,31 @@ AIRFLOW_HOME = '/opt/ml/final-project-level3-cv-02/airflow'
 INFER_RESULT_PATH = os.path.join(AIRFLOW_HOME, 'csv')
 
 def load_data_from_mysql(table_name):
+    """Load table from database
+
+    Args:
+        table_name (str): table name
+    """    
     controller = DBController()
     controller.load_data(table_name)
     controller.out_csv()
     return
 
 def data_to_db(df_result, table_name):
+    """Save dataframe tp database
+
+    Args:
+        df_result (DataFrame): user inference bounce rate statistic dataframe
+        table_name (str): table name
+    """    
     controller = DBController()
     controller.save_data_to_db(df_result, table_name)
 
     return 
 
 def calculate_bounce_rate():
+    """Calculate inference bounce rate
+    """    
     print(f'calculate bounce rate after click inference button')
     df_log = pd.read_csv(os.path.join(f'{INFER_RESULT_PATH}', 'data.csv'), parse_dates = ['created_time'])
 
@@ -57,21 +69,23 @@ def calculate_bounce_rate():
     return
 
 def analysis():
+    """Calculate average inference bounce rate, average inference time
+    """    
     df = pd.read_csv(os.path.join(f'{INFER_RESULT_PATH}', 'data.csv'), parse_dates=["created_time", "closed_at"])
     df["duration"] = df["closed_at"]-df["created_time"]
     grouped =  df.groupby(df["complete"])["duration"]
     avg = grouped.sum()/grouped.size()
     try:
-        avg_bounce = avg[0]
+        avg_bounce = avg[0].total_seconds()
     except KeyError:
         avg_bounce = 0
     try:
-        avg_inference = avg[1]
+        avg_inference = avg[1].total_seconds()
     except KeyError:
         avg_inference = 0
     
     total = len(df)
-    df_result = pd.DataFrame([[avg_bounce,total, avg_inference]], columns=["avg_bounce_time", "total_user", "avg_inference_time"])
+    df_result = pd.DataFrame([[avg_bounce, total, avg_inference]], columns=["avg_bounce_time", "total_user", "avg_inference_time"])
     data_to_db(df_result, 'statistic')
     
     return
@@ -86,11 +100,12 @@ default_args_sql = {
 with DAG(
     dag_id='user_statics',
     description='get user statics',
-    start_date=days_ago(1),
-    schedule_interval='0 22 * * *',
+    # start_date=days_ago(1),
+    start_date=datetime(2021, 12, 21, tzinfo=kst),
+    schedule_interval='* */1 * * *',
     default_args=default_args_sql,
     tags=['final_project'],
-    catchup=False,
+    catchup=True,
 ) as mysql_dag:
 
     load_data_from_db_task = PythonOperator(
