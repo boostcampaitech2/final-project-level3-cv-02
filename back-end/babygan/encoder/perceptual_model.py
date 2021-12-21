@@ -14,11 +14,9 @@ from keras.applications.vgg16 import VGG16, preprocess_input
 import keras.backend as K
 import traceback
 import sys
-#sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__)))) ;-;
-#sys.path.append("..")
+
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 from dnnlib import tflib 
-#import dnnlib.tflib as tflib 
 
 def load_images(images_list, image_size=256, sharpen=False):
     loaded_images = list()

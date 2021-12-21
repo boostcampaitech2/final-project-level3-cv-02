@@ -1,4 +1,3 @@
-
 import pickle
 import os
 import os.path as osp
@@ -36,7 +35,6 @@ def run_align_images(f,m,u2id,P_ROOT):
     os.system("curl "+ f + f"> {P_ROOT}father/father.png")
     os.system("curl "+ m + f"> {P_ROOT}mother/mother.png")
 
-    #for p in [["./babygan/hyundong","mother"],["./babygan/hyundong2","father"]] :
     for p in [[P_ROOT+"mother","mother"],[P_ROOT+"father","father"]] :
         # init file dir with ROOT path
         _python_file = osp.join(ROOT, "align_images.py") 

@@ -4,12 +4,10 @@ import bz2
 import argparse
 from keras.utils import get_file
 
-
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__))))
 from ffhq_dataset.face_alignment import image_align
 from ffhq_dataset.landmarks_detector import LandmarksDetector
 import multiprocessing
-
 
 def unpack_bz2(src_path):
     data = bz2.BZ2File(src_path).read()
@@ -41,15 +39,13 @@ if __name__ == "__main__":
     print(ALIGNED_IMAGES_DIR)
     os.makedirs(ALIGNED_IMAGES_DIR,exist_ok=True)
     url = RAW_IMAGES_DIR 
-    #os.system("curl " + url + "> ./babygan/hi.jpg")  #이게 맞아?,,.
-    #RAW_IMAGES_DIR2 = "./babygan/hyundong"
+    
     landmarks_detector = LandmarksDetector(landmarks_model_path)
     for img_name in os.listdir(RAW_IMAGES_DIR): 
-    #for img_name in RAW_IMAGES_DIR: 
         print('Aligning %s ...' % img_name)
         try:
             raw_img_path = os.path.join(RAW_IMAGES_DIR, img_name) 
-            fn = face_img_name = '%s_%02d.png' % (os.path.splitext(img_name)[0], 1) #<< 여기서 오류인가본디 아 이제 아내얼굴이 없다.
+            fn = face_img_name = '%s_%02d.png' % (os.path.splitext(img_name)[0], 1) 
             if os.path.isfile(fn):
                 continue
             print('Getting landmarks...') 
