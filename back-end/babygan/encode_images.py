@@ -16,6 +16,8 @@ from encoder.perceptual_model import PerceptualModel, load_images
 from keras.models import load_model
 from keras.applications.resnet50 import preprocess_input
 
+
+
 def split_to_batches(l, n):
     for i in range(0, len(l), n):
         yield l[i:i + n]
