@@ -20,18 +20,31 @@ AIRFLOW_HOME = '/opt/ml/final-project-level3-cv-02/airflow'
 INFER_RESULT_PATH = os.path.join(AIRFLOW_HOME, 'csv')
 
 def load_data_from_mysql(table_name):
+    """Load table from database
+
+    Args:
+        table_name (str): table name
+    """    
     controller = DBController()
     controller.load_data(table_name)
     controller.out_csv()
     return
 
 def data_to_db(df_result, table_name):
+    """Save dataframe tp database
+
+    Args:
+        df_result (DataFrame): user inference bounce rate statistic dataframe
+        table_name (str): table name
+    """    
     controller = DBController()
     controller.save_data_to_db(df_result, table_name)
 
     return 
 
 def calculate_bounce_rate():
+    """Calculate inference bounce rate
+    """    
     print(f'calculate bounce rate after click inference button')
     df_log = pd.read_csv(os.path.join(f'{INFER_RESULT_PATH}', 'data.csv'), parse_dates = ['created_time'])
 
@@ -56,6 +69,8 @@ def calculate_bounce_rate():
     return
 
 def analysis():
+    """Calculate average inference bounce rate, average inference time
+    """    
     df = pd.read_csv(os.path.join(f'{INFER_RESULT_PATH}', 'data.csv'), parse_dates=["created_time", "closed_at"])
     df["duration"] = df["closed_at"]-df["created_time"]
     grouped =  df.groupby(df["complete"])["duration"]
