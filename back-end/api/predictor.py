@@ -45,7 +45,7 @@ def cancle (
     db_false.complete = False  
     db.commit()
     crud.update_inference_fail (db=db, uuid=uuid)
-
+    
 
 
 @router.post("/uploadfiles" ) # 추후에 uploadfiles 이름 변경 -> predict
@@ -71,20 +71,14 @@ def predict(
     
     db = get_db()
     crud.create_inference_result(db, inference_result = {"id":setting_uuid, "father_url":father_url, "mother_url":mother_url, "gender":gender, "age":age, "baby_url": None, "comment" : None, "complete": True }) 
-    #"baby_url":"baby_url_test", "comment":"dd"})
-    # age gender m f id created, complete 
-    baby_file_path = inference_test.do_inference(father_url, mother_url, setting_uuid[:8]) # png까지 받아옴.
-    
+    baby_file_path = inference_test.do_inference(father_url, mother_url, setting_uuid[:8]) 
+
     baby_url = upload_image(setting_uuid, baby_file_path, "baby")
-    
-    crud.update_inference_result(db, setting_uuid, baby_url ) #"comment" : comment})
-    if os.path.isdir(baby_file_path[:-12]): #final_image/final14.png"
+    crud.update_inference_result(db, setting_uuid, baby_url ) 
+    if os.path.isdir(baby_file_path[:-12]): 
         print(baby_file_path[:-12])
         shutil.rmtree(baby_file_path[:-12])
-    # update
-    # 
-    # a = crud.get_inference_results(db, skip=0, limit=100)
-
+    
     return { "baby_image_path": baby_url } # 요거 주석처리 한 것
 
 @router.get("/")

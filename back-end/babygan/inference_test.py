@@ -32,7 +32,7 @@ age_direction = np.load(osp.join(ROOT, 'ffhq_dataset/latent_directions/age.npy')
 # smile_direction = np.load(osp.join(ROOT, './ffhq_dataset/latent_directions/smile.npy'))
 
 
-def run_align_images(f,m,u2id):
+def run_align_images(f,m,u2id,P_ROOT):
     # run align_images.py with father and mother
     
     os.makedirs(P_ROOT+"father",exist_ok=True)
@@ -62,10 +62,10 @@ def run_encode_images(u2id):
     _dst = osp.join(ROOT, f"{u2id}generated")
     _dla = osp.join(ROOT, f"{u2id}latent_representations")
     _mask_dir = osp.join(ROOT, f"{u2id}masks")
-    encode_images_test.encode_images(u2id)
+    #encode_images_test.encode_images(u2id)
     # run encode_images.py
     #os.system(f"python {_python_file} --early_stopping False --batch_size=2 --lr=0.25 --iterations=100 --output_video=False {_src} {_dst} {_dla}")
-    #os.system(f"python {_python_file} --mask_dir {_mask_dir} --early_stopping True --batch_size=2 --lr=0.5 --iterations=200 --output_video=False {_src} {_dst} {_dla}")
+    os.system(f"python {_python_file} --mask_dir {_mask_dir} --early_stopping True --batch_size=2 --lr=0.5 --iterations=200 --output_video=False {_src} {_dst} {_dla}")
 
 
 def generate_final_image(generator, latent_vector, direction, coeffs, size):
@@ -82,10 +82,9 @@ def generate_final_image(generator, latent_vector, direction, coeffs, size):
 
 def do_inference(f,m, u2id): 
     # run align_images.py with mother and father images
-    global P_ROOT 
     P_ROOT = ROOT + "/" +u2id 
     print(P_ROOT)
-    run_align_images(f,m,u2id)
+    run_align_images(f,m,u2id,P_ROOT)
     run_encode_images(u2id) 
 
     tflib.init_tf()
