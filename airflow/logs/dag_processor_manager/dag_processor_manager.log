@@ -1399,3 +1399,630 @@ File Path                                                          PID  Runtime 
 ================================================================================
 [2021-12-20 09:11:19,554] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
 [2021-12-20 09:11:19,554] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-20 09:06:19.554941+00:00
+[2021-12-22 00:07:40,692] {manager.py:504} INFO - Processing files using up to 2 processes at a time 
+[2021-12-22 00:07:40,692] {manager.py:505} INFO - Process each file at most once every 30 seconds
+[2021-12-22 00:07:40,692] {manager.py:506} INFO - Checking for new files in /opt/ml/final-project-level3-cv-02/airflow/dags every 300 seconds
+[2021-12-22 00:07:40,692] {manager.py:653} INFO - Searching for files in /opt/ml/final-project-level3-cv-02/airflow/dags
+[2021-12-22 00:07:40,694] {manager.py:656} INFO - There are 2 files in /opt/ml/final-project-level3-cv-02/airflow/dags
+[2021-12-22 00:07:40,844] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:07:40,845] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:02:40.845167+00:00
+[2021-12-22 00:07:45,301] {manager.py:504} INFO - Processing files using up to 2 processes at a time 
+[2021-12-22 00:07:45,302] {manager.py:505} INFO - Process each file at most once every 30 seconds
+[2021-12-22 00:07:45,302] {manager.py:506} INFO - Checking for new files in /opt/ml/final-project-level3-cv-02/airflow/dags every 300 seconds
+[2021-12-22 00:07:45,302] {manager.py:653} INFO - Searching for files in /opt/ml/final-project-level3-cv-02/airflow/dags
+[2021-12-22 00:07:45,303] {manager.py:656} INFO - There are 2 files in /opt/ml/final-project-level3-cv-02/airflow/dags
+[2021-12-22 00:07:45,435] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:07:45,436] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:02:45.436345+00:00
+[2021-12-22 00:07:45,471] {manager.py:774} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                                          PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+---------------------------------------------------------------  -----  ---------  --------  ----------  --------------  ----------
+/opt/ml/final-project-level3-cv-02/airflow/dags/user_statics.py  23150  0.04s             0           0
+/opt/ml/final-project-level3-cv-02/airflow/dags/inference.py     23151  0.04s             0           0
+================================================================================
+[2021-12-22 00:07:55,809] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:07:55,809] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:02:55.809809+00:00
+[2021-12-22 00:08:06,169] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:08:06,170] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:03:06.170195+00:00
+[2021-12-22 00:08:15,928] {manager.py:774} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                                          PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+---------------------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/ml/final-project-level3-cv-02/airflow/dags/user_statics.py  23713  0.50s             1           0  0.51s           2021-12-21T15:08:15
+/opt/ml/final-project-level3-cv-02/airflow/dags/inference.py     23722  0.00s             1           0  0.19s           2021-12-21T15:07:45
+================================================================================
+[2021-12-22 00:08:16,457] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:08:16,458] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:03:16.458469+00:00
+[2021-12-22 00:08:26,814] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:08:26,815] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:03:26.815196+00:00
+[2021-12-22 00:08:36,984] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:08:36,985] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:03:36.985239+00:00
+[2021-12-22 00:08:46,240] {manager.py:774} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                                          PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+---------------------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/ml/final-project-level3-cv-02/airflow/dags/user_statics.py  24242  0.01s             1           0  0.56s           2021-12-21T15:08:46
+/opt/ml/final-project-level3-cv-02/airflow/dags/inference.py     24243  0.00s             1           0  0.17s           2021-12-21T15:08:16
+================================================================================
+[2021-12-22 00:08:47,320] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:08:47,321] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:03:47.321051+00:00
+[2021-12-22 00:08:57,446] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:08:57,446] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:03:57.446593+00:00
+[2021-12-22 00:09:07,560] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:09:07,560] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:04:07.560475+00:00
+[2021-12-22 00:09:16,423] {manager.py:774} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                                          PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+---------------------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/ml/final-project-level3-cv-02/airflow/dags/user_statics.py  24806  0.01s             1           0  0.52s           2021-12-21T15:09:16
+/opt/ml/final-project-level3-cv-02/airflow/dags/inference.py     24807  0.00s             1           0  0.16s           2021-12-21T15:08:46
+================================================================================
+[2021-12-22 00:09:18,075] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:09:18,075] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:04:18.075793+00:00
+[2021-12-22 00:09:28,455] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:09:28,455] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:04:28.455742+00:00
+[2021-12-22 00:09:38,747] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:09:38,747] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:04:38.747498+00:00
+[2021-12-22 00:09:46,861] {manager.py:774} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                                          PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+---------------------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/ml/final-project-level3-cv-02/airflow/dags/user_statics.py  25389  0.48s             1           0  0.54s           2021-12-21T15:09:46
+/opt/ml/final-project-level3-cv-02/airflow/dags/inference.py     25410  0.01s             1           0  0.19s           2021-12-21T15:09:16
+================================================================================
+[2021-12-22 00:09:49,196] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:09:49,196] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:04:49.196845+00:00
+[2021-12-22 00:09:59,327] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:09:59,328] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:04:59.328450+00:00
+[2021-12-22 00:10:09,415] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:10:09,416] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:05:09.416132+00:00
+[2021-12-22 00:10:17,028] {manager.py:774} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                                          PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+---------------------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/ml/final-project-level3-cv-02/airflow/dags/user_statics.py  25896  0.00s             1           0  0.62s           2021-12-21T15:10:17
+/opt/ml/final-project-level3-cv-02/airflow/dags/inference.py                              1           0  0.18s           2021-12-21T15:09:47
+================================================================================
+[2021-12-22 00:10:19,787] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:10:19,787] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:05:19.787560+00:00
+[2021-12-22 00:10:29,998] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:10:29,998] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:05:29.998518+00:00
+[2021-12-22 00:10:40,214] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:10:40,215] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:05:40.215217+00:00
+[2021-12-22 00:10:47,213] {manager.py:774} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                                          PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+---------------------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/ml/final-project-level3-cv-02/airflow/dags/user_statics.py  26365  0.46s             1           0  0.55s           2021-12-21T15:10:46
+/opt/ml/final-project-level3-cv-02/airflow/dags/inference.py                              1           0  0.17s           2021-12-21T15:10:17
+================================================================================
+[2021-12-22 00:10:50,510] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:10:50,511] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:05:50.511166+00:00
+[2021-12-22 00:11:00,626] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:11:00,626] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:06:00.626770+00:00
+[2021-12-22 00:11:11,268] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:11:11,268] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:06:11.268766+00:00
+[2021-12-22 00:11:17,683] {manager.py:774} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                                          PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+---------------------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/ml/final-project-level3-cv-02/airflow/dags/user_statics.py  26825  0.52s             1           0  0.49s           2021-12-21T15:11:17
+/opt/ml/final-project-level3-cv-02/airflow/dags/inference.py                              1           0  0.18s           2021-12-21T15:10:48
+================================================================================
+[2021-12-22 00:11:21,439] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:11:21,440] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:06:21.440347+00:00
+[2021-12-22 00:11:31,821] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:11:31,821] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:06:31.821817+00:00
+[2021-12-22 00:11:42,234] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:11:42,235] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:06:42.235424+00:00
+[2021-12-22 00:11:47,836] {manager.py:774} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                                          PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+---------------------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/ml/final-project-level3-cv-02/airflow/dags/user_statics.py  27372  0.41s             1           0  0.60s           2021-12-21T15:11:47
+/opt/ml/final-project-level3-cv-02/airflow/dags/inference.py                              1           0  0.17s           2021-12-21T15:11:18
+================================================================================
+[2021-12-22 00:11:52,514] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:11:52,515] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:06:52.515234+00:00
+[2021-12-22 00:12:02,664] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:12:02,665] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:07:02.665249+00:00
+[2021-12-22 00:12:12,825] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:12:12,825] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:07:12.825533+00:00
+[2021-12-22 00:12:18,187] {manager.py:774} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                                          PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+---------------------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/ml/final-project-level3-cv-02/airflow/dags/user_statics.py  27935  0.49s             1           0  0.51s           2021-12-21T15:12:17
+/opt/ml/final-project-level3-cv-02/airflow/dags/inference.py                              1           0  0.17s           2021-12-21T15:11:48
+================================================================================
+[2021-12-22 00:12:23,304] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:12:23,305] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:07:23.305043+00:00
+[2021-12-22 00:12:33,474] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:12:33,475] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:07:33.475369+00:00
+[2021-12-22 00:12:43,563] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:12:43,564] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:07:43.564375+00:00
+[2021-12-22 00:12:45,750] {manager.py:653} INFO - Searching for files in /opt/ml/final-project-level3-cv-02/airflow/dags
+[2021-12-22 00:12:45,752] {manager.py:656} INFO - There are 2 files in /opt/ml/final-project-level3-cv-02/airflow/dags
+[2021-12-22 00:12:48,448] {manager.py:774} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                                          PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+---------------------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/ml/final-project-level3-cv-02/airflow/dags/user_statics.py  28503  0.52s             1           0  0.48s           2021-12-21T15:12:47
+/opt/ml/final-project-level3-cv-02/airflow/dags/inference.py                              1           0  0.18s           2021-12-21T15:12:18
+================================================================================
+[2021-12-22 00:12:53,642] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:12:53,643] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:07:53.643284+00:00
+[2021-12-22 00:13:03,888] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:13:03,888] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:08:03.888741+00:00
+[2021-12-22 00:13:14,253] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:13:14,254] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:08:14.254178+00:00
+[2021-12-22 00:13:18,618] {manager.py:774} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                                          PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+---------------------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/ml/final-project-level3-cv-02/airflow/dags/user_statics.py  29080  0.00s             1           0  0.53s           2021-12-21T15:13:18
+/opt/ml/final-project-level3-cv-02/airflow/dags/inference.py                              1           0  0.18s           2021-12-21T15:12:49
+================================================================================
+[2021-12-22 00:13:24,480] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:13:24,480] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:08:24.480495+00:00
+[2021-12-22 00:13:34,551] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:13:34,552] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:08:34.552482+00:00
+[2021-12-22 00:13:44,630] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:13:44,631] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:08:44.631182+00:00
+[2021-12-22 00:13:48,898] {manager.py:774} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                                          PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+---------------------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/ml/final-project-level3-cv-02/airflow/dags/user_statics.py  29655  0.49s             1           0  0.51s           2021-12-21T15:13:48
+/opt/ml/final-project-level3-cv-02/airflow/dags/inference.py                              1           0  0.18s           2021-12-21T15:13:19
+================================================================================
+[2021-12-22 00:13:55,197] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:13:55,197] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:08:55.197455+00:00
+[2021-12-22 00:14:05,331] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:14:05,331] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:09:05.331531+00:00
+[2021-12-22 00:14:15,399] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:14:15,400] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:09:15.400221+00:00
+[2021-12-22 00:14:19,349] {manager.py:774} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                                          PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+---------------------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/ml/final-project-level3-cv-02/airflow/dags/user_statics.py  30238  0.46s             1           0  0.55s           2021-12-21T15:14:18
+/opt/ml/final-project-level3-cv-02/airflow/dags/inference.py                              1           0  0.18s           2021-12-21T15:13:50
+================================================================================
+[2021-12-22 00:14:25,752] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:14:25,752] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:09:25.752822+00:00
+[2021-12-22 00:14:35,893] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:14:35,893] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:09:35.893693+00:00
+[2021-12-22 00:14:46,559] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:14:46,559] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:09:46.559446+00:00
+[2021-12-22 00:14:49,768] {manager.py:774} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                                          PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+---------------------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/ml/final-project-level3-cv-02/airflow/dags/user_statics.py  30837  0.00s             1           0  0.52s           2021-12-21T15:14:49
+/opt/ml/final-project-level3-cv-02/airflow/dags/inference.py                              1           0  0.21s           2021-12-21T15:14:20
+================================================================================
+[2021-12-22 00:14:56,967] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:14:56,968] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:09:56.968276+00:00
+[2021-12-22 00:15:07,527] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:15:07,527] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:10:07.527815+00:00
+[2021-12-22 00:15:17,914] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:15:17,915] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:10:17.915241+00:00
+[2021-12-22 00:15:20,258] {manager.py:774} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                                          PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+---------------------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/ml/final-project-level3-cv-02/airflow/dags/user_statics.py  31448  0.00s             1           0  0.56s           2021-12-21T15:15:20
+/opt/ml/final-project-level3-cv-02/airflow/dags/inference.py                              1           0  0.18s           2021-12-21T15:14:51
+================================================================================
+[2021-12-22 00:15:28,388] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:15:28,388] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:10:28.388889+00:00
+[2021-12-22 00:15:38,807] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:15:38,808] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:10:38.808393+00:00
+[2021-12-22 00:15:49,005] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:15:49,006] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:10:49.006515+00:00
+[2021-12-22 00:15:50,791] {manager.py:774} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                                          PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+---------------------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/ml/final-project-level3-cv-02/airflow/dags/user_statics.py  32071  0.00s             1           0  0.56s           2021-12-21T15:15:50
+/opt/ml/final-project-level3-cv-02/airflow/dags/inference.py                              1           0  0.22s           2021-12-21T15:15:21
+================================================================================
+[2021-12-22 00:15:59,146] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:15:59,147] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:10:59.147118+00:00
+[2021-12-22 00:16:09,276] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:16:09,276] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:11:09.276927+00:00
+[2021-12-22 00:16:19,571] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:16:19,571] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:11:19.571554+00:00
+[2021-12-22 00:16:21,154] {manager.py:774} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                                          PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+---------------------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/ml/final-project-level3-cv-02/airflow/dags/user_statics.py  32595  0.00s             1           0  0.48s           2021-12-21T15:16:21
+/opt/ml/final-project-level3-cv-02/airflow/dags/inference.py                              1           0  0.16s           2021-12-21T15:15:52
+================================================================================
+[2021-12-22 00:16:30,182] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:16:30,183] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:11:30.182983+00:00
+[2021-12-22 00:16:40,377] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:16:40,377] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:11:40.377961+00:00
+[2021-12-22 00:16:50,483] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:16:50,483] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:11:50.483510+00:00
+[2021-12-22 00:16:51,548] {manager.py:774} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                                          PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+---------------------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/ml/final-project-level3-cv-02/airflow/dags/user_statics.py  33094  0.41s             1           0  0.59s           2021-12-21T15:16:51
+/opt/ml/final-project-level3-cv-02/airflow/dags/inference.py                              1           0  0.16s           2021-12-21T15:16:22
+================================================================================
+[2021-12-22 00:17:00,583] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:17:00,584] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:12:00.583978+00:00
+[2021-12-22 00:17:11,434] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:17:11,435] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:12:11.434993+00:00
+[2021-12-22 00:17:21,603] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:17:21,603] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:12:21.603658+00:00
+[2021-12-22 00:17:21,678] {manager.py:774} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                                          PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+---------------------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/ml/final-project-level3-cv-02/airflow/dags/user_statics.py  33591  0.00s             1           0  0.62s           2021-12-21T15:17:21
+/opt/ml/final-project-level3-cv-02/airflow/dags/inference.py                              1           0  0.18s           2021-12-21T15:16:52
+================================================================================
+[2021-12-22 00:17:31,921] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:17:31,922] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:12:31.922056+00:00
+[2021-12-22 00:17:42,020] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:17:42,021] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:12:42.021238+00:00
+[2021-12-22 00:17:46,157] {manager.py:653} INFO - Searching for files in /opt/ml/final-project-level3-cv-02/airflow/dags
+[2021-12-22 00:17:46,159] {manager.py:656} INFO - There are 2 files in /opt/ml/final-project-level3-cv-02/airflow/dags
+[2021-12-22 00:17:51,707] {manager.py:774} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                                          PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+---------------------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/ml/final-project-level3-cv-02/airflow/dags/user_statics.py  34088  0.50s             1           0  0.50s           2021-12-21T15:17:51
+/opt/ml/final-project-level3-cv-02/airflow/dags/inference.py                              1           0  0.17s           2021-12-21T15:17:23
+================================================================================
+[2021-12-22 00:17:52,357] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:17:52,357] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:12:52.357586+00:00
+[2021-12-22 00:18:02,521] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:18:02,522] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:13:02.522402+00:00
+[2021-12-22 00:18:12,832] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:18:12,833] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:13:12.833390+00:00
+[2021-12-22 00:18:21,875] {manager.py:774} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                                          PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+---------------------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/ml/final-project-level3-cv-02/airflow/dags/user_statics.py  34578  0.00s             1           0  0.52s           2021-12-21T15:18:21
+/opt/ml/final-project-level3-cv-02/airflow/dags/inference.py                              1           0  0.17s           2021-12-21T15:17:53
+================================================================================
+[2021-12-22 00:18:22,895] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:18:22,895] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:13:22.895552+00:00
+[2021-12-22 00:18:33,174] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:18:33,174] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:13:33.174742+00:00
+[2021-12-22 00:18:43,247] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:18:43,247] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:13:43.247732+00:00
+[2021-12-22 00:18:52,277] {manager.py:774} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                                          PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+---------------------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/ml/final-project-level3-cv-02/airflow/dags/user_statics.py  35117  0.50s             1           0  0.51s           2021-12-21T15:18:51
+/opt/ml/final-project-level3-cv-02/airflow/dags/inference.py                              1           0  0.17s           2021-12-21T15:18:24
+================================================================================
+[2021-12-22 00:18:53,302] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:18:53,302] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:13:53.302830+00:00
+[2021-12-22 00:19:03,578] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:19:03,579] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:14:03.579285+00:00
+[2021-12-22 00:19:13,653] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:19:13,654] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:14:13.654368+00:00
+[2021-12-22 00:19:22,361] {manager.py:774} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                                          PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+---------------------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/ml/final-project-level3-cv-02/airflow/dags/user_statics.py  35723  0.00s             1           0  0.52s           2021-12-21T15:19:22
+/opt/ml/final-project-level3-cv-02/airflow/dags/inference.py                              1           0  0.17s           2021-12-21T15:18:54
+================================================================================
+[2021-12-22 00:19:23,872] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:19:23,872] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:14:23.872951+00:00
+[2021-12-22 00:19:34,255] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:19:34,255] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:14:34.255800+00:00
+[2021-12-22 00:19:44,782] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:19:44,783] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:14:44.783292+00:00
+[2021-12-22 00:19:52,372] {manager.py:774} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                                          PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+---------------------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/ml/final-project-level3-cv-02/airflow/dags/user_statics.py  36319  0.00s             1           0  0.50s           2021-12-21T15:19:52
+/opt/ml/final-project-level3-cv-02/airflow/dags/inference.py                              1           0  0.20s           2021-12-21T15:19:25
+================================================================================
+[2021-12-22 00:19:54,988] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:19:54,989] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:14:54.989041+00:00
+[2021-12-22 00:20:05,300] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:20:05,300] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:15:05.300713+00:00
+[2021-12-22 00:20:15,677] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:20:15,677] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:15:15.677588+00:00
+[2021-12-22 00:20:22,682] {manager.py:774} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                                          PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+---------------------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/ml/final-project-level3-cv-02/airflow/dags/user_statics.py  36835  0.50s             1           0  0.51s           2021-12-21T15:20:21
+/opt/ml/final-project-level3-cv-02/airflow/dags/inference.py                              1           0  0.19s           2021-12-21T15:19:55
+================================================================================
+[2021-12-22 00:20:25,885] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:20:25,885] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:15:25.885774+00:00
+[2021-12-22 00:20:36,325] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:20:36,325] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:15:36.325766+00:00
+[2021-12-22 00:20:46,456] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:20:46,456] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:15:46.456739+00:00
+[2021-12-22 00:20:52,885] {manager.py:774} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                                          PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+---------------------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/ml/final-project-level3-cv-02/airflow/dags/user_statics.py  37350  0.50s             1           0  0.50s           2021-12-21T15:20:52
+/opt/ml/final-project-level3-cv-02/airflow/dags/inference.py                              1           0  0.18s           2021-12-21T15:20:26
+================================================================================
+[2021-12-22 00:20:56,730] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:20:56,731] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:15:56.731254+00:00
+[2021-12-22 00:21:06,841] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:21:06,842] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:16:06.842078+00:00
+[2021-12-22 00:21:16,979] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:21:16,980] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:16:16.980430+00:00
+[2021-12-22 00:21:23,160] {manager.py:774} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                                          PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+---------------------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/ml/final-project-level3-cv-02/airflow/dags/user_statics.py  37904  0.50s             1           0  0.50s           2021-12-21T15:21:22
+/opt/ml/final-project-level3-cv-02/airflow/dags/inference.py                              1           0  0.17s           2021-12-21T15:20:56
+================================================================================
+[2021-12-22 00:21:27,391] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:21:27,391] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:16:27.391670+00:00
+[2021-12-22 00:21:37,456] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:21:37,457] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:16:37.457513+00:00
+[2021-12-22 00:21:47,609] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:21:47,609] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:16:47.609974+00:00
+[2021-12-22 00:21:53,401] {manager.py:774} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                                          PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+---------------------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/ml/final-project-level3-cv-02/airflow/dags/user_statics.py  38438  0.48s             1           0  0.53s           2021-12-21T15:21:52
+/opt/ml/final-project-level3-cv-02/airflow/dags/inference.py                              1           0  0.18s           2021-12-21T15:21:26
+================================================================================
+[2021-12-22 00:21:57,813] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:21:57,814] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:16:57.814197+00:00
+[2021-12-22 00:22:07,972] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:22:07,973] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:17:07.973401+00:00
+[2021-12-22 00:22:18,855] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:22:18,856] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:17:18.856307+00:00
+[2021-12-22 00:22:23,691] {manager.py:774} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                                          PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+---------------------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/ml/final-project-level3-cv-02/airflow/dags/user_statics.py  39000  0.00s             1           0  0.52s           2021-12-21T15:22:23
+/opt/ml/final-project-level3-cv-02/airflow/dags/inference.py                              1           0  0.20s           2021-12-21T15:21:57
+================================================================================
+[2021-12-22 00:22:28,965] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:22:28,965] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:17:28.965951+00:00
+[2021-12-22 00:22:39,337] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:22:39,337] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:17:39.337717+00:00
+[2021-12-22 00:22:46,359] {manager.py:653} INFO - Searching for files in /opt/ml/final-project-level3-cv-02/airflow/dags
+[2021-12-22 00:22:46,361] {manager.py:656} INFO - There are 2 files in /opt/ml/final-project-level3-cv-02/airflow/dags
+[2021-12-22 00:22:49,739] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:22:49,740] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:17:49.740321+00:00
+[2021-12-22 00:22:53,913] {manager.py:774} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                                          PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+---------------------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/ml/final-project-level3-cv-02/airflow/dags/user_statics.py  39531  0.00s             1           0  0.51s           2021-12-21T15:22:53
+/opt/ml/final-project-level3-cv-02/airflow/dags/inference.py                              1           0  0.16s           2021-12-21T15:22:28
+================================================================================
+[2021-12-22 00:23:00,729] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:23:00,730] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:18:00.730467+00:00
+[2021-12-22 00:23:11,491] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:23:11,492] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:18:11.492385+00:00
+[2021-12-22 00:23:21,838] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:23:21,838] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:18:21.838879+00:00
+[2021-12-22 00:23:24,110] {manager.py:774} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                                          PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+---------------------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/ml/final-project-level3-cv-02/airflow/dags/user_statics.py  40059  0.00s             1           0  0.55s           2021-12-21T15:23:24
+/opt/ml/final-project-level3-cv-02/airflow/dags/inference.py                              1           0  0.18s           2021-12-21T15:22:58
+================================================================================
+[2021-12-22 00:23:32,112] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:23:32,112] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:18:32.112359+00:00
+[2021-12-22 00:23:42,305] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:23:42,305] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:18:42.305489+00:00
+[2021-12-22 00:23:52,469] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:23:52,470] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:18:52.470026+00:00
+[2021-12-22 00:23:54,520] {manager.py:774} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                                          PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+---------------------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/ml/final-project-level3-cv-02/airflow/dags/user_statics.py  40578  0.00s             1           0  0.50s           2021-12-21T15:23:54
+/opt/ml/final-project-level3-cv-02/airflow/dags/inference.py                              1           0  0.20s           2021-12-21T15:23:29
+================================================================================
+[2021-12-22 00:24:02,864] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:24:02,864] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:19:02.864806+00:00
+[2021-12-22 00:24:13,156] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:24:13,156] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:19:13.156715+00:00
+[2021-12-22 00:24:23,429] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:24:23,429] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:19:23.429612+00:00
+[2021-12-22 00:24:25,027] {manager.py:774} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                                          PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+---------------------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/ml/final-project-level3-cv-02/airflow/dags/user_statics.py  41098  0.00s             1           0  0.53s           2021-12-21T15:24:25
+/opt/ml/final-project-level3-cv-02/airflow/dags/inference.py                              1           0  0.17s           2021-12-21T15:23:59
+================================================================================
+[2021-12-22 00:24:33,540] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:24:33,541] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:19:33.541073+00:00
+[2021-12-22 00:24:43,830] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:24:43,831] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:19:43.831120+00:00
+[2021-12-22 00:24:53,931] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:24:53,932] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:19:53.931985+00:00
+[2021-12-22 00:24:55,049] {manager.py:774} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                                          PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+---------------------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/ml/final-project-level3-cv-02/airflow/dags/user_statics.py  41600  0.00s             1           0  0.53s           2021-12-21T15:24:55
+/opt/ml/final-project-level3-cv-02/airflow/dags/inference.py                              1           0  0.24s           2021-12-21T15:24:30
+================================================================================
+[2021-12-22 00:25:04,094] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:25:04,095] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:20:04.094998+00:00
+[2021-12-22 00:25:14,457] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:25:14,457] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:20:14.457661+00:00
+[2021-12-22 00:25:24,911] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:25:24,912] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:20:24.912212+00:00
+[2021-12-22 00:25:25,375] {manager.py:774} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                                          PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+---------------------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/ml/final-project-level3-cv-02/airflow/dags/user_statics.py  42130  0.41s             1           0  0.54s           2021-12-21T15:25:24
+/opt/ml/final-project-level3-cv-02/airflow/dags/inference.py                              1           0  0.98s           2021-12-21T15:25:01
+================================================================================
+[2021-12-22 00:25:35,080] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:25:35,081] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:20:35.081075+00:00
+[2021-12-22 00:25:45,361] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:25:45,362] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:20:45.362281+00:00
+[2021-12-22 00:25:55,876] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:25:55,877] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:20:55.877130+00:00
+[2021-12-22 00:25:55,927] {manager.py:774} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                                        PID    Runtime      # DAGs    # Errors  Last Runtime    Last Run
+---------------------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/ml/final-project-level3-cv-02/airflow/dags/user_statics.py                           1           0  0.56s           2021-12-21T15:25:55
+/opt/ml/final-project-level3-cv-02/airflow/dags/inference.py                              1           0  0.18s           2021-12-21T15:25:32
+================================================================================
+[2021-12-22 00:26:05,957] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:26:05,957] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:21:05.957627+00:00
+[2021-12-22 00:26:16,189] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:26:16,190] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:21:16.190067+00:00
+[2021-12-22 00:26:26,408] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:26:26,408] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:21:26.408797+00:00
+[2021-12-22 00:26:26,464] {manager.py:774} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                                          PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+---------------------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/ml/final-project-level3-cv-02/airflow/dags/user_statics.py  43205  0.00s             1           0  0.66s           2021-12-21T15:26:26
+/opt/ml/final-project-level3-cv-02/airflow/dags/inference.py                              1           0  0.17s           2021-12-21T15:26:02
+================================================================================
+[2021-12-22 00:26:36,719] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:26:36,720] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:21:36.720049+00:00
+[2021-12-22 00:26:46,811] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:26:46,811] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:21:46.811668+00:00
+[2021-12-22 00:26:56,937] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:26:56,938] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:21:56.938386+00:00
+[2021-12-22 00:26:56,999] {manager.py:774} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                                          PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+---------------------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/ml/final-project-level3-cv-02/airflow/dags/user_statics.py  43731  0.00s             1           0  0.50s           2021-12-21T15:26:56
+/opt/ml/final-project-level3-cv-02/airflow/dags/inference.py                              1           0  0.16s           2021-12-21T15:26:32
+================================================================================
+[2021-12-22 00:27:07,631] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:27:07,631] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:22:07.631947+00:00
+[2021-12-22 00:27:17,936] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:27:17,936] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:22:17.936719+00:00
+[2021-12-22 00:27:27,394] {manager.py:774} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                                          PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+---------------------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/ml/final-project-level3-cv-02/airflow/dags/user_statics.py  44255  0.00s             1           0  0.49s           2021-12-21T15:27:27
+/opt/ml/final-project-level3-cv-02/airflow/dags/inference.py                              1           0  0.22s           2021-12-21T15:27:03
+================================================================================
+[2021-12-22 00:27:28,396] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:27:28,397] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:22:28.397042+00:00
+[2021-12-22 00:27:38,779] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:27:38,779] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:22:38.779958+00:00
+[2021-12-22 00:27:46,429] {manager.py:653} INFO - Searching for files in /opt/ml/final-project-level3-cv-02/airflow/dags
+[2021-12-22 00:27:46,431] {manager.py:656} INFO - There are 2 files in /opt/ml/final-project-level3-cv-02/airflow/dags
+[2021-12-22 00:27:49,085] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:27:49,086] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:22:49.086170+00:00
+[2021-12-22 00:27:57,729] {manager.py:774} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                                          PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+---------------------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/ml/final-project-level3-cv-02/airflow/dags/user_statics.py  44805  0.51s             1           0  0.50s           2021-12-21T15:27:57
+/opt/ml/final-project-level3-cv-02/airflow/dags/inference.py                              1           0  0.17s           2021-12-21T15:27:33
+================================================================================
+[2021-12-22 00:27:59,262] {manager.py:1051} INFO - Finding 'running' jobs without a recent heartbeat
+[2021-12-22 00:27:59,262] {manager.py:1055} INFO - Failing jobs without heartbeat after 2021-12-21 15:22:59.262698+00:00

@@ -11,7 +11,6 @@ import os
 import pymysql
 import pandas as pd
 from sqlalchemy import create_engine
-from collections import defaultdict
 from connect_db import DBController
 
 from dotenv import load_dotenv
@@ -62,16 +61,16 @@ def analysis():
     grouped =  df.groupby(df["complete"])["duration"]
     avg = grouped.sum()/grouped.size()
     try:
-        avg_bounce = avg[0]
+        avg_bounce = avg[0].total_seconds()
     except KeyError:
         avg_bounce = 0
     try:
-        avg_inference = avg[1]
+        avg_inference = avg[1].total_seconds()
     except KeyError:
         avg_inference = 0
     
     total = len(df)
-    df_result = pd.DataFrame([[avg_bounce,total, avg_inference]], columns=["avg_bounce_time", "total_user", "avg_inference_time"])
+    df_result = pd.DataFrame([[avg_bounce, total, avg_inference]], columns=["avg_bounce_time", "total_user", "avg_inference_time"])
     data_to_db(df_result, 'statistic')
     
     return
@@ -86,11 +85,12 @@ default_args_sql = {
 with DAG(
     dag_id='user_statics',
     description='get user statics',
-    start_date=days_ago(1),
-    schedule_interval='0 22 * * *',
+    # start_date=days_ago(1),
+    start_date=datetime(2021, 12, 21, tzinfo=kst),
+    schedule_interval='* */1 * * *',
     default_args=default_args_sql,
     tags=['final_project'],
-    catchup=False,
+    catchup=True,
 ) as mysql_dag:
 
     load_data_from_db_task = PythonOperator(
