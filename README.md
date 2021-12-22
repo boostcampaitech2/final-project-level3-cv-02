@@ -1,6 +1,6 @@
 # 👶🏻 MLOps를 활용한 2세 얼굴 예측 서비스
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-6-orange.svg?style=flat-square)](#Team)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ## 🍼 Project Summary
@@ -50,7 +50,7 @@
 
 <br/>
 
-## 🍼 Contributors 
+## 🍼 Contributors <a name = 'Team'>
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
