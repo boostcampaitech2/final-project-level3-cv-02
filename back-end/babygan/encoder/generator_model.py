@@ -4,12 +4,12 @@ import numpy as np
 #import dnnlib.tflib as tflib 
 import sys
 import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__)))) 
-#sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+#sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__)))) 
+sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 #from ..dnnlib import tflib as tflib
-sys.path.append("..")
-from babygan.dnnlib import tflib
-from babygan.dnnlib.tflib import tfutil as tfutil
+#sys.path.append("..")
+from dnnlib import tflib as tflib
+from dnnlib.tflib import tfutil as tfutil
 from functools import partial
 
 

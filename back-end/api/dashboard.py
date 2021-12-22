@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 from .s3 import *
 from .uploader import upload_image
 import shutil 
-from babygan import inference_test
+from babygan import inference
 
 from sqlalchemy.orm import Session
 

@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 from .s3 import *
 from .uploader import upload_image
 import shutil 
-from babygan import inference_test
+from babygan import inference
 
 from sqlalchemy.orm import Session
 
@@ -71,7 +71,7 @@ def predict(
     
     db = get_db()
     crud.create_inference_result(db, inference_result = {"id":setting_uuid, "father_url":father_url, "mother_url":mother_url, "gender":gender, "age":age, "baby_url": None, "comment" : None, "complete": True }) 
-    baby_file_path = inference_test.do_inference(father_url, mother_url, setting_uuid[:8]) 
+    baby_file_path = inference.do_inference(father_url, mother_url, setting_uuid[:8]) 
 
     baby_url = upload_image(setting_uuid, baby_file_path, "baby")
     crud.update_inference_result(db, setting_uuid, baby_url ) 
