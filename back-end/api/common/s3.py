@@ -15,10 +15,11 @@ def s3_put_object(s3, bucket, filepath, access_key):
             ExtraArgs={"ContentType": "image/png", "ACL": "public-read"},
         )
     except Exception as e:
-        print(e,"error")
+        print(e, "error")
         return False
-    
+
     return True
+
 
 def s3_get_image_url(s3, filename):
     """
@@ -26,8 +27,4 @@ def s3_get_image_url(s3, filename):
     filename : s3에 저장된 파일 명
     """
     location = s3.get_bucket_location(Bucket="12war")["LocationConstraint"]
-    return f"https://12war.s3.{location}.amazonaws.com/{filename}" 
-
-
-
-
+    return f"https://12war.s3.{location}.amazonaws.com/{filename}"

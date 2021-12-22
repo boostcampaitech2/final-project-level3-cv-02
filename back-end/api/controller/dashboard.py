@@ -10,6 +10,7 @@ from sqlalchemy.orm import Session
 
 import sys
 import os
+
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 sys.path.append("../")
 
@@ -18,6 +19,7 @@ from ..service.inference_result import get_inference_results
 from ..service.statistic import get_statistic
 
 router = APIRouter()
+
 
 @router.get("/dashboard/inflow")
 def get_user_inflow():
@@ -29,10 +31,11 @@ def get_user_inflow():
     inflow_by_gender = {
         "Male": [1, 1, 1, 1, 1],
         "Female": [2, 2, 2, 2, 2],
-        "Total": [3, 3, 3, 3, 3]
+        "Total": [3, 3, 3, 3, 3],
     }
 
     return inflow_by_gender
+
 
 @router.get("/dashboard/bounce_rate")
 def get_bounce_rate():
@@ -52,7 +55,7 @@ def get_bounce_rate():
             stay += 1
         else:
             no_stay += 1
-    bounce_rate = {"stay":stay, "no_stay":no_stay}
+    bounce_rate = {"stay": stay, "no_stay": no_stay}
     return bounce_rate
 
 
@@ -71,7 +74,7 @@ def get_time():
     inference_time = statistic.avg_inference_time
 
     return {"bounce_time": bounce_time, "inference_time": inference_time}
-    
+
 
 @router.get("/dashboard/attempts")
 def get_num_of_attempts():
@@ -85,4 +88,3 @@ def get_num_of_attempts():
     users = get_inference_results(db)
 
     return {"attempts": len(users)}
-
