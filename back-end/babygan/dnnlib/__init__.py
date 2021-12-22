@@ -16,7 +16,7 @@ from .submission.submit import submit_run
 
 from .util import EasyDict
 
-from . import tflib # 해치웟나?
+from . import tflib  # 해치웟나?
 from .tflib import autosummary
 from .tflib import network
 from .tflib import optimizer
@@ -27,4 +27,4 @@ from .tflib.network import Network
 from .tflib.optimizer import Optimizer
 
 
-submit_config: SubmitConfig = None # Package level variable for SubmitConfig which is only valid when inside the run function.
+submit_config: SubmitConfig = None  # Package level variable for SubmitConfig which is only valid when inside the run function.

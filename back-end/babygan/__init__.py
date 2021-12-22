@@ -11,4 +11,3 @@ from .dnnlib import util
 from .encoder import *
 from .encoder import generator_model
 from .encoder import perceptual_model
-
