@@ -122,7 +122,9 @@ def get_path_from_template(
         else:
             raise RuntimeError("Unknown platform")
 
-    path_template = path_template.replace("<USERNAME>", get_user_name())
+    path_template = path_template.replace(
+        "<USERNAME>", get_user_name()
+    )
 
     # return correctly formatted path
     if path_type == PathType.WINDOWS:
@@ -140,7 +142,9 @@ def get_template_from_path(path: str) -> str:
     return path
 
 
-def convert_path(path: str, path_type: PathType = PathType.AUTO) -> str:
+def convert_path(
+    path: str, path_type: PathType = PathType.AUTO
+) -> str:
     """Convert a normal path to template and the convert it back to a normal path with given path type."""
     path_template = get_template_from_path(path)
     path = get_path_from_template(path_template, path_type)
@@ -163,7 +167,9 @@ def get_user_name():
         try:
             import pwd  # pylint: disable=import-error
 
-            return pwd.getpwuid(os.geteuid()).pw_name  # pylint: disable=no-member
+            return pwd.getpwuid(
+                os.geteuid()
+            ).pw_name  # pylint: disable=no-member
         except:
             return "unknown"
     else:
@@ -172,10 +178,14 @@ def get_user_name():
 
 def _create_run_dir_local(submit_config: SubmitConfig) -> str:
     """Create a new run dir with increasing ID number at the start."""
-    run_dir_root = get_path_from_template(submit_config.run_dir_root, PathType.AUTO)
+    run_dir_root = get_path_from_template(
+        submit_config.run_dir_root, PathType.AUTO
+    )
 
     if not os.path.exists(run_dir_root):
-        print("Creating the run dir root: {}".format(run_dir_root))
+        print(
+            "Creating the run dir root: {}".format(run_dir_root)
+        )
         os.makedirs(run_dir_root)
 
     submit_config.run_id = _get_next_run_id_local(run_dir_root)
@@ -185,7 +195,9 @@ def _create_run_dir_local(submit_config: SubmitConfig) -> str:
     run_dir = os.path.join(run_dir_root, submit_config.run_name)
 
     if os.path.exists(run_dir):
-        raise RuntimeError("The run dir already exists! ({0})".format(run_dir))
+        raise RuntimeError(
+            "The run dir already exists! ({0})".format(run_dir)
+        )
 
     print("Creating the run dir: {}".format(run_dir))
     os.makedirs(run_dir)
@@ -200,7 +212,9 @@ def _get_next_run_id_local(run_dir_root: str) -> int:
         for d in os.listdir(run_dir_root)
         if os.path.isdir(os.path.join(run_dir_root, d))
     ]
-    r = re.compile("^\\d+")  # match one or more digits at the start of the string
+    r = re.compile(
+        "^\\d+"
+    )  # match one or more digits at the start of the string
     run_id = 0
 
     for dir_name in dir_names:
@@ -213,7 +227,9 @@ def _get_next_run_id_local(run_dir_root: str) -> int:
     return run_id
 
 
-def _populate_run_dir(run_dir: str, submit_config: SubmitConfig) -> None:
+def _populate_run_dir(
+    run_dir: str, submit_config: SubmitConfig
+) -> None:
     """Copy all necessary files into the run dir. Assumes that the dir exists, is local, and is writable."""
     print("Copying files to the run dir")
     files = []
@@ -222,15 +238,21 @@ def _populate_run_dir(run_dir: str, submit_config: SubmitConfig) -> None:
         submit_config.run_func_name
     )
     assert "." in submit_config.run_func_name
-    for _idx in range(submit_config.run_func_name.count(".") - 1):
-        run_func_module_dir_path = os.path.dirname(run_func_module_dir_path)
+    for _idx in range(
+        submit_config.run_func_name.count(".") - 1
+    ):
+        run_func_module_dir_path = os.path.dirname(
+            run_func_module_dir_path
+        )
     files += util.list_dir_recursively_with_ignore(
         run_func_module_dir_path,
         ignores=submit_config.run_dir_ignore,
         add_base_to_relative=False,
     )
 
-    dnnlib_module_dir_path = util.get_module_dir_by_obj_name("dnnlib")
+    dnnlib_module_dir_path = util.get_module_dir_by_obj_name(
+        "dnnlib"
+    )
     files += util.list_dir_recursively_with_ignore(
         dnnlib_module_dir_path,
         ignores=submit_config.run_dir_ignore,
@@ -240,20 +262,38 @@ def _populate_run_dir(run_dir: str, submit_config: SubmitConfig) -> None:
     if submit_config.run_dir_extra_files is not None:
         files += submit_config.run_dir_extra_files
 
-    files = [(f[0], os.path.join(run_dir, "src", f[1])) for f in files]
+    files = [
+        (f[0], os.path.join(run_dir, "src", f[1])) for f in files
+    ]
     files += [
         (
-            os.path.join(dnnlib_module_dir_path, "submission", "_internal", "run.py"),
+            os.path.join(
+                dnnlib_module_dir_path,
+                "submission",
+                "_internal",
+                "run.py",
+            ),
             os.path.join(run_dir, "run.py"),
         )
     ]
 
     util.copy_files_and_create_dirs(files)
 
-    pickle.dump(submit_config, open(os.path.join(run_dir, "submit_config.pkl"), "wb"))
+    pickle.dump(
+        submit_config,
+        open(os.path.join(run_dir, "submit_config.pkl"), "wb"),
+    )
 
-    with open(os.path.join(run_dir, "submit_config.txt"), "w") as f:
-        pprint.pprint(submit_config, stream=f, indent=4, width=200, compact=False)
+    with open(
+        os.path.join(run_dir, "submit_config.txt"), "w"
+    ) as f:
+        pprint.pprint(
+            submit_config,
+            stream=f,
+            indent=4,
+            width=200,
+            compact=False,
+        )
 
 
 def run_wrapper(submit_config: SubmitConfig) -> None:
@@ -265,7 +305,9 @@ def run_wrapper(submit_config: SubmitConfig) -> None:
     # when running locally, redirect stderr to stdout, log stdout to a file, and force flushing
     if is_local:
         logger = util.Logger(
-            file_name=os.path.join(submit_config.run_dir, "log.txt"),
+            file_name=os.path.join(
+                submit_config.run_dir, "log.txt"
+            ),
             file_mode="w",
             should_flush=True,
         )
@@ -279,7 +321,8 @@ def run_wrapper(submit_config: SubmitConfig) -> None:
     try:
         print(
             "dnnlib: Running {0}() on {1}...".format(
-                submit_config.run_func_name, submit_config.host_name
+                submit_config.run_func_name,
+                submit_config.host_name,
             )
         )
         start_time = time.time()
@@ -290,7 +333,8 @@ def run_wrapper(submit_config: SubmitConfig) -> None:
         )
         print(
             "dnnlib: Finished {0}() in {1}.".format(
-                submit_config.run_func_name, util.format_time(time.time() - start_time)
+                submit_config.run_func_name,
+                util.format_time(time.time() - start_time),
             )
         )
     except:
@@ -299,14 +343,21 @@ def run_wrapper(submit_config: SubmitConfig) -> None:
         else:
             traceback.print_exc()
 
-            log_src = os.path.join(submit_config.run_dir, "log.txt")
+            log_src = os.path.join(
+                submit_config.run_dir, "log.txt"
+            )
             log_dst = os.path.join(
-                get_path_from_template(submit_config.run_dir_root),
+                get_path_from_template(
+                    submit_config.run_dir_root
+                ),
                 "{0}-error.txt".format(submit_config.run_name),
             )
             shutil.copyfile(log_src, log_dst)
     finally:
-        open(os.path.join(submit_config.run_dir, "_finished.txt"), "w").close()
+        open(
+            os.path.join(submit_config.run_dir, "_finished.txt"),
+            "w",
+        ).close()
 
     dnnlib.submit_config = None
     logger.close()
@@ -316,7 +367,9 @@ def run_wrapper(submit_config: SubmitConfig) -> None:
 
 
 def submit_run(
-    submit_config: SubmitConfig, run_func_name: str, **run_func_kwargs
+    submit_config: SubmitConfig,
+    run_func_name: str,
+    **run_func_kwargs
 ) -> None:
     """Create a run dir, gather files related to the run, copy files to the run dir, and launch the run in appropriate place."""
     submit_config = copy.copy(submit_config)
@@ -332,14 +385,18 @@ def submit_run(
         run_dir = _create_run_dir_local(submit_config)
 
         submit_config.task_name = "{0}-{1:05d}-{2}".format(
-            submit_config.user_name, submit_config.run_id, submit_config.run_desc
+            submit_config.user_name,
+            submit_config.run_id,
+            submit_config.run_desc,
         )
         submit_config.run_dir = run_dir
         _populate_run_dir(run_dir, submit_config)
 
     if submit_config.print_info:
         print("\nSubmit config:\n")
-        pprint.pprint(submit_config, indent=4, width=200, compact=False)
+        pprint.pprint(
+            submit_config, indent=4, width=200, compact=False
+        )
         print()
 
     if submit_config.ask_confirmation:

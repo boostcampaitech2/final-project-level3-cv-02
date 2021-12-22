@@ -10,7 +10,9 @@ import dnnlib.tflib as tflib
 import config
 import sys
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__))))
+sys.path.append(
+    os.path.abspath(os.path.join(os.path.dirname(__file__)))
+)
 from encoder.generator_model import Generator
 from encoder.perceptual_model import PerceptualModel, load_images
 
@@ -32,7 +34,9 @@ def str2bool(v):
     elif v.lower() in ("no", "false", "f", "n", "0"):
         return False
     else:
-        raise argparse.ArgumentTypeError("Boolean value expected.")
+        raise argparse.ArgumentTypeError(
+            "Boolean value expected."
+        )
 
 
 def main():
@@ -40,21 +44,31 @@ def main():
         description="Find latent representation of reference images using perceptual losses",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
-    parser.add_argument("src_dir", help="Directory with images for encoding")
     parser.add_argument(
-        "generated_images_dir", help="Directory for storing generated images"
+        "src_dir", help="Directory with images for encoding"
     )
     parser.add_argument(
-        "dlatent_dir", help="Directory for storing dlatent representations"
+        "generated_images_dir",
+        help="Directory for storing generated images",
     )
     parser.add_argument(
-        "--data_dir", default="data", help="Directory for storing optional models"
+        "dlatent_dir",
+        help="Directory for storing dlatent representations",
     )
     parser.add_argument(
-        "--mask_dir", default="masks", help="Directory for storing optional masks"
+        "--data_dir",
+        default="data",
+        help="Directory for storing optional models",
     )
     parser.add_argument(
-        "--load_last", default="", help="Start with embeddings from directory"
+        "--mask_dir",
+        default="masks",
+        help="Directory for storing optional masks",
+    )
+    parser.add_argument(
+        "--load_last",
+        default="",
+        help="Start with embeddings from directory",
     )
     parser.add_argument(
         "--dlatent_avg",
@@ -103,10 +117,16 @@ def main():
         type=int,
     )
     parser.add_argument(
-        "--lr", default=0.25, help="Learning rate for perceptual model", type=float
+        "--lr",
+        default=0.25,
+        help="Learning rate for perceptual model",
+        type=float,
     )
     parser.add_argument(
-        "--decay_rate", default=0.9, help="Decay rate for learning rate", type=float
+        "--decay_rate",
+        default=0.9,
+        help="Decay rate for learning rate",
+        type=float,
     )
     parser.add_argument(
         "--iterations",
@@ -189,7 +209,10 @@ def main():
         type=float,
     )
     parser.add_argument(
-        "--use_vgg_layer", default=9, help="Pick which VGG layer to use.", type=int
+        "--use_vgg_layer",
+        default=9,
+        help="Pick which VGG layer to use.",
+        type=int,
     )
     parser.add_argument(
         "--use_pixel_loss",
@@ -302,7 +325,9 @@ def main():
 
     # Video params
     parser.add_argument(
-        "--video_dir", default="videos", help="Directory for storing training videos"
+        "--video_dir",
+        default="videos",
+        help="Directory for storing training videos",
     )
     parser.add_argument(
         "--output_video",
@@ -311,13 +336,21 @@ def main():
         type=bool,
     )
     parser.add_argument(
-        "--video_codec", default="MJPG", help="FOURCC-supported video codec name"
+        "--video_codec",
+        default="MJPG",
+        help="FOURCC-supported video codec name",
     )
     parser.add_argument(
-        "--video_frame_rate", default=24, help="Video frames per second", type=int
+        "--video_frame_rate",
+        default=24,
+        help="Video frames per second",
+        type=int,
     )
     parser.add_argument(
-        "--video_size", default=512, help="Video size in pixels", type=int
+        "--video_size",
+        default=512,
+        help="Video size in pixels",
+        type=int,
     )
     parser.add_argument(
         "--video_skip",
@@ -337,12 +370,16 @@ def main():
 
         synthesis_kwargs = dict(
             output_transform=dict(
-                func=tflib.convert_images_to_uint8, nchw_to_nhwc=False
+                func=tflib.convert_images_to_uint8,
+                nchw_to_nhwc=False,
             ),
             minibatch_size=args.batch_size,
         )
 
-    ref_images = [os.path.join(args.src_dir, x) for x in os.listdir(args.src_dir)]
+    ref_images = [
+        os.path.join(args.src_dir, x)
+        for x in os.listdir(args.src_dir)
+    ]
     ref_images = list(filter(os.path.isfile, ref_images))
 
     if len(ref_images) == 0:
@@ -356,8 +393,14 @@ def main():
 
     # Initialize generator and perceptual model
     tflib.init_tf()
-    with dnnlib.util.open_url(args.model_url, cache_dir=config.cache_dir) as f:
-        generator_network, discriminator_network, Gs_network = pickle.load(f)
+    with dnnlib.util.open_url(
+        args.model_url, cache_dir=config.cache_dir
+    ) as f:
+        (
+            generator_network,
+            discriminator_network,
+            Gs_network,
+        ) = pickle.load(f)
 
     generator = Generator(
         Gs_network,
@@ -372,12 +415,16 @@ def main():
 
     perc_model = None
     if args.use_lpips_loss > 0.00000001:
-        with dnnlib.util.open_url(args.architecture, cache_dir=config.cache_dir) as f:
+        with dnnlib.util.open_url(
+            args.architecture, cache_dir=config.cache_dir
+        ) as f:
             perc_model = pickle.load(f)
     perceptual_model = PerceptualModel(
         args, perc_model=perc_model, batch_size=args.batch_size
     )
-    perceptual_model.build_perceptual_model(generator, discriminator_network)
+    perceptual_model.build_perceptual_model(
+        generator, discriminator_network
+    )
 
     ff_model = None
 
@@ -386,7 +433,10 @@ def main():
         split_to_batches(ref_images, args.batch_size),
         total=len(ref_images) // args.batch_size,
     ):
-        names = [os.path.splitext(os.path.basename(x))[0] for x in images_batch]
+        names = [
+            os.path.splitext(os.path.basename(x))[0]
+            for x in images_batch
+        ]
         if args.output_video:
             video_out = {}
             for name in names:
@@ -399,10 +449,17 @@ def main():
 
         perceptual_model.set_reference_images(images_batch)
         dlatents = None
-        if args.load_last != "":  # load previous dlatents for initialization
+        if (
+            args.load_last != ""
+        ):  # load previous dlatents for initialization
             for name in names:
                 dl = np.expand_dims(
-                    np.load(os.path.join(args.load_last, f"{name}.npy")), axis=0
+                    np.load(
+                        os.path.join(
+                            args.load_last, f"{name}.npy"
+                        )
+                    ),
+                    axis=0,
                 )
                 if dlatents is None:
                     dlatents = dl
@@ -411,7 +468,9 @@ def main():
         else:
             if ff_model is None:
                 if os.path.exists(args.load_resnet):
-                    from keras.applications.resnet50 import preprocess_input
+                    from keras.applications.resnet50 import (
+                        preprocess_input,
+                    )
 
                     print("Loading ResNet Model:")
                     ff_model = load_model(args.load_resnet)
@@ -422,16 +481,24 @@ def main():
 
                     print("Loading EfficientNet Model:")
                     ff_model = load_model(args.load_effnet)
-            if ff_model is not None:  # predict initial dlatents with ResNet model
+            if (
+                ff_model is not None
+            ):  # predict initial dlatents with ResNet model
                 if args.use_preprocess_input:
                     dlatents = ff_model.predict(
                         preprocess_input(
-                            load_images(images_batch, image_size=args.resnet_image_size)
+                            load_images(
+                                images_batch,
+                                image_size=args.resnet_image_size,
+                            )
                         )
                     )
                 else:
                     dlatents = ff_model.predict(
-                        load_images(images_batch, image_size=args.resnet_image_size)
+                        load_images(
+                            images_batch,
+                            image_size=args.resnet_image_size,
+                        )
                     )
         if dlatents is not None:
             generator.set_dlatents(dlatents)
@@ -451,15 +518,19 @@ def main():
             if args.early_stopping:  # early stopping feature
                 if prev_loss is not None:
                     if avg_loss is not None:
-                        avg_loss = 0.5 * avg_loss + (prev_loss - loss_dict["loss"])
+                        avg_loss = 0.5 * avg_loss + (
+                            prev_loss - loss_dict["loss"]
+                        )
                         if (
-                            avg_loss < args.early_stopping_threshold
+                            avg_loss
+                            < args.early_stopping_threshold
                         ):  # count while under threshold; else reset
                             avg_loss_count += 1
                         else:
                             avg_loss_count = 0
                         if (
-                            avg_loss_count > args.early_stopping_patience
+                            avg_loss_count
+                            > args.early_stopping_patience
                         ):  # stop once threshold is reached
                             print("")
                             break
@@ -468,25 +539,47 @@ def main():
             pbar.set_description(
                 " ".join(names)
                 + ": "
-                + "; ".join(["{} {:.4f}".format(k, v) for k, v in loss_dict.items()])
+                + "; ".join(
+                    [
+                        "{} {:.4f}".format(k, v)
+                        for k, v in loss_dict.items()
+                    ]
+                )
             )
-            if best_loss is None or loss_dict["loss"] < best_loss:
-                if best_dlatent is None or args.average_best_loss <= 0.00000001:
+            if (
+                best_loss is None
+                or loss_dict["loss"] < best_loss
+            ):
+                if (
+                    best_dlatent is None
+                    or args.average_best_loss <= 0.00000001
+                ):
                     best_dlatent = generator.get_dlatents()
                 else:
-                    best_dlatent = 0.25 * best_dlatent + 0.75 * generator.get_dlatents()
+                    best_dlatent = (
+                        0.25 * best_dlatent
+                        + 0.75 * generator.get_dlatents()
+                    )
                 if args.use_best_loss:
                     generator.set_dlatents(best_dlatent)
                 best_loss = loss_dict["loss"]
-            if args.output_video and (vid_count % args.video_skip == 0):
+            if args.output_video and (
+                vid_count % args.video_skip == 0
+            ):
                 batch_frames = generator.generate_images()
                 for i, name in enumerate(names):
-                    video_frame = PIL.Image.fromarray(batch_frames[i], "RGB").resize(
-                        (args.video_size, args.video_size), PIL.Image.LANCZOS
+                    video_frame = PIL.Image.fromarray(
+                        batch_frames[i], "RGB"
+                    ).resize(
+                        (args.video_size, args.video_size),
+                        PIL.Image.LANCZOS,
                     )
                     video_out[name].write(
                         cv2.cvtColor(
-                            np.array(video_frame).astype("uint8"), cv2.COLOR_RGB2BGR
+                            np.array(video_frame).astype(
+                                "uint8"
+                            ),
+                            cv2.COLOR_RGB2BGR,
                         )
                     )
             generator.stochastic_clip_dlatents()
@@ -505,31 +598,56 @@ def main():
         generated_images = generator.generate_images()
         generated_dlatents = generator.get_dlatents()
         for img_array, dlatent, img_path, img_name in zip(
-            generated_images, generated_dlatents, images_batch, names
+            generated_images,
+            generated_dlatents,
+            images_batch,
+            names,
         ):
             mask_img = None
-            if args.composite_mask and (args.load_mask or args.face_mask):
+            if args.composite_mask and (
+                args.load_mask or args.face_mask
+            ):
                 _, im_name = os.path.split(img_path)
-                mask_img = os.path.join(args.mask_dir, f"{im_name}")
+                mask_img = os.path.join(
+                    args.mask_dir, f"{im_name}"
+                )
             if (
                 args.composite_mask
                 and mask_img is not None
                 and os.path.isfile(mask_img)
             ):
-                orig_img = PIL.Image.open(img_path).convert("RGB")
+                orig_img = PIL.Image.open(img_path).convert(
+                    "RGB"
+                )
                 width, height = orig_img.size
-                imask = PIL.Image.open(mask_img).convert("L").resize((width, height))
-                imask = imask.filter(ImageFilter.GaussianBlur(args.composite_blur))
+                imask = (
+                    PIL.Image.open(mask_img)
+                    .convert("L")
+                    .resize((width, height))
+                )
+                imask = imask.filter(
+                    ImageFilter.GaussianBlur(args.composite_blur)
+                )
                 mask = np.array(imask) / 255
                 mask = np.expand_dims(mask, axis=-1)
-                img_array = mask * np.array(img_array) + (1.0 - mask) * np.array(
-                    orig_img
-                )
+                img_array = mask * np.array(img_array) + (
+                    1.0 - mask
+                ) * np.array(orig_img)
                 img_array = img_array.astype(np.uint8)
                 # img_array = np.where(mask, np.array(img_array), orig_img)
             img = PIL.Image.fromarray(img_array, "RGB")
-            img.save(os.path.join(args.generated_images_dir, f"{img_name}.png"), "PNG")
-            np.save(os.path.join(args.dlatent_dir, f"{img_name}.npy"), dlatent)
+            img.save(
+                os.path.join(
+                    args.generated_images_dir, f"{img_name}.png"
+                ),
+                "PNG",
+            )
+            np.save(
+                os.path.join(
+                    args.dlatent_dir, f"{img_name}.npy"
+                ),
+                dlatent,
+            )
 
         generator.reset_dlatents()
 

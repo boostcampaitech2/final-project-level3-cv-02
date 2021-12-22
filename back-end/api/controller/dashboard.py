@@ -3,7 +3,13 @@ import uuid
 import shutil
 from PIL import Image
 from typing import List
-from fastapi import APIRouter, File, UploadFile, Depends, HTTPException
+from fastapi import (
+    APIRouter,
+    File,
+    UploadFile,
+    Depends,
+    HTTPException,
+)
 from fastapi.responses import HTMLResponse, FileResponse
 from babygan import inference
 from sqlalchemy.orm import Session
@@ -11,7 +17,9 @@ from sqlalchemy.orm import Session
 import sys
 import os
 
-sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+sys.path.append(
+    os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
+)
 sys.path.append("../")
 
 from ..config.database import get_db
@@ -73,7 +81,10 @@ def get_time():
     bounce_time = statistic.avg_bounce_time
     inference_time = statistic.avg_inference_time
 
-    return {"bounce_time": bounce_time, "inference_time": inference_time}
+    return {
+        "bounce_time": bounce_time,
+        "inference_time": inference_time,
+    }
 
 
 @router.get("/dashboard/attempts")

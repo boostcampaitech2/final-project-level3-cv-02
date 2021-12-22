@@ -9,7 +9,9 @@ class LandmarksDetector:
         self.detector = (
             dlib.get_frontal_face_detector()
         )  # cnn_face_detection_model_v1 also can be used
-        self.shape_predictor = dlib.shape_predictor(predictor_model_path)
+        self.shape_predictor = dlib.shape_predictor(
+            predictor_model_path
+        )
 
     def get_landmarks(self, image):
         img = dlib.load_rgb_image(image)
@@ -19,7 +21,9 @@ class LandmarksDetector:
             try:
                 face_landmarks = [
                     (item.x, item.y)
-                    for item in self.shape_predictor(img, detection).parts()
+                    for item in self.shape_predictor(
+                        img, detection
+                    ).parts()
                 ]
                 yield face_landmarks
             except:

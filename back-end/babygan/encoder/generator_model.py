@@ -7,7 +7,9 @@ import sys
 import os
 
 # sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__))))
-sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+sys.path.append(
+    os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
+)
 # from ..dnnlib import tflib as tflib
 # sys.path.append("..")
 from dnnlib import tflib as tflib
@@ -29,7 +31,9 @@ def create_variable_for_generator(
             dtype="float32",
             initializer=tf.initializers.random_normal(),
         )
-        return tf.tile(low_dim_dlatent, [1, model_scale // tile_size, 1])
+        return tf.tile(
+            low_dim_dlatent, [1, model_scale // tile_size, 1]
+        )
     else:
         # tf.compat.v1.get_variable_scope("learnable_dlatents",reuse=True)
         with tf.compat.v1.variable_scope(
@@ -66,9 +70,13 @@ class Generator:
         )  # For example, 1024 -> 18
 
         if tiled_dlatent:
-            self.initial_dlatents = np.zeros((self.batch_size, 512))
+            self.initial_dlatents = np.zeros(
+                (self.batch_size, 512)
+            )
             model.components.synthesis.run(
-                np.zeros((self.batch_size, self.model_scale, 512)),
+                np.zeros(
+                    (self.batch_size, self.model_scale, 512)
+                ),
                 randomize_noise=randomize_noise,
                 minibatch_size=self.batch_size,
                 custom_inputs=[
@@ -82,15 +90,22 @@ class Generator:
                 structure="fixed",
             )
         else:
-            self.initial_dlatents = np.zeros((self.batch_size, self.model_scale, 512))
+            self.initial_dlatents = np.zeros(
+                (self.batch_size, self.model_scale, 512)
+            )
             if custom_input is not None:
                 model.components.synthesis.run(
                     self.initial_dlatents,
                     randomize_noise=randomize_noise,
                     minibatch_size=self.batch_size,
                     custom_inputs=[
-                        partial(custom_input.eval(), batch_size=batch_size),
-                        partial(create_stub, batch_size=batch_size),
+                        partial(
+                            custom_input.eval(),
+                            batch_size=batch_size,
+                        ),
+                        partial(
+                            create_stub, batch_size=batch_size
+                        ),
                     ],
                     structure="fixed",
                 )
@@ -106,7 +121,9 @@ class Generator:
                             tiled_dlatent=False,
                             model_scale=self.model_scale,
                         ),
-                        partial(create_stub, batch_size=batch_size),
+                        partial(
+                            create_stub, batch_size=batch_size
+                        ),
                     ],
                     structure="fixed",
                 )
@@ -117,7 +134,9 @@ class Generator:
         self.graph = tf.compat.v1.get_default_graph()
 
         self.dlatent_variable = next(
-            v for v in tf.compat.v1.global_variables() if "learnable_dlatents" in v.name
+            v
+            for v in tf.compat.v1.global_variables()
+            if "learnable_dlatents" in v.name
         )
         self._assign_dlatent_ph = tf.compat.v1.placeholder(
             tf.float32, name="assign_dlatent_ph"
@@ -133,26 +152,44 @@ class Generator:
             except KeyError:
                 return None
 
-        self.generator_output = get_tensor("G_synthesis_1/_Run/concat:0")
+        self.generator_output = get_tensor(
+            "G_synthesis_1/_Run/concat:0"
+        )
         if self.generator_output is None:
-            self.generator_output = get_tensor("G_synthesis_1/_Run/concat/concat:0")
+            self.generator_output = get_tensor(
+                "G_synthesis_1/_Run/concat/concat:0"
+            )
         if self.generator_output is None:
-            self.generator_output = get_tensor("G_synthesis_1/_Run/concat_1/concat:0")
+            self.generator_output = get_tensor(
+                "G_synthesis_1/_Run/concat_1/concat:0"
+            )
         # If we loaded only Gs and didn't load G or D, then scope "G_synthesis_1" won't exist in the graph.
         if self.generator_output is None:
-            self.generator_output = get_tensor("G_synthesis/_Run/concat:0")
+            self.generator_output = get_tensor(
+                "G_synthesis/_Run/concat:0"
+            )
         if self.generator_output is None:
-            self.generator_output = get_tensor("G_synthesis/_Run/concat/concat:0")
+            self.generator_output = get_tensor(
+                "G_synthesis/_Run/concat/concat:0"
+            )
         if self.generator_output is None:
-            self.generator_output = get_tensor("G_synthesis/_Run/concat_1/concat:0")
+            self.generator_output = get_tensor(
+                "G_synthesis/_Run/concat_1/concat:0"
+            )
         if self.generator_output is None:
             for op in self.graph.get_operations():
                 print(op)
-            raise Exception("Couldn't find G_synthesis_1/_Run/concat tensor output")
+            raise Exception(
+                "Couldn't find G_synthesis_1/_Run/concat tensor output"
+            )
         self.generated_image = tflib.convert_images_to_uint8(
-            self.generator_output, nchw_to_nhwc=True, uint8_cast=False
+            self.generator_output,
+            nchw_to_nhwc=True,
+            uint8_cast=False,
         )
-        self.generated_image_uint8 = tf.saturate_cast(self.generated_image, tf.uint8)
+        self.generated_image_uint8 = tf.saturate_cast(
+            self.generated_image, tf.uint8
+        )
 
         # Implement stochastic clipping similar to what is described in https://arxiv.org/abs/1702.04782
         # (Slightly different in that the latent space is normal gaussian here and was uniform in [-1, 1] in that paper,
@@ -166,7 +203,9 @@ class Generator:
             tf.random.normal(shape=self.dlatent_variable.shape),
             self.dlatent_variable,
         )
-        self.stochastic_clip_op = tf.assign(self.dlatent_variable, clipped_values)
+        self.stochastic_clip_op = tf.assign(
+            self.dlatent_variable, clipped_values
+        )
 
     def reset_dlatents(self):
         self.set_dlatents(self.initial_dlatents)
@@ -179,35 +218,59 @@ class Generator:
                 dlatents = np.mean(dlatents, axis=1)
             if dlatents.shape != (self.batch_size, 512):
                 dlatents = np.vstack(
-                    [dlatents, np.zeros((self.batch_size - dlatents.shape[0], 512))]
+                    [
+                        dlatents,
+                        np.zeros(
+                            (
+                                self.batch_size
+                                - dlatents.shape[0],
+                                512,
+                            )
+                        ),
+                    ]
                 )
             assert dlatents.shape == (self.batch_size, 512)
         else:
             if dlatents.shape[1] > self.model_scale:
                 dlatents = dlatents[:, : self.model_scale, :]
             if isinstance(dlatents.shape[0], int):
-                if dlatents.shape != (self.batch_size, self.model_scale, 512):
+                if dlatents.shape != (
+                    self.batch_size,
+                    self.model_scale,
+                    512,
+                ):
                     dlatents = np.vstack(
                         [
                             dlatents,
                             np.zeros(
                                 (
-                                    self.batch_size - dlatents.shape[0],
+                                    self.batch_size
+                                    - dlatents.shape[0],
                                     self.model_scale,
                                     512,
                                 )
                             ),
                         ]
                     )
-                assert dlatents.shape == (self.batch_size, self.model_scale, 512)
+                assert dlatents.shape == (
+                    self.batch_size,
+                    self.model_scale,
+                    512,
+                )
                 self.sess.run(
-                    [self._assign_dlantent], {self._assign_dlatent_ph: dlatents}
+                    [self._assign_dlantent],
+                    {self._assign_dlatent_ph: dlatents},
                 )
                 return
             else:
-                self._assign_dlantent = tf.assign(self.dlatent_variable, dlatents)
+                self._assign_dlantent = tf.assign(
+                    self.dlatent_variable, dlatents
+                )
                 return
-        self.sess.run([self._assign_dlantent], {self._assign_dlatent_ph: dlatents})
+        self.sess.run(
+            [self._assign_dlantent],
+            {self._assign_dlatent_ph: dlatents},
+        )
 
     def stochastic_clip_dlatents(self):
         self.sess.run(self.stochastic_clip_op)

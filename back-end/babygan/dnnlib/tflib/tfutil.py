@@ -23,7 +23,9 @@ TfExpressionEx = Union[TfExpression, int, float, np.ndarray]
 def run(*args, **kwargs) -> Any:
     """Run the specified ops in the default session."""
     assert_tf_initialized()
-    return tf.compat.v1.get_default_session().run(*args, **kwargs)
+    return tf.compat.v1.get_default_session().run(
+        *args, **kwargs
+    )
 
 
 def is_tf_expression(x: Any) -> bool:
@@ -31,7 +33,9 @@ def is_tf_expression(x: Any) -> bool:
     return isinstance(x, (tf.Tensor, tf.Variable, tf.Operation))
 
 
-def shape_to_list(shape: Iterable[tf.compat.v1.Dimension]) -> List[Union[int, None]]:
+def shape_to_list(
+    shape: Iterable[tf.compat.v1.Dimension],
+) -> List[Union[int, None]]:
     """Convert a Tensorflow shape to a list of ints."""
     return [dim.value for dim in shape]
 
@@ -54,13 +58,17 @@ def exp2(x: TfExpressionEx) -> TfExpression:
         return tf.exp(x * np.float32(np.log(2.0)))
 
 
-def lerp(a: TfExpressionEx, b: TfExpressionEx, t: TfExpressionEx) -> TfExpressionEx:
+def lerp(
+    a: TfExpressionEx, b: TfExpressionEx, t: TfExpressionEx
+) -> TfExpressionEx:
     """Linear interpolation."""
     with tf.name_scope("Lerp"):
         return a + (b - a) * t
 
 
-def lerp_clip(a: TfExpressionEx, b: TfExpressionEx, t: TfExpressionEx) -> TfExpression:
+def lerp_clip(
+    a: TfExpressionEx, b: TfExpressionEx, t: TfExpressionEx
+) -> TfExpression:
     """Linear interpolation with clip."""
     with tf.name_scope("LerpClip"):
         return a + (b - a) * tf.clip_by_value(t, 0.0, 1.0)
@@ -71,17 +79,22 @@ def absolute_name_scope(scope: str) -> tf.name_scope:
     return tf.name_scope(scope + "/")
 
 
-def absolute_variable_scope(scope: str, **kwargs) -> tf.compat.v1.variable_scope:
+def absolute_variable_scope(
+    scope: str, **kwargs
+) -> tf.compat.v1.variable_scope:
     """Forcefully enter the specified variable scope, ignoring any surrounding scopes."""
     return tf.compat.v1.variable_scope(
-        tf.compat.v1.VariableScope(name=scope, **kwargs), auxiliary_name_scope=False
+        tf.compat.v1.VariableScope(name=scope, **kwargs),
+        auxiliary_name_scope=False,
     )
 
 
 def _sanitize_tf_config(config_dict: dict = None) -> dict:
     # Defaults.
     cfg = dict()
-    cfg["rnd.np_random_seed"] = None  # Random seed for NumPy. None = keep as is.
+    cfg[
+        "rnd.np_random_seed"
+    ] = None  # Random seed for NumPy. None = keep as is.
     cfg[
         "rnd.tf_random_seed"
     ] = "auto"  # Random seed for TensorFlow. 'auto' = derive from NumPy random state. None = keep as is.
@@ -163,7 +176,9 @@ def create_session(
     return session
 
 
-def init_uninitialized_vars(target_vars: List[tf.Variable] = None) -> None:
+def init_uninitialized_vars(
+    target_vars: List[tf.Variable] = None,
+) -> None:
     """Initialize all tf.Variables that have not already been initialized.
 
     Equivalent to the following, but more efficient and does not bloat the tf graph:
@@ -176,22 +191,32 @@ def init_uninitialized_vars(target_vars: List[tf.Variable] = None) -> None:
     test_vars = []
     test_ops = []
 
-    with tf.control_dependencies(None):  # ignore surrounding control_dependencies
+    with tf.control_dependencies(
+        None
+    ):  # ignore surrounding control_dependencies
         for var in target_vars:
             assert is_tf_expression(var)
 
             try:
                 tf.get_default_graph().get_tensor_by_name(
-                    var.name.replace(":0", "/IsVariableInitialized:0")
+                    var.name.replace(
+                        ":0", "/IsVariableInitialized:0"
+                    )
                 )
             except KeyError:
                 # Op does not exist => variable may be uninitialized.
                 test_vars.append(var)
 
                 with absolute_name_scope(var.name.split(":")[0]):
-                    test_ops.append(tf.is_variable_initialized(var))
+                    test_ops.append(
+                        tf.is_variable_initialized(var)
+                    )
 
-    init_vars = [var for var, inited in zip(test_vars, run(test_ops)) if not inited]
+    init_vars = [
+        var
+        for var, inited in zip(test_vars, run(test_ops))
+        if not inited
+    ]
     run([var.initializer for var in init_vars])
 
 
@@ -219,7 +244,9 @@ def set_vars(var_to_value_dict: dict) -> None:
                 ):  # ignore surrounding control_dependencies
                     setter = tf.compat.v1.assign(
                         var,
-                        tf.compat.v1.placeholder(var.dtype, var.shape, "new_value"),
+                        tf.compat.v1.placeholder(
+                            var.dtype, var.shape, "new_value"
+                        ),
                         name="setter",
                     )  # create new setter
 
@@ -229,7 +256,9 @@ def set_vars(var_to_value_dict: dict) -> None:
     run(ops, feed_dict)
 
 
-def create_var_with_large_initial_value(initial_value: np.ndarray, *args, **kwargs):
+def create_var_with_large_initial_value(
+    initial_value: np.ndarray, *args, **kwargs
+):
     """Create tf.Variable with large initial value without bloating the tf graph."""
     assert_tf_initialized()
     assert isinstance(initial_value, np.ndarray)
@@ -239,7 +268,9 @@ def create_var_with_large_initial_value(initial_value: np.ndarray, *args, **kwar
     return var
 
 
-def convert_images_from_uint8(images, drange=[-1, 1], nhwc_to_nchw=False):
+def convert_images_from_uint8(
+    images, drange=[-1, 1], nhwc_to_nchw=False
+):
     """Convert a minibatch of images from uint8 to float32 with configurable dynamic range.
     Can be used as an input transformation for Network.run().
     """
@@ -250,7 +281,11 @@ def convert_images_from_uint8(images, drange=[-1, 1], nhwc_to_nchw=False):
 
 
 def convert_images_to_uint8(
-    images, drange=[-1, 1], nchw_to_nhwc=False, shrink=1, uint8_cast=True
+    images,
+    drange=[-1, 1],
+    nchw_to_nhwc=False,
+    shrink=1,
+    uint8_cast=True,
 ):
     """Convert a minibatch of images from float32 to uint8 with configurable dynamic range.
     Can be used as an output transformation for Network.run().
@@ -259,7 +294,11 @@ def convert_images_to_uint8(
     if shrink > 1:
         ksize = [1, 1, shrink, shrink]
         images = tf.nn.avg_pool(
-            images, ksize=ksize, strides=ksize, padding="VALID", data_format="NCHW"
+            images,
+            ksize=ksize,
+            strides=ksize,
+            padding="VALID",
+            data_format="NCHW",
         )
     if nchw_to_nhwc:
         images = tf.transpose(images, [0, 2, 3, 1])

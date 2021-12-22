@@ -63,14 +63,18 @@ class Optimizer:
         self.loss_scaling_dec = loss_scaling_dec
         self._grad_shapes = None  # [shape, ...]
         self._dev_opt = OrderedDict()  # device => optimizer
-        self._dev_grads = OrderedDict()  # device => [[(grad, var), ...], ...]
+        self._dev_grads = (
+            OrderedDict()
+        )  # device => [[(grad, var), ...], ...]
         self._dev_ls_var = (
             OrderedDict()
         )  # device => variable (log2 of loss scaling factor)
         self._updates_applied = False
 
     def register_gradients(
-        self, loss: TfExpression, trainable_vars: Union[List, dict]
+        self,
+        loss: TfExpression,
+        trainable_vars: Union[List, dict],
     ) -> None:
         """Register the gradients of the given loss function with respect to the given variables.
         Intended to be called once per GPU."""
@@ -82,18 +86,27 @@ class Optimizer:
                 trainable_vars.values()
             )  # allow passing in Network.trainables as vars
 
-        assert isinstance(trainable_vars, list) and len(trainable_vars) >= 1
-        assert all(tfutil.is_tf_expression(expr) for expr in trainable_vars + [loss])
+        assert (
+            isinstance(trainable_vars, list)
+            and len(trainable_vars) >= 1
+        )
+        assert all(
+            tfutil.is_tf_expression(expr)
+            for expr in trainable_vars + [loss]
+        )
 
         if self._grad_shapes is None:
             self._grad_shapes = [
-                tfutil.shape_to_list(var.shape) for var in trainable_vars
+                tfutil.shape_to_list(var.shape)
+                for var in trainable_vars
             ]
 
         assert len(trainable_vars) == len(self._grad_shapes)
         assert all(
             tfutil.shape_to_list(var.shape) == var_shape
-            for var, var_shape in zip(trainable_vars, self._grad_shapes)
+            for var, var_shape in zip(
+                trainable_vars, self._grad_shapes
+            )
         )
 
         dev = loss.device
@@ -103,7 +116,9 @@ class Optimizer:
         # Register device and compute gradients.
         with tf.name_scope(self.id + "_grad"), tf.device(dev):
             if dev not in self._dev_opt:
-                opt_name = self.scope.replace("/", "_") + "_opt%d" % len(self._dev_opt)
+                opt_name = self.scope.replace(
+                    "/", "_"
+                ) + "_opt%d" % len(self._dev_opt)
                 assert callable(self.optimizer_class)
                 self._dev_opt[dev] = self.optimizer_class(
                     name=opt_name,
@@ -112,12 +127,19 @@ class Optimizer:
                 )
                 self._dev_grads[dev] = []
 
-            loss = self.apply_loss_scaling(tf.cast(loss, tf.float32))
+            loss = self.apply_loss_scaling(
+                tf.cast(loss, tf.float32)
+            )
             grads = self._dev_opt[dev].compute_gradients(
-                loss, trainable_vars, gate_gradients=tf.train.Optimizer.GATE_NONE
+                loss,
+                trainable_vars,
+                gate_gradients=tf.train.Optimizer.GATE_NONE,
             )  # disable gating to reduce memory usage
             grads = [
-                (g, v) if g is not None else (tf.zeros_like(v), v) for g, v in grads
+                (g, v)
+                if g is not None
+                else (tf.zeros_like(v), v)
+                for g, v in grads
             ]  # replace disconnected gradients with zeros
             self._dev_grads[dev].append(grads)
 
@@ -127,21 +149,29 @@ class Optimizer:
         assert not self._updates_applied
         self._updates_applied = True
         devices = list(self._dev_grads.keys())
-        total_grads = sum(len(grads) for grads in self._dev_grads.values())
+        total_grads = sum(
+            len(grads) for grads in self._dev_grads.values()
+        )
         assert len(devices) >= 1 and total_grads >= 1
         ops = []
 
         with tfutil.absolute_name_scope(self.scope):
             # Cast gradients to FP32 and calculate partial sum within each device.
-            dev_grads = OrderedDict()  # device => [(grad, var), ...]
+            dev_grads = (
+                OrderedDict()
+            )  # device => [(grad, var), ...]
 
             for dev_idx, dev in enumerate(devices):
-                with tf.name_scope("ProcessGrads%d" % dev_idx), tf.device(dev):
+                with tf.name_scope(
+                    "ProcessGrads%d" % dev_idx
+                ), tf.device(dev):
                     sums = []
 
                     for gv in zip(*self._dev_grads[dev]):
                         assert all(v is gv[0][1] for g, v in gv)
-                        g = [tf.cast(g, tf.float32) for g, v in gv]
+                        g = [
+                            tf.cast(g, tf.float32) for g, v in gv
+                        ]
                         g = g[0] if len(g) == 1 else tf.add_n(g)
                         sums.append((g, gv[0][1]))
 
@@ -149,9 +179,16 @@ class Optimizer:
 
             # Sum gradients across devices.
             if len(devices) > 1:
-                with tf.name_scope("SumAcrossGPUs"), tf.device(None):
-                    for var_idx, grad_shape in enumerate(self._grad_shapes):
-                        g = [dev_grads[dev][var_idx][0] for dev in devices]
+                with tf.name_scope("SumAcrossGPUs"), tf.device(
+                    None
+                ):
+                    for var_idx, grad_shape in enumerate(
+                        self._grad_shapes
+                    ):
+                        g = [
+                            dev_grads[dev][var_idx][0]
+                            for dev in devices
+                        ]
 
                         if np.prod(
                             grad_shape
@@ -159,24 +196,41 @@ class Optimizer:
                             g = nccl_ops.all_sum(g)
 
                         for dev, gg in zip(devices, g):
-                            dev_grads[dev][var_idx] = (gg, dev_grads[dev][var_idx][1])
+                            dev_grads[dev][var_idx] = (
+                                gg,
+                                dev_grads[dev][var_idx][1],
+                            )
 
             # Apply updates separately on each device.
-            for dev_idx, (dev, grads) in enumerate(dev_grads.items()):
-                with tf.name_scope("ApplyGrads%d" % dev_idx), tf.device(dev):
+            for dev_idx, (dev, grads) in enumerate(
+                dev_grads.items()
+            ):
+                with tf.name_scope(
+                    "ApplyGrads%d" % dev_idx
+                ), tf.device(dev):
                     # Scale gradients as needed.
                     if self.use_loss_scaling or total_grads > 1:
                         with tf.name_scope("Scale"):
                             coef = tf.constant(
-                                np.float32(1.0 / total_grads), name="coef"
+                                np.float32(1.0 / total_grads),
+                                name="coef",
                             )
                             coef = self.undo_loss_scaling(coef)
-                            grads = [(g * coef, v) for g, v in grads]
+                            grads = [
+                                (g * coef, v) for g, v in grads
+                            ]
 
                     # Check for overflows.
                     with tf.name_scope("CheckOverflow"):
                         grad_ok = tf.reduce_all(
-                            tf.stack([tf.reduce_all(tf.is_finite(g)) for g, v in grads])
+                            tf.stack(
+                                [
+                                    tf.reduce_all(
+                                        tf.is_finite(g)
+                                    )
+                                    for g, v in grads
+                                ]
+                            )
                         )
 
                     # Update weights and adjust loss scaling.
@@ -189,7 +243,9 @@ class Optimizer:
                             ops.append(
                                 tf.cond(
                                     grad_ok,
-                                    lambda: opt.apply_gradients(grads),
+                                    lambda: opt.apply_gradients(
+                                        grads
+                                    ),
                                     tf.no_op,
                                 )
                             )
@@ -198,11 +254,19 @@ class Optimizer:
                                 tf.cond(
                                     grad_ok,
                                     lambda: tf.group(
-                                        tf.assign_add(ls_var, self.loss_scaling_inc),
-                                        opt.apply_gradients(grads),
+                                        tf.assign_add(
+                                            ls_var,
+                                            self.loss_scaling_inc,
+                                        ),
+                                        opt.apply_gradients(
+                                            grads
+                                        ),
                                     ),
                                     lambda: tf.group(
-                                        tf.assign_sub(ls_var, self.loss_scaling_dec)
+                                        tf.assign_sub(
+                                            ls_var,
+                                            self.loss_scaling_dec,
+                                        )
                                     ),
                                 )
                             )
@@ -212,12 +276,14 @@ class Optimizer:
                         with tf.name_scope("Statistics"):
                             ops.append(
                                 autosummary.autosummary(
-                                    self.id + "/learning_rate", self.learning_rate
+                                    self.id + "/learning_rate",
+                                    self.learning_rate,
                                 )
                             )
                             ops.append(
                                 autosummary.autosummary(
-                                    self.id + "/overflow_frequency",
+                                    self.id
+                                    + "/overflow_frequency",
                                     tf.where(grad_ok, 0, 1),
                                 )
                             )
@@ -225,13 +291,17 @@ class Optimizer:
                             if self.use_loss_scaling:
                                 ops.append(
                                     autosummary.autosummary(
-                                        self.id + "/loss_scaling_log2", ls_var
+                                        self.id
+                                        + "/loss_scaling_log2",
+                                        ls_var,
                                     )
                                 )
 
             # Initialize variables and group everything into a single op.
             self.reset_optimizer_state()
-            tfutil.init_uninitialized_vars(list(self._dev_ls_var.values()))
+            tfutil.init_uninitialized_vars(
+                list(self._dev_ls_var.values())
+            )
 
             return tf.group(*ops, name="TrainingOp")
 
@@ -246,7 +316,9 @@ class Optimizer:
             ]
         )
 
-    def get_loss_scaling_var(self, device: str) -> Union[tf.Variable, None]:
+    def get_loss_scaling_var(
+        self, device: str
+    ) -> Union[tf.Variable, None]:
         """Get or create variable representing log2 of the current dynamic loss scaling factor."""
         if not self.use_loss_scaling:
             return None
@@ -256,21 +328,28 @@ class Optimizer:
                 self.scope + "/LossScalingVars"
             ), tf.control_dependencies(None):
                 self._dev_ls_var[device] = tf.Variable(
-                    np.float32(self.loss_scaling_init), name="loss_scaling_var"
+                    np.float32(self.loss_scaling_init),
+                    name="loss_scaling_var",
                 )
 
         return self._dev_ls_var[device]
 
-    def apply_loss_scaling(self, value: TfExpression) -> TfExpression:
+    def apply_loss_scaling(
+        self, value: TfExpression
+    ) -> TfExpression:
         """Apply dynamic loss scaling for the given expression."""
         assert tfutil.is_tf_expression(value)
 
         if not self.use_loss_scaling:
             return value
 
-        return value * tfutil.exp2(self.get_loss_scaling_var(value.device))
+        return value * tfutil.exp2(
+            self.get_loss_scaling_var(value.device)
+        )
 
-    def undo_loss_scaling(self, value: TfExpression) -> TfExpression:
+    def undo_loss_scaling(
+        self, value: TfExpression
+    ) -> TfExpression:
         """Undo the effect of dynamic loss scaling for the given expression."""
         assert tfutil.is_tf_expression(value)
 

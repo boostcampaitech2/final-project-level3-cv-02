@@ -18,7 +18,14 @@ import keras
 import keras.backend as K
 
 from keras.applications.resnet50 import preprocess_input
-from keras.layers import Input, LocallyConnected1D, Reshape, Permute, Conv2D, Add
+from keras.layers import (
+    Input,
+    LocallyConnected1D,
+    Reshape,
+    Permute,
+    Conv2D,
+    Add,
+)
 from keras.models import Model, load_model
 
 
@@ -40,8 +47,12 @@ def generate_dataset_main(
     More variation added to latents; also, negative truncation added to balance these examples.
     """
 
-    n = n // 2  # this gets doubled because of negative truncation below
-    model_scale = int(2 * (math.log(model_res, 2) - 1))  # For example, 1024 -> 18
+    n = (
+        n // 2
+    )  # this gets doubled because of negative truncation below
+    model_scale = int(
+        2 * (math.log(model_res, 2) - 1)
+    )  # For example, 1024 -> 18
 
     Gs = load_Gs()
     if model_scale % 3 == 0:
@@ -50,7 +61,9 @@ def generate_dataset_main(
         mod_l = 2
     if seed is not None:
         b = bool(np.random.RandomState(seed).randint(2))
-        Z = np.random.RandomState(seed).randn(n * mod_l, Gs.input_shape[1])
+        Z = np.random.RandomState(seed).randn(
+            n * mod_l, Gs.input_shape[1]
+        )
     else:
         b = bool(np.random.randint(2))
         Z = np.random.randn(n * mod_l, Gs.input_shape[1])
@@ -58,7 +71,9 @@ def generate_dataset_main(
         mod_l = model_scale // 2
     mod_r = model_scale // mod_l
     if seed is not None:
-        Z = np.random.RandomState(seed).randn(n * mod_l, Gs.input_shape[1])
+        Z = np.random.RandomState(seed).randn(
+            n * mod_l, Gs.input_shape[1]
+        )
     else:
         Z = np.random.randn(n * mod_l, Gs.input_shape[1])
     W = Gs.components.mapping.run(
@@ -76,11 +91,17 @@ def generate_dataset_main(
         randomize_noise=False,
         minibatch_size=minibatch_size,
         print_progress=True,
-        output_transform=dict(func=tflib.convert_images_to_uint8, nchw_to_nhwc=True),
+        output_transform=dict(
+            func=tflib.convert_images_to_uint8, nchw_to_nhwc=True
+        ),
     )
     X = np.array(
         [
-            cv2.resize(x, (image_size, image_size), interpolation=cv2.INTER_AREA)
+            cv2.resize(
+                x,
+                (image_size, image_size),
+                interpolation=cv2.INTER_AREA,
+            )
             for x in X
         ]
     )
@@ -106,18 +127,36 @@ def generate_dataset(
     inc = n // batch_size
     left = n - ((batch_size - 1) * inc)
     W, X = generate_dataset_main(
-        inc, save_path, seed, model_res, image_size, minibatch_size, truncation
+        inc,
+        save_path,
+        seed,
+        model_res,
+        image_size,
+        minibatch_size,
+        truncation,
     )
     for i in range(batch_size - 2):
         aW, aX = generate_dataset_main(
-            inc, save_path, seed, model_res, image_size, minibatch_size, truncation
+            inc,
+            save_path,
+            seed,
+            model_res,
+            image_size,
+            minibatch_size,
+            truncation,
         )
         W = np.append(W, aW, axis=0)
         aW = None
         X = np.append(X, aX, axis=0)
         aX = None
     aW, aX = generate_dataset_main(
-        left, save_path, seed, model_res, image_size, minibatch_size, truncation
+        left,
+        save_path,
+        seed,
+        model_res,
+        image_size,
+        minibatch_size,
+        truncation,
     )
     W = np.append(W, aW, axis=0)
     aW = None
@@ -126,8 +165,14 @@ def generate_dataset(
 
     if save_path is not None:
         prefix = "_{}_{}".format(seed, n)
-        np.save(os.path.join(os.path.join(save_path, "W" + prefix)), W)
-        np.save(os.path.join(os.path.join(save_path, "X" + prefix)), X)
+        np.save(
+            os.path.join(os.path.join(save_path, "W" + prefix)),
+            W,
+        )
+        np.save(
+            os.path.join(os.path.join(save_path, "X" + prefix)),
+            X,
+        )
 
     return W, X
 
@@ -152,7 +197,9 @@ def get_resnet_model(
         return load_model(save_path)
 
     print("Building model")
-    model_scale = int(2 * (math.log(model_res, 2) - 1))  # For example, 1024 -> 18
+    model_scale = int(
+        2 * (math.log(model_res, 2) - 1)
+    )  # For example, 1024 -> 18
 
     if size <= 0:
         from keras.applications.resnet50 import ResNet50
@@ -164,7 +211,11 @@ def get_resnet_model(
             input_shape=(image_size, image_size, 3),
         )
     else:
-        from keras_applications.resnet_v2 import ResNet50V2, ResNet101V2, ResNet152V2
+        from keras_applications.resnet_v2 import (
+            ResNet50V2,
+            ResNet101V2,
+            ResNet152V2,
+        )
     if size == 1:
         resnet = ResNet50V2(
             include_top=False,
@@ -219,16 +270,24 @@ def get_resnet_model(
 
     if size <= 1:
         if size <= 0:
-            x = Conv2D(model_scale * 8, 1, activation=activation)(x)  # scale down
+            x = Conv2D(
+                model_scale * 8, 1, activation=activation
+            )(
+                x
+            )  # scale down
             x = Reshape((layer_r, layer_l))(x)
         else:
-            x = Conv2D(model_scale * 8 * 4, 1, activation=activation)(
+            x = Conv2D(
+                model_scale * 8 * 4, 1, activation=activation
+            )(
                 x
             )  # scale down a little
             x = Reshape((layer_r * 2, layer_l * 2))(x)
     else:
         if size == 2:
-            x = Conv2D(1024, 1, activation=activation)(x)  # scale down a bit
+            x = Conv2D(1024, 1, activation=activation)(
+                x
+            )  # scale down a bit
             x = Reshape((256, 256))(x)
         else:
             x = Reshape((256, 512))(x)  # all weights used
@@ -236,16 +295,22 @@ def get_resnet_model(
     while (
         depth > 0
     ):  # See https://github.com/OliverRichter/TreeConnect/blob/master/cifar.py - TreeConnect inspired layers instead of dense layers.
-        x = LocallyConnected1D(layer_r, 1, activation=activation)(x)
+        x = LocallyConnected1D(
+            layer_r, 1, activation=activation
+        )(x)
         x = Permute((2, 1))(x)
-        x = LocallyConnected1D(layer_l, 1, activation=activation)(x)
+        x = LocallyConnected1D(
+            layer_l, 1, activation=activation
+        )(x)
         x = Permute((2, 1))(x)
         if x_init is not None:
             x = Add()([x, x_init])  # add skip connection
         x_init = x
         depth -= 1
 
-    x = Reshape((model_scale, 512))(x)  # train against all dlatent values
+    x = Reshape((model_scale, 512))(
+        x
+    )  # train against all dlatent values
     model = Model(inputs=inp, outputs=x)
     model.compile(
         loss=loss, metrics=[], optimizer=optimizer
@@ -302,9 +367,15 @@ def finetune_resnet(
             truncation=truncation,
         )
         model.fit(
-            X_train, W_train, epochs=n_epochs, verbose=True, batch_size=minibatch_size
+            X_train,
+            W_train,
+            epochs=n_epochs,
+            verbose=True,
+            batch_size=minibatch_size,
         )
-        loss = model.evaluate(X_test, W_test, batch_size=minibatch_size)
+        loss = model.evaluate(
+            X_test, W_test, batch_size=minibatch_size
+        )
         if loss < best_loss:
             print("New best test loss : {:.5f}".format(loss))
             patience = 0
@@ -317,7 +388,11 @@ def finetune_resnet(
         ):  # When done with test set, train with it and discard.
             print("Done with current test set.")
             model.fit(
-                X_test, W_test, epochs=n_epochs, verbose=True, batch_size=minibatch_size
+                X_test,
+                W_test,
+                epochs=n_epochs,
+                verbose=True,
+                batch_size=minibatch_size,
             )
         print("Saving model.")
         model.save(save_path)
@@ -339,7 +414,9 @@ parser.add_argument(
     type=int,
 )
 parser.add_argument(
-    "--data_dir", default="data", help="Directory for storing the ResNet model"
+    "--data_dir",
+    default="data",
+    help="Directory for storing the ResNet model",
 )
 parser.add_argument(
     "--model_path",
@@ -359,15 +436,27 @@ parser.add_argument(
     type=int,
 )
 parser.add_argument(
-    "--activation", default="elu", help="Activation function to use after ResNet"
-)
-parser.add_argument("--optimizer", default="adam", help="Optimizer to use")
-parser.add_argument("--loss", default="logcosh", help="Loss function to use")
-parser.add_argument(
-    "--use_fp16", default=False, help="Use 16-bit floating point", type=bool
+    "--activation",
+    default="elu",
+    help="Activation function to use after ResNet",
 )
 parser.add_argument(
-    "--image_size", default=256, help="Size of images for ResNet model", type=int
+    "--optimizer", default="adam", help="Optimizer to use"
+)
+parser.add_argument(
+    "--loss", default="logcosh", help="Loss function to use"
+)
+parser.add_argument(
+    "--use_fp16",
+    default=False,
+    help="Use 16-bit floating point",
+    type=bool,
+)
+parser.add_argument(
+    "--image_size",
+    default=256,
+    help="Size of images for ResNet model",
+    type=int,
 )
 parser.add_argument(
     "--batch_size",
@@ -376,7 +465,10 @@ parser.add_argument(
     type=int,
 )
 parser.add_argument(
-    "--test_size", default=512, help="Batch size for testing the ResNet model", type=int
+    "--test_size",
+    default=512,
+    help="Batch size for testing the ResNet model",
+    type=int,
 )
 parser.add_argument(
     "--truncation",
@@ -444,8 +536,14 @@ model = get_resnet_model(
     loss=args.loss,
 )
 
-with dnnlib.util.open_url(args.model_url, cache_dir=config.cache_dir) as f:
-    generator_network, discriminator_network, Gs_network = pickle.load(f)
+with dnnlib.util.open_url(
+    args.model_url, cache_dir=config.cache_dir
+) as f:
+    (
+        generator_network,
+        discriminator_network,
+        Gs_network,
+    ) = pickle.load(f)
 
 
 def load_Gs():
@@ -454,7 +552,9 @@ def load_Gs():
 
 if args.freeze_first:
     model.layers[1].trainable = False
-    model.compile(loss=args.loss, metrics=[], optimizer=args.optimizer)
+    model.compile(
+        loss=args.loss, metrics=[], optimizer=args.optimizer
+    )
 
 model.summary()
 
@@ -475,7 +575,9 @@ if (
         truncation=args.truncation,
     )
     model.layers[1].trainable = True
-    model.compile(loss=args.loss, metrics=[], optimizer=args.optimizer)
+    model.compile(
+        loss=args.loss, metrics=[], optimizer=args.optimizer
+    )
     model.summary()
 
 if args.loop < 0:

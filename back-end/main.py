@@ -36,7 +36,9 @@ def get_application() -> FastAPI:
     application.include_router(api_router)
     pre_load = False
     if pre_load:
-        application.add_event_handler("startup", create_start_app_handler(application))
+        application.add_event_handler(
+            "startup", create_start_app_handler(application)
+        )
     set_cors(application)
     return application
 
@@ -44,4 +46,10 @@ def get_application() -> FastAPI:
 app = get_application()
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=6006, reload=True, debug=False)
+    uvicorn.run(
+        "main:app",
+        host="0.0.0.0",
+        port=6006,
+        reload=True,
+        debug=False,
+    )

@@ -43,7 +43,10 @@ def image_align(
     # Choose oriented crop rectangle.
     x = eye_to_eye - np.flipud(eye_to_mouth) * [-1, 1]
     x /= np.hypot(*x)
-    x *= max(np.hypot(*eye_to_eye) * 2.0, np.hypot(*eye_to_mouth) * 1.8)
+    x *= max(
+        np.hypot(*eye_to_eye) * 2.0,
+        np.hypot(*eye_to_mouth) * 1.8,
+    )
     x *= x_scale
     y = np.flipud(x) * [-y_scale, y_scale]
     c = eye_avg + eye_to_mouth * em_scale
@@ -52,7 +55,9 @@ def image_align(
 
     # Load in-the-wild image.
     if not os.path.isfile(src_file):
-        print('\nCannot find source image. Please run "--wilds" before "--align".')
+        print(
+            '\nCannot find source image. Please run "--wilds" before "--align".'
+        )
         return
     img = PIL.Image.open(src_file).convert("RGBA").convert("RGB")
 
@@ -81,7 +86,10 @@ def image_align(
         min(crop[2] + border, img.size[0]),
         min(crop[3] + border, img.size[1]),
     )
-    if crop[2] - crop[0] < img.size[0] or crop[3] - crop[1] < img.size[1]:
+    if (
+        crop[2] - crop[0] < img.size[0]
+        or crop[3] - crop[1] < img.size[1]
+    ):
         img = img.crop(crop)
         quad -= crop[0:2]
 
@@ -101,19 +109,32 @@ def image_align(
     if enable_padding and max(pad) > border - 4:
         pad = np.maximum(pad, int(np.rint(qsize * 0.3)))
         img = np.pad(
-            np.float32(img), ((pad[1], pad[3]), (pad[0], pad[2]), (0, 0)), "reflect"
+            np.float32(img),
+            ((pad[1], pad[3]), (pad[0], pad[2]), (0, 0)),
+            "reflect",
         )
         h, w, _ = img.shape
         y, x, _ = np.ogrid[:h, :w, :1]
         mask = np.maximum(
-            1.0 - np.minimum(np.float32(x) / pad[0], np.float32(w - 1 - x) / pad[2]),
-            1.0 - np.minimum(np.float32(y) / pad[1], np.float32(h - 1 - y) / pad[3]),
+            1.0
+            - np.minimum(
+                np.float32(x) / pad[0],
+                np.float32(w - 1 - x) / pad[2],
+            ),
+            1.0
+            - np.minimum(
+                np.float32(y) / pad[1],
+                np.float32(h - 1 - y) / pad[3],
+            ),
         )
         blur = qsize * 0.02
-        img += (scipy.ndimage.gaussian_filter(img, [blur, blur, 0]) - img) * np.clip(
-            mask * 3.0 + 1.0, 0.0, 1.0
+        img += (
+            scipy.ndimage.gaussian_filter(img, [blur, blur, 0])
+            - img
+        ) * np.clip(mask * 3.0 + 1.0, 0.0, 1.0)
+        img += (np.median(img, axis=(0, 1)) - img) * np.clip(
+            mask, 0.0, 1.0
         )
-        img += (np.median(img, axis=(0, 1)) - img) * np.clip(mask, 0.0, 1.0)
         img = np.uint8(np.clip(np.rint(img), 0, 255))
         if alpha:
             mask = 1 - np.clip(3.0 * mask, 0.0, 1.0)
@@ -132,7 +153,9 @@ def image_align(
         PIL.Image.BILINEAR,
     )
     if output_size < transform_size:
-        img = img.resize((output_size, output_size), PIL.Image.ANTIALIAS)
+        img = img.resize(
+            (output_size, output_size), PIL.Image.ANTIALIAS
+        )
 
     # Save aligned image.
     img.save(dst_file, "PNG")

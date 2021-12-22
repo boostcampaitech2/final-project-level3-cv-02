@@ -50,13 +50,17 @@ class DBController:
         Args:
                 table_name (str): table name
         """
-        self.data = pd.read_sql(f"""select * from {table_name};""", con=self.DB)
+        self.data = pd.read_sql(
+            f"""select * from {table_name};""", con=self.DB
+        )
         return
 
     def out_csv(self):
         """save table to csv file"""
         self.createDirectory()
-        self.data.to_csv("./csv/data.csv", index=False)  # airflow/csv
+        self.data.to_csv(
+            "./csv/data.csv", index=False
+        )  # airflow/csv
         return
 
     def save_data_to_db(self, df, table_name):
@@ -70,6 +74,11 @@ class DBController:
             f"mysql+pymysql://{self.MYSQL_USER}:{self.MYSQL_PASSWORD}@{self.MYSQL_SERVER}:{self.MYSQL_PORT}/{self.MYSQL_DB}?charset=utf8mb4"
         )
         engine_conn = engine.connect()
-        df.to_sql(table_name, engine_conn, if_exists="replace", index=None)
+        df.to_sql(
+            table_name,
+            engine_conn,
+            if_exists="replace",
+            index=None,
+        )
         engine_conn.close()
         engine.dispose()

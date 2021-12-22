@@ -4,7 +4,9 @@ import bz2
 import argparse
 from keras.utils import get_file
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__))))
+sys.path.append(
+    os.path.abspath(os.path.join(os.path.dirname(__file__)))
+)
 from ffhq_dataset.face_alignment import image_align
 from ffhq_dataset.landmarks_detector import LandmarksDetector
 import multiprocessing
@@ -27,8 +29,14 @@ if __name__ == "__main__":
         description="Align faces from input images",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
-    parser.add_argument("raw_dir", help="Directory with raw images for face alignment")
-    parser.add_argument("aligned_dir", help="Directory for storing aligned images")
+    parser.add_argument(
+        "raw_dir",
+        help="Directory with raw images for face alignment",
+    )
+    parser.add_argument(
+        "aligned_dir",
+        help="Directory for storing aligned images",
+    )
     parser.add_argument(
         "--output_size",
         default=1024,
@@ -36,10 +44,16 @@ if __name__ == "__main__":
         type=int,
     )
     parser.add_argument(
-        "--x_scale", default=1, help="Scaling factor for x dimension", type=float
+        "--x_scale",
+        default=1,
+        help="Scaling factor for x dimension",
+        type=float,
     )
     parser.add_argument(
-        "--y_scale", default=1, help="Scaling factor for y dimension", type=float
+        "--y_scale",
+        default=1,
+        help="Scaling factor for y dimension",
+        type=float,
     )
     parser.add_argument(
         "--em_scale",
@@ -48,7 +62,10 @@ if __name__ == "__main__":
         type=float,
     )
     parser.add_argument(
-        "--use_alpha", default=False, help="Add an alpha channel for masking", type=bool
+        "--use_alpha",
+        default=False,
+        help="Add an alpha channel for masking",
+        type=bool,
     )
 
     args, other_args = parser.parse_known_args()
@@ -67,17 +84,26 @@ if __name__ == "__main__":
         print("Aligning %s ..." % img_name)
         try:
             raw_img_path = os.path.join(RAW_IMAGES_DIR, img_name)
-            fn = face_img_name = "%s_%02d.png" % (os.path.splitext(img_name)[0], 1)
+            fn = face_img_name = "%s_%02d.png" % (
+                os.path.splitext(img_name)[0],
+                1,
+            )
             if os.path.isfile(fn):
                 continue
             print("Getting landmarks...")
             for i, face_landmarks in enumerate(
-                landmarks_detector.get_landmarks(raw_img_path), start=1
+                landmarks_detector.get_landmarks(raw_img_path),
+                start=1,
             ):
                 try:
                     print("Starting face alignment...")
-                    face_img_name = "%s_%02d.png" % (os.path.splitext(img_name)[0], i)
-                    aligned_face_path = os.path.join(ALIGNED_IMAGES_DIR, face_img_name)
+                    face_img_name = "%s_%02d.png" % (
+                        os.path.splitext(img_name)[0],
+                        i,
+                    )
+                    aligned_face_path = os.path.join(
+                        ALIGNED_IMAGES_DIR, face_img_name
+                    )
                     image_align(
                         raw_img_path,
                         aligned_face_path,

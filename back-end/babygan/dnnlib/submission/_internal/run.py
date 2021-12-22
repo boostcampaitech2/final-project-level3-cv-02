@@ -30,14 +30,22 @@ def main():
     task_name = str(sys.argv[2])
     host_name = str(sys.argv[3])
 
-    submit_config_path = os.path.join(run_dir, "submit_config.pkl")
+    submit_config_path = os.path.join(
+        run_dir, "submit_config.pkl"
+    )
 
     # SubmitConfig should have been pickled to the run dir
     if not os.path.exists(submit_config_path):
-        raise RuntimeError("SubmitConfig pickle file does not exist!")
+        raise RuntimeError(
+            "SubmitConfig pickle file does not exist!"
+        )
 
-    submit_config: dnnlib.SubmitConfig = pickle.load(open(submit_config_path, "rb"))
-    dnnlib.submission.submit.set_user_name_override(submit_config.user_name)
+    submit_config: dnnlib.SubmitConfig = pickle.load(
+        open(submit_config_path, "rb")
+    )
+    dnnlib.submission.submit.set_user_name_override(
+        submit_config.user_name
+    )
 
     submit_config.task_name = task_name
     submit_config.host_name = host_name

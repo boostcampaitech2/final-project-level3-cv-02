@@ -4,7 +4,9 @@ from sqlalchemy.orm import Session
 from sqlalchemy import update
 from sqlalchemy.sql import func
 
-sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+sys.path.append(
+    os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
+)
 sys.path.append("../")
 from ..model import models, schemas
 
@@ -33,7 +35,9 @@ def get_inference_results(db: Session):
 
 def update_comment(db: Session, uuid: str, comment: str):
     db_share = (
-        db.query(models.InferenceResult).filter(models.InferenceResult.id == uuid).one()
+        db.query(models.InferenceResult)
+        .filter(models.InferenceResult.id == uuid)
+        .one()
     )
     db_share.comment = comment
     db.commit()
@@ -42,7 +46,9 @@ def update_comment(db: Session, uuid: str, comment: str):
 
 def update_inference_fail(db: Session, uuid: str):
     db_update = (
-        db.query(models.InferenceResult).filter(models.InferenceResult.id == uuid).one()
+        db.query(models.InferenceResult)
+        .filter(models.InferenceResult.id == uuid)
+        .one()
     )
     if not db_update.complete:
         db_update.closed_at = func.now()
@@ -50,9 +56,13 @@ def update_inference_fail(db: Session, uuid: str):
     return db_update
 
 
-def update_inference_result(db: Session, uuid: str, baby_url: str):
+def update_inference_result(
+    db: Session, uuid: str, baby_url: str
+):
     db_update = (
-        db.query(models.InferenceResult).filter(models.InferenceResult.id == uuid).one()
+        db.query(models.InferenceResult)
+        .filter(models.InferenceResult.id == uuid)
+        .one()
     )
     if db_update.complete:
         db_update.closed_at = func.now()
@@ -63,6 +73,8 @@ def update_inference_result(db: Session, uuid: str, baby_url: str):
 
 def update_stop_inference(db: Session, uuid: str):
     db_false = (
-        db.query(models.InferenceResult).filter(models.InferenceResult.id == uuid).one()
+        db.query(models.InferenceResult)
+        .filter(models.InferenceResult.id == uuid)
+        .one()
     )
     return db_false

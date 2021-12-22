@@ -49,7 +49,8 @@ def calculate_bounce_rate():
     """Calculate inference bounce rate"""
     print(f"calculate bounce rate after click inference button")
     df_log = pd.read_csv(
-        os.path.join(f"{INFER_RESULT_PATH}", "data.csv"), parse_dates=["created_time"]
+        os.path.join(f"{INFER_RESULT_PATH}", "data.csv"),
+        parse_dates=["created_time"],
     )
 
     df_log["age"] = df_log["age"].astype(int)
@@ -63,13 +64,16 @@ def calculate_bounce_rate():
     for g in gender:
         for a_i in range(len(age) - 1):
             condition = (df_log.gender == g) & (
-                (int(age[a_i]) <= df_log["age"]) & (df_log["age"] < int(age[a_i + 1]))
+                (int(age[a_i]) <= df_log["age"])
+                & (df_log["age"] < int(age[a_i + 1]))
             )
             rate = len(df_log[condition]) / total_id * 100
             total_data.append([id, g, age[a_i], rate])
             id += 1
 
-    df_result = pd.DataFrame(total_data, columns=["id", "gender", "age", "rate"])
+    df_result = pd.DataFrame(
+        total_data, columns=["id", "gender", "age", "rate"]
+    )
     data_to_db(df_result, "user_statistic")
 
     return
@@ -96,7 +100,11 @@ def analysis():
     total = len(df)
     df_result = pd.DataFrame(
         [[avg_bounce, total, avg_inference]],
-        columns=["avg_bounce_time", "total_user", "avg_inference_time"],
+        columns=[
+            "avg_bounce_time",
+            "total_user",
+            "avg_inference_time",
+        ],
     )
     data_to_db(df_result, "statistic")
 

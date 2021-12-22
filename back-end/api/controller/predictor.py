@@ -5,7 +5,9 @@ from fastapi import APIRouter, File, Form, UploadFile
 from fastapi.responses import HTMLResponse
 from babygan import inference
 
-sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+sys.path.append(
+    os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
+)
 sys.path.append("../")
 
 from ..common.uploader import upload_image
@@ -48,8 +50,12 @@ def predict(
     """
     setting_uuid = uuid  # str(uuid.uuid4())
 
-    father_url = upload_image(setting_uuid, father_image, "father")
-    mother_url = upload_image(setting_uuid, mother_image, "mother")
+    father_url = upload_image(
+        setting_uuid, father_image, "father"
+    )
+    mother_url = upload_image(
+        setting_uuid, mother_image, "mother"
+    )
 
     db = get_db()
     create_inference_result(
@@ -65,7 +71,9 @@ def predict(
             "complete": True,
         },
     )
-    baby_file_path = inference.do_inference(father_url, mother_url, setting_uuid[:8])
+    baby_file_path = inference.do_inference(
+        father_url, mother_url, setting_uuid[:8]
+    )
 
     baby_url = upload_image(setting_uuid, baby_file_path, "baby")
     update_inference_result(db, setting_uuid, baby_url)

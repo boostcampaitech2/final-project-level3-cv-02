@@ -10,7 +10,9 @@ import shutil
 import sys
 import os
 
-sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+sys.path.append(
+    os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
+)
 sys.path.append("../")
 
 from .s3 import *
@@ -22,7 +24,9 @@ access_key_pass = os.getenv("access_key_PASS")
 s3 = s3_connection(access_key_id, access_key_pass)
 
 
-def upload_image(common_uuid: str, image: File(...), file_name: str):
+def upload_image(
+    common_uuid: str, image: File(...), file_name: str
+):
     """
     image의 url을 추출하고 DB에 저장합니다.
     Args:
@@ -46,7 +50,10 @@ def upload_image(common_uuid: str, image: File(...), file_name: str):
             image.file,
             "12war",
             save_path,
-            ExtraArgs={"ContentType": "image/png", "ACL": "public-read"},
+            ExtraArgs={
+                "ContentType": "image/png",
+                "ACL": "public-read",
+            },
         )
     image_url = s3_get_image_url(s3, save_path)
     return image_url

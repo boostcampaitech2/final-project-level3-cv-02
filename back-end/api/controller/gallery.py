@@ -4,11 +4,16 @@ from fastapi import APIRouter
 import sys
 import os
 
-sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+sys.path.append(
+    os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
+)
 sys.path.append("../")
 
 from ..config.database import get_db
-from ..service.inference_result import get_inference_results, update_comment
+from ..service.inference_result import (
+    get_inference_results,
+    update_comment,
+)
 
 router = APIRouter()
 
