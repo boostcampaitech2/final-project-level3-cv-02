@@ -1,8 +1,6 @@
 
 import uvicorn
-from api.api import router as api_router
-# from core.config import API_PREFIX, DEBUG, PROJECT_NAME, VERSION
-# from core.events import create_start_app_handler
+from api.route import router as api_router
 from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError 
 from fastapi.middleware.cors import CORSMiddleware
@@ -11,20 +9,18 @@ from typing import Callable
 
 
 from model import models
-from model.models import Base
-from model.database import SessionLocal, engine
+from api.config.database import engine
 
 models.Base.metadata.create_all(bind=engine)
 
 def create_start_app_handler(app: FastAPI) -> Callable: 
     def start_app() -> None: 
         preload_model()
-
     return start_app
 
 def set_cors(application: FastAPI): 
     origins = ["*" ]
-    application.add_middleware( CORSMiddleware, allow_origins=origins, allow_credentials=True, allow_methods=["*"], allow_headers=["*"], )
+    application.add_middleware( CORSMiddleware, allow_origins=origins, allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
 
 def get_application() -> FastAPI:
     application = FastAPI()

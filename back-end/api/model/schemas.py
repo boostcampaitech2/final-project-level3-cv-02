@@ -12,18 +12,7 @@ class Statistic(BaseModel):
     total_user: int
     avg_inference_time:int
 
-class InferenceResultBase(BaseModel):
-    father_url: str
-    mother_url: str
-
-
-class InferenceResult(InferenceResultBase):
-    baby_url: str
-    class Config:
-        orm_mode = True
-
-
-class InferenceResultCreate(InferenceResultBase):
+class InferenceResultCreate(BaseModel):
     id: str
     father_url: str
     mother_url: str

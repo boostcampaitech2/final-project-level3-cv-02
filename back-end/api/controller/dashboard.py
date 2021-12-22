@@ -1,16 +1,11 @@
 import io
-from PIL import Image
-from typing import List
 import uuid
 import shutil
+from PIL import Image
+from typing import List
 from fastapi import APIRouter, File, UploadFile, Depends, HTTPException
 from fastapi.responses import HTMLResponse, FileResponse
-from dotenv import load_dotenv
-from .s3 import *
-from .uploader import upload_image
-import shutil 
 from babygan import inference
-
 from sqlalchemy.orm import Session
 
 import sys
@@ -18,21 +13,11 @@ import os
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 sys.path.append("../")
 
-from model import crud, models, schemas
-from model.database import SessionLocal, engine
-
+from ..config.database import get_db
+from ..service.inference_result import get_inference_results
+from ..service.statistic import get_statistic
 
 router = APIRouter()
-load_dotenv(dotenv_path = ".env")
-
-# Dependency
-def get_db():
-    db = SessionLocal()
-    try:
-        return db
-    finally:
-        db.close()
-
 
 @router.get("/dashboard/inflow")
 def get_user_inflow():
@@ -60,17 +45,14 @@ def get_bounce_rate():
     no_stay = 0
 
     db = get_db()
-
-    users = crud.get_inference_results(db)
+    users = get_inference_results(db)
 
     for user in users:
         if user.complete:
             stay += 1
         else:
             no_stay += 1
-
     bounce_rate = {"stay":stay, "no_stay":no_stay}
-
     return bounce_rate
 
 
@@ -83,7 +65,7 @@ def get_time():
     """
     db = get_db()
 
-    statistic = crud.get_statistic(db)
+    statistic = get_statistic(db)
 
     bounce_time = statistic.avg_bounce_time
     inference_time = statistic.avg_inference_time
@@ -100,7 +82,7 @@ def get_num_of_attempts():
     """
     db = get_db()
 
-    users = crud.get_inference_results(db)
+    users = get_inference_results(db)
 
     return {"attempts": len(users)}
 
