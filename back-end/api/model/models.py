@@ -7,6 +7,11 @@ sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 from api.config.database import Base
 
 class Statistic(Base):
+    """
+    airflow batchjob 결과물을 저장하는 table 입니다
+    Columns: 
+        avg_bounce_time, total_user, avg_inference_time
+    """
     __table_args__ = {'extend_existing': True}
     __tablename__ = "statistic"
     avg_bounce_time = Column(Integer, primary_key=True)
@@ -14,6 +19,11 @@ class Statistic(Base):
     avg_inference_time = Column(Integer)
 
 class UserStatistic(Base):
+    """
+    대시보드를 위한 사용자 정보를 저장하는 table 입니다.
+    Columns: 
+        id, gender, age, rate
+    """
     __table_args__ = {'extend_existing': True}
     __tablename__ = "user_statistic"
     id = Column(Integer, primary_key=True)
@@ -24,7 +34,11 @@ class UserStatistic(Base):
 
 class InferenceResult(Base):
     """
-    id, father_image_url, mother_image_url, baby_result_url, created time, comment
+    사용자가 입력한 정보(이미지 url, 성별 등)와 결과물 url을 저장하는 table 입니다.
+    Columns:
+        id, father_image_url, mother_image_url, baby_result_url, 
+        created time, comment, closed_at, complete,
+        age, gender
     """
 
     __table_args__ = {'extend_existing': True}
