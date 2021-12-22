@@ -1,13 +1,9 @@
 import math
 import tensorflow as tf
 import numpy as np
-#import dnnlib.tflib as tflib 
 import sys
 import os
-#sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__)))) 
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
-#from ..dnnlib import tflib as tflib
-#sys.path.append("..")
 from dnnlib import tflib as tflib
 from dnnlib.tflib import tfutil as tfutil
 from functools import partial
@@ -25,7 +21,6 @@ def create_variable_for_generator(name, batch_size, tiled_dlatent, model_scale=1
             initializer=tf.initializers.random_normal())
         return tf.tile(low_dim_dlatent, [1, model_scale // tile_size, 1])
     else:
-        #tf.compat.v1.get_variable_scope("learnable_dlatents",reuse=True)
         with tf.compat.v1.variable_scope("learnable_dlatents", reuse=tf.compat.v1.AUTO_REUSE):
             learnable_dlatents = tf.compat.v1.get_variable('learnable_dlatents',
                                                             shape=(batch_size, model_scale, 512),

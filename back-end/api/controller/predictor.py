@@ -18,12 +18,18 @@ router = APIRouter()
 def cancel (
     body: dict
 ):
+    """
+    inference 도중 이탈하였을때 사용자의 이탈에 대한 데이터를 처리합니다.
+
+    Args:
+        body['uuid']: 이탈한 사용자의 uuid
+    """
     uuid=body['uuid']
     db = get_db()
     db_false = update_stop_inference(db, uuid)
     db_false.complete = False  
     db.commit()
-    crud.update_inference_fail (db=db, uuid=uuid)
+    update_inference_fail (db=db, uuid=uuid)
     
 
 
@@ -37,9 +43,13 @@ def predict(
     ):
     """
     inference를 위한 함수입니다.
+
     Args:
         father_image : 사용자가 upload한 Father image file
         mother_image : 사용자가 upload한 Mother image file
+        uuid : 사용자의 uuid 
+        gender : 사용자의 성별
+        age : 사용자의 나이 
     Return:
         baby_url : S3에서 추출한 결과물 url을 반환합니다.
     """
