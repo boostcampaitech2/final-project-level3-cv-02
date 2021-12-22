@@ -14,10 +14,9 @@ from keras.applications.vgg16 import VGG16, preprocess_input
 import keras.backend as K
 import traceback
 import sys
-#sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__)))) ;-;
-sys.path.append("..")
-from babygan.dnnlib import tflib 
-#import dnnlib.tflib as tflib 안마주했을 가능성이 큰게 이게 back-end에서 main부르고 api갓다가 inference에서 또 머 실행하고 머 실행하고 이러니깐,..,
+
+sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+from dnnlib import tflib 
 
 def load_images(images_list, image_size=256, sharpen=False):
     loaded_images = list()
