@@ -1,47 +1,26 @@
-import io
-from PIL import Image
-from typing import List
-import uuid
-import shutil
-from fastapi import APIRouter, File, Form, UploadFile, Depends, HTTPException
-from fastapi.responses import HTMLResponse, FileResponse
-from dotenv import load_dotenv
-from .s3 import *
-from .uploader import upload_image
-import shutil 
-from babygan import inference
-
-from sqlalchemy.orm import Session
-
 import sys
 import os
+import shutil 
+from fastapi import APIRouter, File, Form, UploadFile
+from fastapi.responses import HTMLResponse
+from babygan import inference
+
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 sys.path.append("../")
 
-from model import crud, models, schemas
-from model.database import SessionLocal, engine
-
+from ..common.uploader import upload_image
+from ..config.database import get_db
+from ..service.inference_result import update_stop_inference, update_inference_fail, update_inference_result, create_inference_result
 
 router = APIRouter()
-load_dotenv(dotenv_path = ".env")
-
-# Dependency
-def get_db():
-    db = SessionLocal()
-    try:
-        return db
-    finally:
-        db.close()
 
 @router.post("/cancle")
-def cancle (
+def cancel (
     body: dict
 ):
-    print(body)
     uuid=body['uuid']
-    print(uuid)
     db = get_db()
-    db_false = db.query(models.InferenceResult).filter(models.InferenceResult.id == uuid).one()
+    db_false = update_stop_inference(db, uuid)
     db_false.complete = False  
     db.commit()
     crud.update_inference_fail (db=db, uuid=uuid)
@@ -70,11 +49,11 @@ def predict(
     mother_url = upload_image(setting_uuid, mother_image, "mother")
     
     db = get_db()
-    crud.create_inference_result(db, inference_result = {"id":setting_uuid, "father_url":father_url, "mother_url":mother_url, "gender":gender, "age":age, "baby_url": None, "comment" : None, "complete": True }) 
+    create_inference_result(db, inference_result = {"id":setting_uuid, "father_url":father_url, "mother_url":mother_url, "gender":gender, "age":age, "baby_url": None, "comment" : None, "complete": True }) 
     baby_file_path = inference.do_inference(father_url, mother_url, setting_uuid[:8]) 
 
     baby_url = upload_image(setting_uuid, baby_file_path, "baby")
-    crud.update_inference_result(db, setting_uuid, baby_url ) 
+    update_inference_result(db, setting_uuid, baby_url ) 
     if os.path.isdir(baby_file_path[:-12]): 
         print(baby_file_path[:-12])
         shutil.rmtree(baby_file_path[:-12])

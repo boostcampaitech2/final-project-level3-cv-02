@@ -1,17 +1,20 @@
+import sys 
+import os
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime, Float
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
-
-from .database import Base
+sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+from api.config.database import Base
 
 class Statistic(Base):
+    __table_args__ = {'extend_existing': True}
     __tablename__ = "statistic"
-
     avg_bounce_time = Column(Integer, primary_key=True)
     total_user = Column(Integer)
     avg_inference_time = Column(Integer)
 
 class UserStatistic(Base):
+    __table_args__ = {'extend_existing': True}
     __tablename__ = "user_statistic"
     id = Column(Integer, primary_key=True)
     gender = Column(String)
@@ -24,6 +27,7 @@ class InferenceResult(Base):
     id, father_image_url, mother_image_url, baby_result_url, created time, comment
     """
 
+    __table_args__ = {'extend_existing': True}
     __tablename__ = "inference_result"
 
     id = Column(String, primary_key=True, index=True)
@@ -41,16 +45,3 @@ class InferenceResult(Base):
     age = Column(String, default="None")
     gender = Column(String, default="None")
 
-    # items = relationship("Item", back_populates="owner")
-
-
-# class Item(Base):
-
-#     __tablename__ = "items"
-
-#     id = Column(Integer, primary_key=True, index=True)
-#     title = Column(String, index=True)
-#     description = Column(String, index=True)
-#     owner_id = Column(Integer, ForeignKey("users.id"))
-
-#     owner = relationship("User", back_populates="items")

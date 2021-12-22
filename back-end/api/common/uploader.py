@@ -6,11 +6,14 @@ import shutil
 from fastapi import APIRouter, File, UploadFile
 from fastapi.responses import HTMLResponse, FileResponse
 from dotenv import load_dotenv
-from .s3 import *
 import shutil 
+import sys 
+import os
+sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+sys.path.append("../")
 
-
-# router = APIRouter()
+from .s3 import *
+from ..config.s3 import s3_connection
 
 load_dotenv(dotenv_path = ".env")
 access_key_id = os.getenv('access_key_ID')
@@ -33,7 +36,6 @@ def upload_image(
     """
     image_name = common_uuid + file_name + ".png"
     save_path = file_name + "/" + image_name
-    #def s3_put_object(s3, bucket, filepath, access_key):
     if file_name == 'baby' : 
         s3_put_object(s3,"12war", image, save_path,)
     else:
@@ -41,9 +43,7 @@ def upload_image(
             image.file, "12war", save_path, 
             ExtraArgs={"ContentType": "image/png", "ACL": "public-read"}
         )
-        
-    image_url = s3_get_image_url(s3, save_path)
-        
+    image_url = s3_get_image_url(s3, save_path)        
     return image_url
 
 

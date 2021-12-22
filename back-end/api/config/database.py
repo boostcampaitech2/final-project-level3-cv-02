@@ -22,3 +22,11 @@ engine = create_engine(MYSQL_DB, encoding="utf-8", pool_size=20, max_overflow=0)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
+
+# Dependency
+def get_db():
+    db = SessionLocal()
+    try:
+        return db
+    finally:
+        db.close()
