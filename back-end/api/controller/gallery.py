@@ -29,6 +29,12 @@ def get_image_url():
 
 @router.post("/share")
 def share_image(body:dict):
+    """
+    이미지를 공유할 때 사용자가 작성한 comment를 db에 업데이트합니다.
+    Args: 
+        body['uuid']: comment를 작성한 사용자의 uuid 
+        body['comment']: 사용자가 작성한 comment
+    """
     uuid = body['uuid']
     comment = body['comment']
     db = get_db()
