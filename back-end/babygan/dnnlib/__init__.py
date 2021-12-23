@@ -16,7 +16,7 @@ from .submission.submit import submit_run
 
 from .util import EasyDict
 
-from . import tflib  # 해치웟나?
+from . import tflib 
 from .tflib import autosummary
 from .tflib import network
 from .tflib import optimizer
