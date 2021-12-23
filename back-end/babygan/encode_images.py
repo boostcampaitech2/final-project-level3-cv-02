@@ -9,6 +9,7 @@ import dnnlib
 import dnnlib.tflib as tflib
 import config
 import sys
+from dotmap import DotMap
 
 sys.path.append(
     os.path.abspath(os.path.join(os.path.dirname(__file__)))
@@ -39,327 +40,63 @@ def str2bool(v):
         )
 
 
-def main():
-    parser = argparse.ArgumentParser(
-        description="Find latent representation of reference images using perceptual losses",
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
-    )
-    parser.add_argument(
-        "src_dir", help="Directory with images for encoding"
-    )
-    parser.add_argument(
-        "generated_images_dir",
-        help="Directory for storing generated images",
-    )
-    parser.add_argument(
-        "dlatent_dir",
-        help="Directory for storing dlatent representations",
-    )
-    parser.add_argument(
-        "--data_dir",
-        default="data",
-        help="Directory for storing optional models",
-    )
-    parser.add_argument(
-        "--mask_dir",
-        default="masks",
-        help="Directory for storing optional masks",
-    )
-    parser.add_argument(
-        "--load_last",
-        default="",
-        help="Start with embeddings from directory",
-    )
-    parser.add_argument(
-        "--dlatent_avg",
-        default="",
-        help="Use dlatent from file specified here for truncation instead of dlatent_avg from Gs",
-    )
-    parser.add_argument(
-        "--model_url",
-        default="karras2019stylegan-ffhq-1024x1024.pkl",
-        help="Fetch a StyleGAN model to train on from this URL",
-    )
-    parser.add_argument(
-        "--architecture",
-        default="vgg16_zhang_perceptual.pkl",
-        help="Сonvolutional neural network model from this URL",
-    )
-    parser.add_argument(
-        "--model_res",
-        default=1024,
-        help="The dimension of images in the StyleGAN model",
-        type=int,
-    )
-    parser.add_argument(
-        "--batch_size",
-        default=1,
-        help="Batch size for generator and perceptual model",
-        type=int,
-    )
-    parser.add_argument(
-        "--optimizer",
-        default="ggt",
-        help="Optimization algorithm used for optimizing dlatents",
-    )
-
-    # Perceptual model params
-    parser.add_argument(
-        "--image_size",
-        default=256,
-        help="Size of images for perceptual model",
-        type=int,
-    )
-    parser.add_argument(
-        "--resnet_image_size",
-        default=256,
-        help="Size of images for the Resnet model",
-        type=int,
-    )
-    parser.add_argument(
-        "--lr",
-        default=0.25,
-        help="Learning rate for perceptual model",
-        type=float,
-    )
-    parser.add_argument(
-        "--decay_rate",
-        default=0.9,
-        help="Decay rate for learning rate",
-        type=float,
-    )
-    parser.add_argument(
-        "--iterations",
-        default=100,
-        help="Number of optimization steps for each batch",
-        type=int,
-    )
-    parser.add_argument(
-        "--decay_steps",
-        default=4,
-        help="Decay steps for learning rate decay (as a percent of iterations)",
-        type=float,
-    )
-    parser.add_argument(
-        "--early_stopping",
-        default=True,
-        help="Stop early once training stabilizes",
-        type=str2bool,
-        nargs="?",
-        const=True,
-    )
-    parser.add_argument(
-        "--early_stopping_threshold",
-        default=0.5,
-        help="Stop after this threshold has been reached",
-        type=float,
-    )
-    parser.add_argument(
-        "--early_stopping_patience",
-        default=10,
-        help="Number of iterations to wait below threshold",
-        type=int,
-    )
-    parser.add_argument(
-        "--load_effnet",
-        default="data/finetuned_effnet.h5",
-        help="Model to load for EfficientNet approximation of dlatents",
-    )
-    parser.add_argument(
-        "--load_resnet",
-        default="data/finetuned_resnet.h5",
-        help="Model to load for ResNet approximation of dlatents",
-    )
-    parser.add_argument(
-        "--use_preprocess_input",
-        default=True,
-        help="Call process_input() first before using feed forward net",
-        type=str2bool,
-        nargs="?",
-        const=True,
-    )
-    parser.add_argument(
-        "--use_best_loss",
-        default=True,
-        help="Output the lowest loss value found as the solution",
-        type=str2bool,
-        nargs="?",
-        const=True,
-    )
-    parser.add_argument(
-        "--average_best_loss",
-        default=0.25,
-        help="Do a running weighted average with the previous best dlatents found",
-        type=float,
-    )
-    parser.add_argument(
-        "--sharpen_input",
-        default=True,
-        help="Sharpen the input images",
-        type=str2bool,
-        nargs="?",
-        const=True,
-    )
-
-    # Loss function options
-    parser.add_argument(
-        "--use_vgg_loss",
-        default=0.4,
-        help="Use VGG perceptual loss; 0 to disable, > 0 to scale.",
-        type=float,
-    )
-    parser.add_argument(
-        "--use_vgg_layer",
-        default=9,
-        help="Pick which VGG layer to use.",
-        type=int,
-    )
-    parser.add_argument(
-        "--use_pixel_loss",
-        default=1.5,
-        help="Use logcosh image pixel loss; 0 to disable, > 0 to scale.",
-        type=float,
-    )
-    parser.add_argument(
-        "--use_mssim_loss",
-        default=200,
-        help="Use MS-SIM perceptual loss; 0 to disable, > 0 to scale.",
-        type=float,
-    )
-    parser.add_argument(
-        "--use_lpips_loss",
-        default=100,
-        help="Use LPIPS perceptual loss; 0 to disable, > 0 to scale.",
-        type=float,
-    )
-    parser.add_argument(
-        "--use_l1_penalty",
-        default=0.5,
-        help="Use L1 penalty on latents; 0 to disable, > 0 to scale.",
-        type=float,
-    )
-    parser.add_argument(
-        "--use_discriminator_loss",
-        default=0.5,
-        help="Use trained discriminator to evaluate realism.",
-        type=float,
-    )
-    parser.add_argument(
-        "--use_adaptive_loss",
-        default=False,
-        help="Use the adaptive robust loss function from Google Research for pixel and VGG feature loss.",
-        type=str2bool,
-        nargs="?",
-        const=True,
-    )
-
-    # Generator params
-    parser.add_argument(
-        "--randomize_noise",
-        default=False,
-        help="Add noise to dlatents during optimization",
-        type=str2bool,
-        nargs="?",
-        const=True,
-    )
-    parser.add_argument(
-        "--tile_dlatents",
-        default=False,
-        help="Tile dlatents to use a single vector at each scale",
-        type=str2bool,
-        nargs="?",
-        const=True,
-    )
-    parser.add_argument(
-        "--clipping_threshold",
-        default=2.0,
-        help="Stochastic clipping of gradient values outside of this threshold",
-        type=float,
-    )
-
-    # Masking params
-    parser.add_argument(
-        "--load_mask",
-        default=False,
-        help="Load segmentation masks",
-        type=str2bool,
-        nargs="?",
-        const=True,
-    )
-    parser.add_argument(
-        "--face_mask",
-        default=True,
-        help="Generate a mask for predicting only the face area",
-        type=str2bool,
-        nargs="?",
-        const=True,
-    )
-    parser.add_argument(
-        "--use_grabcut",
-        default=True,
-        help="Use grabcut algorithm on the face mask to better segment the foreground",
-        type=str2bool,
-        nargs="?",
-        const=True,
-    )
-    parser.add_argument(
-        "--scale_mask",
-        default=1.4,
-        help="Look over a wider section of foreground for grabcut",
-        type=float,
-    )
-    parser.add_argument(
-        "--composite_mask",
-        default=True,
-        help="Merge the unmasked area back into the generated image",
-        type=str2bool,
-        nargs="?",
-        const=True,
-    )
-    parser.add_argument(
-        "--composite_blur",
-        default=8,
-        help="Size of blur filter to smoothly composite the images",
-        type=int,
-    )
-
-    # Video params
-    parser.add_argument(
-        "--video_dir",
-        default="videos",
-        help="Directory for storing training videos",
-    )
-    parser.add_argument(
-        "--output_video",
-        default=False,
-        help="Generate videos of the optimization process",
-        type=bool,
-    )
-    parser.add_argument(
-        "--video_codec",
-        default="MJPG",
-        help="FOURCC-supported video codec name",
-    )
-    parser.add_argument(
-        "--video_frame_rate",
-        default=24,
-        help="Video frames per second",
-        type=int,
-    )
-    parser.add_argument(
-        "--video_size",
-        default=512,
-        help="Video size in pixels",
-        type=int,
-    )
-    parser.add_argument(
-        "--video_skip",
-        default=1,
-        help="Only write every n frames (1 = write every frame)",
-        type=int,
-    )
-
-    args, other_args = parser.parse_known_args()
+def encode_images(u2id):
+    ROOT = "./babygan/"
+    args = {
+        'src_dir' : ROOT+f"{u2id}aligned",
+        'mask_dir' : ROOT+f"{u2id}masks",
+        'generated_images_dir': ROOT+f"{u2id}generated",
+        'dlatent_dir' : ROOT+f"{u2id}latent_representations",
+        'data_dir' : 'data',
+        'load_last' : '',
+        'dlatent_avg': '',
+        'model_url' : 'karras2019stylegan-ffhq-1024x1024.pkl',
+        'architecture' : 'vgg16_zhang_perceptual.pkl',
+        'model_res':1024,
+        'batch_size' : 1,
+        'optimizer' : "ggt",
+        'image_size' : 256,
+        'resnet_image_size' : 256,
+        'lr' : 0.5,
+        'decay_rate' : 0.9,
+        'iterations' : 200,
+        'decay_steps' : 4 ,
+        'early_stopping' : True,
+        'early_stopping_threshold' : 0.5,
+        'early_stopping_patience' : 10,
+        'load_effnet': 'data/finetuned_resnet.h5',
+        'load_resnet': 'data/finetuned_resnet.h5',
+        'use_preprocess_input' : True, 
+        'use_best_loss' : True,
+        'average_best_loss' : 0.25,
+        'sharpen_input' : True ,
+        'use_vgg_loss' : 0.4 ,
+        'use_vgg_layer' : 9 ,
+        'use_pixel_loss' : 1.5,
+        'use_mssim_loss' : 200 ,
+        'use_lpips_loss' : 100,
+        'use_l1_penalty' : 0.5,
+        'use_discriminator_loss' : 0.5,
+        'use_adaptive_loss' : False ,
+        'randomize_noise' : False,
+        'tile_dlatents': False,
+        'clipping_threshold' : 2.0,
+        'load_mask' : False,
+        'face_mask' : True ,
+        'use_grabcut' : True,
+        'scale_mask' : 1.4,
+        'composite_mask' : True,
+        'composite_blur' : 8,
+        'video_dir' : 'videos',
+        'output_video' : False,
+        'video_codec' : 'MJPG',
+        'video_frame_rate' : 24,
+        'video_size' : 512,
+        'video_skip' : 1
+    }
+    
+    args = DotMap(args)
+    #args, other_args = parser.parse_known_args()
 
     args.decay_steps *= (
         0.01 * args.iterations

@@ -15,7 +15,8 @@ import math
 from PIL import Image
 import warnings
 import requests
-
+from .encode_images import encode_images
+from .align_images import align_images
 warnings.filterwarnings("ignore")
 
 ROOT = "./babygan"
@@ -46,7 +47,8 @@ def run_align_images(f, m, u2id, P_ROOT):
         _src = p[0]
         _dst = osp.join(ROOT, f"{u2id}aligned")
         # run align_images.py with src(father, mother) dst(cropped father, mother)
-        os.system(f"python {_python_file} {_src} {_dst}")
+        #os.system(f"python {_python_file} {_src} {_dst}")
+        align_images(_src,_dst)
         # created img file
         _img = osp.join(_dst, f"{p[1]}_01.png")
         # check if face exist
@@ -64,9 +66,10 @@ def run_encode_images(u2id):
     _dla = osp.join(ROOT, f"{u2id}latent_representations")
     _mask_dir = osp.join(ROOT, f"{u2id}masks")
     # run encode_images.py
-    os.system(
-        f"python {_python_file} --mask_dir {_mask_dir} --early_stopping True --batch_size=2 --lr=0.5 --iterations=200 --output_video=False {_src} {_dst} {_dla}"
-    )
+    encode_images(u2id)
+    #os.system(
+    #    f"python {_python_file} --mask_dir {_mask_dir} --early_stopping True --batch_size=2 --lr=0.5 --iterations=200 --output_video=False {_src} {_dst} {_dla}"
+    #)
 
 
 def generate_final_image(
@@ -183,5 +186,6 @@ def do_inference(f, m, u2id):
     ]:
         print("del : ", P_ROOT + fold)
         shutil.rmtree(P_ROOT + fold)
-    shutil.rmtree("./videos")
+    if os.path.isdir("./videos"):
+        shutil.rmtree("./videos")
     return ROOT + f"/{u2id}final_image/final14.png"

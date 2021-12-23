@@ -33,7 +33,7 @@ def cancel(body: dict):
 
 
 @router.post("/uploadfiles")  # 추후에 uploadfiles 이름 변경 -> predict
-async def predict(
+def predict(
     father_image: UploadFile = File(...),
     mother_image: UploadFile = File(...),
     uuid: str = Form(...),
@@ -72,10 +72,10 @@ async def predict(
         },
     )
     
-    baby_file_path = await run_in_threadpool( inference.do_inference,
+    baby_file_path = run_in_threadpool( inference.do_inference,
         father_url, mother_url, setting_uuid[:8]
     )
-
+    #baby_file_path = inference.do_inference(father_url, mother_url,setting_uuid[:8])
     baby_url = upload_image(setting_uuid, baby_file_path, "baby")
     update_inference_result(db, setting_uuid, baby_url)
     if os.path.isdir(baby_file_path[:-12]):
