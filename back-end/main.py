@@ -52,4 +52,5 @@ if __name__ == "__main__":
         port=6006,
         reload=True,
         debug=False,
+        workers = 4
     )

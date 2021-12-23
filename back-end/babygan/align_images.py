@@ -69,10 +69,8 @@ if __name__ == "__main__":
     )
 
     args, other_args = parser.parse_known_args()
-
-    landmarks_model_path = unpack_bz2(
-        "./babygan/shape_predictor_68_face_landmarks.dat.bz2"
-    )
+    
+    landmarks_model_path = "./babygan/shape_predictor_68_face_landmarks.dat"
     RAW_IMAGES_DIR = args.raw_dir
     ALIGNED_IMAGES_DIR = args.aligned_dir
     print(ALIGNED_IMAGES_DIR)
