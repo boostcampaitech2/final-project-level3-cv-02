@@ -4,7 +4,7 @@ import shutil
 from fastapi import APIRouter, File, Form, UploadFile
 from fastapi.responses import HTMLResponse
 from babygan import inference
-
+from fastapi.concurrency import run_in_threadpool
 sys.path.append(
     os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
 )
@@ -33,7 +33,7 @@ def cancel(body: dict):
 
 
 @router.post("/uploadfiles")  # 추후에 uploadfiles 이름 변경 -> predict
-def predict(
+async def predict(
     father_image: UploadFile = File(...),
     mother_image: UploadFile = File(...),
     uuid: str = Form(...),
@@ -71,7 +71,8 @@ def predict(
             "complete": True,
         },
     )
-    baby_file_path = inference.do_inference(
+    
+    baby_file_path = await run_in_threadpool( inference.do_inference,
         father_url, mother_url, setting_uuid[:8]
     )
 
