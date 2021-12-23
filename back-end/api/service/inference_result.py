@@ -1,10 +1,12 @@
-import sys 
+import sys
 import os
 from sqlalchemy.orm import Session
 from sqlalchemy import update
 from sqlalchemy.sql import func
 
-sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+sys.path.append(
+    os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
+)
 sys.path.append("../")
 from ..model import models, schemas
 
@@ -19,24 +21,26 @@ def create_inference_result(db: Session, inference_result: schemas.InferenceResu
         db_result: 생성된 inference_result 테이블내의 tuple 
     """
     db_result = models.InferenceResult(
-        id = inference_result['id'],
-        father_url = inference_result['father_url'],
-        mother_url = inference_result['mother_url'],
-        baby_url = inference_result['baby_url'],
-        comment = inference_result['comment'],
-        complete = inference_result['complete'], # True
-        gender = inference_result['gender'],
-        age = inference_result['age']
+        id=inference_result["id"],
+        father_url=inference_result["father_url"],
+        mother_url=inference_result["mother_url"],
+        baby_url=inference_result["baby_url"],
+        comment=inference_result["comment"],
+        complete=inference_result["complete"],  # True
+        gender=inference_result["gender"],
+        age=inference_result["age"],
     )
     db.add(db_result)
     db.commit()
     return db_result
-    
+
+
 def get_inference_results(db: Session):
     """
     InferenceResult 테이블의 내용을 반환합니다.
     """
     return db.query(models.InferenceResult).all()
+
 
 def update_comment(db: Session, uuid: str, comment: str):
     """
@@ -100,3 +104,10 @@ def update_stop_inference(db:Session, uuid: str):
     db_false = db.query(models.InferenceResult).filter(models.InferenceResult.id == uuid).one()
     return db_false
 
+def update_stop_inference(db: Session, uuid: str):
+    db_false = (
+        db.query(models.InferenceResult)
+        .filter(models.InferenceResult.id == uuid)
+        .one()
+    )
+    return db_false

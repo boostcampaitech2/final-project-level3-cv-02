@@ -27,4 +27,4 @@ from .tflib.network import Network
 from .tflib.optimizer import Optimizer
 
 
-submit_config: SubmitConfig = None # Package level variable for SubmitConfig which is only valid when inside the run function.
+submit_config: SubmitConfig = None  # Package level variable for SubmitConfig which is only valid when inside the run function.

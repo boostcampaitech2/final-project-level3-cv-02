@@ -1,15 +1,22 @@
-import shutil 
+import shutil
 from fastapi import APIRouter
 
 import sys
 import os
-sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+
+sys.path.append(
+    os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
+)
 sys.path.append("../")
 
 from ..config.database import get_db
-from ..service.inference_result import get_inference_results, update_comment
+from ..service.inference_result import (
+    get_inference_results,
+    update_comment,
+)
 
 router = APIRouter()
+
 
 @router.get("/gallery")
 def get_image_url():
@@ -23,7 +30,14 @@ def get_image_url():
     users = get_inference_results(db)
     for i, user in enumerate(users):
         if user.comment:
-            urls.append({"father_url": user.father_url, "mother_url": user.mother_url, "baby_url": user.baby_url, "comment": user.comment})
+            urls.append(
+                {
+                    "father_url": user.father_url,
+                    "mother_url": user.mother_url,
+                    "baby_url": user.baby_url,
+                    "comment": user.comment,
+                }
+            )
     return urls
 
 
