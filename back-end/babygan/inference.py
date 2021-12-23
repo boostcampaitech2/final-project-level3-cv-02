@@ -65,7 +65,7 @@ def run_encode_images(u2id):
     _mask_dir = osp.join(ROOT, f"{u2id}masks")
     # run encode_images.py
     os.system(
-        f"python {_python_file} --mask_dir {_mask_dir} --early_stopping True --batch_size=2 --lr=0.5 --iterations=200 --output_video=False {_src} {_dst} {_dla}"
+        f"python {_python_file} --mask_dir {_mask_dir} --early_stopping True --batch_size 2 --lr 0.5 --iterations 200 --output_video False {_src} {_dst} {_dla}"
     )
 
 
@@ -183,5 +183,6 @@ def do_inference(f, m, u2id):
     ]:
         print("del : ", P_ROOT + fold)
         shutil.rmtree(P_ROOT + fold)
-    shutil.rmtree("./videos")
+    if os.path.isdir("./videos"):
+        shutil.rmtree("./videos")
     return ROOT + f"/{u2id}final_image/final14.png"
