@@ -2,7 +2,7 @@
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-6-orange.svg?style=flat-square)](#Team)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
-
+<img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=white&style=flat"> <img src="https://img.shields.io/badge/nextjs-000000?style=for-the-badge&logo=next.js&logoColor=white&style=flat"> <img src="https://img.shields.io/badge/MaterialDesign-757575?style=for-the-badge&logo=material-design&logoColor=white&style=flat"> <img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white&style=flat"> <img src="https://img.shields.io/badge/Mysql-4479a1?style=for-the-badge&logo=mysql&logoColor=white&style=flat"> <img src="https://img.shields.io/badge/AWS_S3-569A31?style=for-the-badge&logo=Amazon-s3&logoColor=white&style=flat"> <img src="https://img.shields.io/badge/Nginx-009639?style=for-the-badge&logo=nginx&logoColor=white&style=flat"> <img src="https://img.shields.io/badge/Airflow-017CEE?style=for-the-badge&logo=apache-airflow&logoColor=white&style=flat"> <img src="https://img.shields.io/badge/Tensorflow-ff6f00?style=for-the-badge&logo=tensorflow&logoColor=white&style=flat"> <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white&style=flat"> 
 ## 🍼 Project Summary
 - StyleGAN 기반의 생성 모델인 BabyGAN을 사용하여 두 사람의 얼굴을 입력으로 받아 2세 얼굴을 합성하는 서비스입니다.
 - 모델 서빙과 배포 경험을 위한 프로젝트이며, <b> FastAPI, Airflow, AWS, Docker </b> 를 사용하였습니다.
