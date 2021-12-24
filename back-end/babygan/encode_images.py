@@ -9,16 +9,16 @@ import dnnlib
 import dnnlib.tflib as tflib
 import config
 import sys
+import keras
 
-sys.path.append(
-    os.path.abspath(os.path.join(os.path.dirname(__file__)))
-)
 from encoder.generator_model import Generator
 from encoder.perceptual_model import PerceptualModel, load_images
 
 # from tensorflow.keras.models import load_model
 from keras.models import load_model
 from keras.applications.resnet50 import preprocess_input
+sys.path.append("/opt/ml/final-project-level3-cv-02/back-end")
+from api.controller.predictor import *
 
 
 def split_to_batches(l, n):
@@ -40,6 +40,8 @@ def str2bool(v):
 
 
 def main():
+    global session
+    global loaded_model
     parser = argparse.ArgumentParser(
         description="Find latent representation of reference images using perceptual losses",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
@@ -426,8 +428,6 @@ def main():
         generator, discriminator_network
     )
 
-    ff_model = None
-
     # Optimize (only) dlatents by minimizing perceptual loss between reference and generated images in feature space
     for images_batch in tqdm(
         split_to_batches(ref_images, args.batch_size),
@@ -465,27 +465,11 @@ def main():
                     dlatents = dl
                 else:
                     dlatents = np.vstack((dlatents, dl))
-        else:
-            if ff_model is None:
-                if os.path.exists(args.load_resnet):
-                    from keras.applications.resnet50 import (
-                        preprocess_input,
-                    )
-
-                    print("Loading ResNet Model:")
-                    ff_model = load_model(args.load_resnet)
-            if ff_model is None:
-                if os.path.exists(args.load_effnet):
-                    import efficientnet
-                    from efficientnet import preprocess_input
-
-                    print("Loading EfficientNet Model:")
-                    ff_model = load_model(args.load_effnet)
-            if (
-                ff_model is not None
-            ):  # predict initial dlatents with ResNet model
+        else: # predict initial dlatents with ResNet model
+            with session.graph.as_default():
+                keras.backend.set_session(session)
                 if args.use_preprocess_input:
-                    dlatents = ff_model.predict(
+                    dlatents = loaded_model.predict(
                         preprocess_input(
                             load_images(
                                 images_batch,
@@ -494,7 +478,7 @@ def main():
                         )
                     )
                 else:
-                    dlatents = ff_model.predict(
+                    dlatents = loaded_model.predict(
                         load_images(
                             images_batch,
                             image_size=args.resnet_image_size,

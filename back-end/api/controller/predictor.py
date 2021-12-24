@@ -4,6 +4,11 @@ import shutil
 from fastapi import APIRouter, File, Form, UploadFile
 from fastapi.responses import HTMLResponse
 from babygan import inference
+import tensorflow as tf
+from keras.models import load_model
+import keras
+import tensorflow as tf
+
 
 sys.path.append(
     os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
@@ -21,6 +26,27 @@ from ..service.inference_result import (
 
 router = APIRouter()
 
+global loaded_model
+global graph
+global session
+
+loaded_model = None
+graph = None
+session = None
+
+session_conf = tf.ConfigProto(
+      intra_op_parallelism_threads=1,
+      inter_op_parallelism_threads=1)
+session = tf.Session(config=session_conf, graph = tf.Graph())
+with session.graph.as_default():
+    keras.backend.set_session(session)
+    loaded_model = load_model("/opt/ml/final-project-level3-cv-02/back-end/data/finetuned_resnet.h5")
+
+# if loaded_model is None:
+#     loaded_model = load_model("/opt/ml/final-project-level3-cv-02/back-end/data/finetuned_resnet.h5")
+#     graph = tf.get_default_graph()
+
+print("------------------- A          -------")
 
 @router.post("/cancle")
 def cancel (

@@ -9,6 +9,7 @@ from typing import Callable
 
 from model import models
 from api.config.database import engine
+# from babygan.preload_model import ready_model
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -42,15 +43,15 @@ def get_application() -> FastAPI:
     set_cors(application)
     return application
 
-
 app = get_application()
 
 if __name__ == "__main__":
+    #ready_model("./data/finetuned_resnet.h5")
     uvicorn.run(
         "main:app",
         host="0.0.0.0",
         port=6006,
-        reload=True,
+        reload=False,
         debug=False,
-        workers = 4
+        workers = 1
     )
